@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Página-1" id="Sbk2Z36RypcbA6g2xntl">
-        <mxGraphModel dx="546" dy="425" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="600" math="0" shadow="0">
+        <mxGraphModel dx="908" dy="559" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="600" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -83,11 +83,6 @@
                         <mxPoint x="490" y="190" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="Y1leXwqcUryAOQegN8dV-54" value="Text" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Y1leXwqcUryAOQegN8dV-53" connectable="0" vertex="1">
-                    <mxGeometry x="0.1817" y="4" relative="1" as="geometry">
-                        <mxPoint as="offset"/>
-                    </mxGeometry>
-                </mxCell>
                 <mxCell id="Y1leXwqcUryAOQegN8dV-61" value="Salir de modo admin" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d0cee2;strokeColor=#56517e;" parent="Y1leXwqcUryAOQegN8dV-34" vertex="1">
                     <mxGeometry x="115" y="431" width="100" height="60" as="geometry"/>
                 </mxCell>
@@ -104,26 +99,26 @@
                 <mxCell id="Y1leXwqcUryAOQegN8dV-64" value="Bloquear modo admin por un limite de intentos del PIN Maestro" style="ellipse;whiteSpace=wrap;html=1;" parent="Y1leXwqcUryAOQegN8dV-34" vertex="1">
                     <mxGeometry x="665" y="363" width="115" height="75" as="geometry"/>
                 </mxCell>
-                <mxCell id="33" style="edgeStyle=none;html=1;" edge="1" parent="Y1leXwqcUryAOQegN8dV-34" source="2" target="30">
+                <mxCell id="33" style="edgeStyle=none;html=1;" parent="Y1leXwqcUryAOQegN8dV-34" source="2" target="30" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="2" value="Genera token de acceso&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#CCFFFF;strokeColor=#56517e;" vertex="1" parent="Y1leXwqcUryAOQegN8dV-34">
+                <mxCell id="2" value="Genera token de acceso&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#CCFFFF;strokeColor=#56517e;" parent="Y1leXwqcUryAOQegN8dV-34" vertex="1">
                     <mxGeometry x="237" y="363" width="98" height="63" as="geometry"/>
                 </mxCell>
-                <mxCell id="29" value="Validar token desde app y Autorizar o Bloquear" style="ellipse;whiteSpace=wrap;html=1;fillColor=#CCFFFF;strokeColor=#56517e;" vertex="1" parent="Y1leXwqcUryAOQegN8dV-34">
+                <mxCell id="29" value="Validar token desde app y Autorizar o Bloquear" style="ellipse;whiteSpace=wrap;html=1;fillColor=#CCFFFF;strokeColor=#56517e;" parent="Y1leXwqcUryAOQegN8dV-34" vertex="1">
                     <mxGeometry x="540" y="433" width="103" height="75" as="geometry"/>
                 </mxCell>
-                <mxCell id="31" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;endArrow=classicThin;endFill=1;" edge="1" parent="Y1leXwqcUryAOQegN8dV-34" target="2">
+                <mxCell id="31" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;endArrow=classicThin;endFill=1;" parent="Y1leXwqcUryAOQegN8dV-34" target="2" edge="1">
                     <mxGeometry x="0.0345" y="12" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                         <mxPoint x="162" y="319" as="sourcePoint"/>
                         <mxPoint x="183" y="431" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="30" value="Ingresar token" style="ellipse;whiteSpace=wrap;html=1;fillColor=#CCFFFF;strokeColor=#56517e;" vertex="1" parent="Y1leXwqcUryAOQegN8dV-34">
+                <mxCell id="30" value="Ingresar token" style="ellipse;whiteSpace=wrap;html=1;fillColor=#CCFFFF;strokeColor=#56517e;" parent="Y1leXwqcUryAOQegN8dV-34" vertex="1">
                     <mxGeometry x="380" y="417" width="100" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="36" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.05;entryY=0.427;entryDx=0;entryDy=0;dashed=1;endArrow=classicThin;endFill=1;entryPerimeter=0;" edge="1" parent="Y1leXwqcUryAOQegN8dV-34" target="29">
+                <mxCell id="36" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.05;entryY=0.427;entryDx=0;entryDy=0;dashed=1;endArrow=classicThin;endFill=1;entryPerimeter=0;" parent="Y1leXwqcUryAOQegN8dV-34" target="29" edge="1">
                     <mxGeometry x="0.0345" y="12" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                         <mxPoint x="480" y="445" as="sourcePoint"/>
@@ -168,7 +163,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="32" style="edgeStyle=none;html=1;" edge="1" parent="1" source="Y1leXwqcUryAOQegN8dV-60" target="29">
+                <mxCell id="32" style="edgeStyle=none;html=1;" parent="1" source="Y1leXwqcUryAOQegN8dV-60" target="29" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1154" y="177"/>
