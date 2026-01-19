@@ -19,24 +19,27 @@ CREATE TABLE TipoEvento (
 );
 
 CREATE TABLE RegistroEvento (
-    idRegistroEvento INTEGER PRIMARY KEY AUTOINCREMENT
-    ,idTipoEvento INTEGER NOT NULL REFERENCES TipoEvento(idTipoEvento)
-    ,idUsuario INTEGER NOT NULL REFERENCES Usuario(idUsuario)
-    ,FechaCreacion DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
-    ,FechaModificacion DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    idRegistroEvento    INTEGER PRIMARY KEY AUTOINCREMENT
+    ,idTipoEvento       INTEGER NOT NULL REFERENCES TipoEvento(idTipoEvento)
+    ,idUsuario          INTEGER NOT NULL REFERENCES Usuario(idUsuario)
+    ,FechaCreacion      DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    ,FechaModificacion  DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
 CREATE TABLE CredencialCasillero (
-    idCredencialCasillero INTEGER PRIMARY KEY AUTOINCREMENT,
-    idCasillero INTEGER NOT NULL,
-    codigoAcceso TEXT NOT NULL,
-    fechaExpiracion TIMESTAMP,
-    FOREIGN KEY (idCasillero) REFERENCES Casillero(idCasillero)
+    idCredencialCasillero INTEGER PRIMARY KEY AUTOINCREMENT
+    ,idCasillero INTEGER NOT NULL REFERENCES Casillero(idCasillero)
+    ,pinHash TEXT NOT NULL
+    ,salt TEXT NOT NULL
 );
 
 CREATE TABLE UsuarioTipo (
     idUsuarioTipo INTEGER PRIMARY KEY AUTOINCREMENT,
-    descripcion TEXT NOT NULL
+    ,Nombre VARCHAR(20) NOT NULL UNIQUE
+    ,Descripcion VARCHAR(100) NULL
+    ,Estado VARCHAR(10) NOT NULL DEFAULT 'Activo'
+    ,FechaCreacion DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    ,FechaModificacion DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
 CREATE TABLE Usuario (
