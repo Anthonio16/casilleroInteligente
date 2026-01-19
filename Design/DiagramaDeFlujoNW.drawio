@@ -1,0 +1,410 @@
+<mxfile host="65bd71144e">
+    <diagram id="DIAG-ARDUINO" name="Flujo Arduino (Casillero)">
+        <mxGraphModel dx="4515" dy="1518" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="16" style="edgeStyle=none;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a1" target="15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1" value="Inicio" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1250" y="20" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2" value="Ingresar al Casillero con el PIN Hash (5 dígitos)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1290" y="110" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="a3" value="Validar PIN normal en el Sistema del Casillero" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1050" y="110" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="a4" value="¿PIN correcto?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1020" y="185" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="a5" value="Desbloquear / Abrir&lt;br&gt;Intentos = 0&lt;br&gt;Registrar evento: PIN_OK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="-950" y="280" width="260" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="a6" value="Intento fallido&lt;br&gt;IntentosFallidos =&amp;nbsp;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;IntentosFallidos&amp;nbsp;&lt;/span&gt;+ 1&lt;br&gt;Registrar evento:&amp;nbsp;&lt;span style=&quot;color: rgb(0, 0, 0); text-align: left; text-wrap-mode: nowrap;&quot;&gt;PIN_FALLO&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6e6;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="-1170" y="295" width="210" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="a7" value="¿IntentosFallidos = 3?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1260" y="400" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="a8" value="Bloquear casillero, poner en estado del casillero a LOCKED&amp;nbsp;&lt;br&gt;No permitir PIN normal&lt;br&gt;Reportar evento: LOCKED_3_FAILS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="-1315" y="540" width="250" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="a9" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a9" value="Solicita un restablecimiento de PIN mediante la App con un boton de &lt;i&gt;Solicitar Restablecimiento De Pin&lt;/i&gt; y espera habilitación de RECUPERACIÓN (orden del backend)&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Reportar evento:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); text-align: left; text-wrap-mode: nowrap; background-color: transparent;&quot;&gt;SOLICITUD_RECUP_PENDIENTE&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="-1345" y="670" width="310" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="a10" value="Modo RECUPERACIÓN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="-650" y="680" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="a11" value="Usuario ingresa el PMT recibido de la App" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-650" y="580" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="a12" value="Usuario ingresa el PMT&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-670" y="500" width="240" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="a13" value="¿PMT válido?&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;(correcto PMT/ya usado o no)&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-630" y="360" width="160" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="a14" value="&lt;div&gt;&lt;font color=&quot;#000000&quot;&gt;Cambiar el estado del casillero a&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(63, 63, 63); text-align: left; text-wrap-mode: nowrap; background-color: transparent;&quot;&gt;READY_TO_UNLOCK&lt;/span&gt;&lt;/div&gt;Permitir cambio de PIN normal en el mismo casillero, donde recibe el nuevo PIN y se actualiza el PinHash&lt;br&gt;Registrar evento:&amp;nbsp;&lt;span style=&quot;color: rgb(63, 63, 63); text-align: left; text-wrap-mode: nowrap;&quot;&gt;CAMBIO_PIN&lt;/span&gt;&amp;nbsp;&lt;br&gt;&lt;div&gt;Intentos = 0&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="-400" y="345" width="250" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="a15" value="Rechazar PMT y mantener el estado del casillero LOCKED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6e6;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="-660" y="250" width="220" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae1" style="endArrow=block;html=1;" parent="1" source="a1" target="a2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae2" style="endArrow=block;html=1;" parent="1" source="a2" target="a3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae3" style="endArrow=block;html=1;" parent="1" source="a3" target="a4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae4" value="SI" style="endArrow=block;html=1;" parent="1" source="a4" target="a5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae5" value="NO" style="endArrow=block;html=1;" parent="1" source="a4" target="a6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae6" style="endArrow=block;html=1;" parent="1" source="a6" target="a7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae7" value="NO" style="endArrow=block;html=1;" parent="1" source="a7" target="a2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae8" value="SI" style="endArrow=block;html=1;" parent="1" source="a7" target="a8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae9" style="endArrow=block;html=1;" parent="1" source="a8" target="a9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae10" style="endArrow=block;html=1;" parent="1" source="a9" target="a10" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae11" style="endArrow=block;html=1;" parent="1" source="a10" target="a11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae12" style="endArrow=block;html=1;" parent="1" source="a11" target="a12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae13" style="endArrow=block;html=1;" parent="1" source="a12" target="a13" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae14" value="SI" style="endArrow=block;html=1;" parent="1" source="a13" target="a14" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ae15" value="NO" style="endArrow=block;html=1;" parent="1" source="a13" target="a15" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Admin recibe y revisa solicitud y&amp;nbsp;auditoria en la App" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="-1200" y="820" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Admin aprueba?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=2" vertex="1" parent="1">
+                    <mxGeometry x="-1220" y="920" width="190" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4" target="a9">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1510" y="1090"/>
+                            <mxPoint x="-1510" y="715"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="4" value="Rechaza solicitud&lt;br&gt;Mantener estado del casillero en LOCKED&lt;br&gt;&lt;span style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(0, 0, 0);&quot;&gt;Reportar evento:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); text-align: left; text-wrap-mode: nowrap;&quot;&gt;SOLICITUD_RECUP_RECHAZADA&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="-1450" y="1060" width="320" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=none;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="a10">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Sistema genera y envia a la App del Usuario un PIN Maestro Temporal (PMT) de manera randomica&lt;br&gt;(5 digitos + un solo uso)&lt;br&gt;Enviar al usuario a su App&lt;div&gt;&lt;span style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(0, 0, 0);&quot;&gt;Reportar evento:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); text-wrap-mode: nowrap; text-align: left; color: rgb(0, 0, 0);&quot;&gt;SOLICITUD_RECUP_APROBADA&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="-1060" y="1050" width="330" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" style="endArrow=block;html=1;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="NO" style="endArrow=block;html=1;" edge="1" parent="1" source="3" target="4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="SI" style="endArrow=block;html=1;" edge="1" parent="1" source="3" target="5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="15" target="17">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="Ingresar a la App mediante Usuario y Contraseña" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-1550" y="110" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="NO" style="edgeStyle=none;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="17" target="18">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="SI" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="17" target="22">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="¿Usuario y Contraseña correctos?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-1680" y="200" width="150" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Intento fallido&lt;div&gt;Imprimir mensaje: &quot;Vuelva a Intentarlo&quot;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6e6;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-1540" y="320" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="19" target="27">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="19" target="28">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="19" target="29">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Abre la App y se despliega las opciones habilitadas para el Estudiante:&lt;div&gt;- Eventos Registrados&lt;/div&gt;&lt;div&gt;- Restablecimiento De Pin&lt;/div&gt;&lt;div&gt;- Salir&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-2250" y="430" width="200" height="91" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="Estudiante" style="edgeStyle=none;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="22" target="19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="Adminisrador" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="22" target="40">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-1755" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" value="¿Es Estudiante o Administrador?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-1840" y="300" width="150" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="39" target="29">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-1755" y="521" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="27" value="Ingresa a eventos registrados&lt;div&gt;Se mostrará la tabla de Reportes en Registro de Eventos&lt;b&gt; DE SU CASILLERO&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(Tabla: RegistroEvento)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-2560" y="563.25" width="180" height="84.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="28" target="30">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="28" target="31">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="30" target="a9">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2375" y="830"/>
+                            <mxPoint x="-1570" y="830"/>
+                            <mxPoint x="-1570" y="720"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Ingresa a restablecimiento de Pin&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;y se despliega las opciones habilitadas para el Estudiante:&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;-&amp;nbsp;&lt;i style=&quot;background-color: transparent; color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;Solicitar Restablecimiento De Pin&lt;/i&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;- PIN Maestro Temporal&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-2350" y="560" width="210" height="91" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Salir:&lt;div&gt;Cerrar Sesión&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-2090" y="577.75" width="144" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Solicita Restablecimiento de Pin&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;El sistema de la app se encargará de crear la solicitud y enviar la información al Admin&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(Tabla: Solicitud)&amp;nbsp;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-2480" y="696" width="210" height="91" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="PIN Maestro Temporal:&lt;div&gt;Si el admin aprobó la solicitud, se mostrará el PMT&lt;/div&gt;&lt;div&gt;Si lo rechazó, se mostrará &quot;Solicite un PMT nuevamente...&quot;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-2220" y="696" width="210" height="91" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" style="edgeStyle=none;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="39" target="47">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="50" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="39" target="49">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Abre la App y se despliega las opciones habilitadas para el Administrador:&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;- Eventos Registrados&lt;/div&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;- Aprobar Restablecimientos De Pin Solicitados&lt;/div&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;- Salir&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-1870" y="647.75" width="230" height="92.25" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="40" target="41">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="La App le pide la credencial de Administrador (CredencialAdminHash)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-1820" y="430" width="180" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="SI" style="edgeStyle=none;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="41" target="39">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="NO" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="41" target="18">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1470" y="596"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="41" value="¿Credencial de Administrador Correcta?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-1805" y="521" width="150" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="Ingresa a eventos registrados&lt;div&gt;Se mostrará la tabla de Reportes en Registro de Eventos DE TODOS LOS REPORTES REGISTRADOS&lt;/div&gt;&lt;div&gt;(Tabla: RegistroEvento)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-2110" y="850" width="180" height="84.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Ingresa a&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;Aprobar Restablecimientos De Pin Solicitados&lt;/span&gt;:&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;Se muestran todas las solicitudes unicamente las que están en estado PENDIENTE, y si cambia el Admin el estado a Aprobado, se enviaría la aprobación al sistema y se generará el Pin Temporal.&lt;/div&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;Si cambia el Admin el estado a Rechazado, no generará nada el sistema.&amp;nbsp;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-1910" y="840.62" width="310" height="103.25" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="DIAG-BACKEND" name="Flujo Backend (Reglas)">
+        <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="b1" value="Inicio" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="60" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="b2" value="Recibir evento del casillero&#xa;(PIN_OK / PIN_FAIL / LOCKED_3_FAILS)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="150" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="b3" value="Registrar auditoría (logs)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="250" width="220" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="b4" value="¿Evento = LOCKED_3_FAILS?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="70" y="330" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="b5" value="Crear INCIDENTE (PENDIENTE)&#xa;Asociar a casillero&#xa;Estado casillero = BLOQUEADO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="450" width="320" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="b6" value="Recibir SOLICITUD de recuperación (usuario)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="150" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="b7" value="Validar usuario y casillero&#xa;Guardar solicitud como PENDIENTE" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="250" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="b8" value="Notificar / dejar disponible para revisión del admin" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="350" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="b9" value="Recibir decisión del admin (Aprobar / Rechazar)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="450" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="b10" value="¿Aprobado?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="540" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="b11" value="Generar PMT (5 dígitos)&#xa;Caducidad + 1 uso&#xa;Asociar a incidente+casillero" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="530" width="320" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="b12" value="Habilitar modo RECUPERACIÓN en casillero" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="660" width="320" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="b13" value="Validar PMT cuando el usuario lo ingresa&#xa;(vigente / no usado / casillero correcto)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="660" width="300" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="b14" value="¿PMT válido?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="770" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="b15" value="Recibir nuevo PIN normal&#xa;Guardar (hash)&#xa;Reiniciar intentos&#xa;Cerrar incidente" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="770" width="320" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="b16" value="Rechazar / mantener bloqueo&#xa;Registrar decisión" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6e6;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="630" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <!-- Edges -->
+                <mxCell id="be1" style="endArrow=block;html=1;" edge="1" parent="1" source="b1" target="b2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be2" style="endArrow=block;html=1;" edge="1" parent="1" source="b2" target="b3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be3" style="endArrow=block;html=1;" edge="1" parent="1" source="b3" target="b4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be4" value="SI" style="endArrow=block;html=1;" edge="1" parent="1" source="b4" target="b5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be5" style="endArrow=block;html=1;" edge="1" parent="1" source="b1" target="b6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be6" style="endArrow=block;html=1;" edge="1" parent="1" source="b6" target="b7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be7" style="endArrow=block;html=1;" edge="1" parent="1" source="b7" target="b8">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be8" style="endArrow=block;html=1;" edge="1" parent="1" source="b8" target="b9">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9" style="endArrow=block;html=1;" edge="1" parent="1" source="b9" target="b10">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be10" value="SI" style="endArrow=block;html=1;" edge="1" parent="1" source="b10" target="b11">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be11" style="endArrow=block;html=1;" edge="1" parent="1" source="b11" target="b12">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be12" style="endArrow=block;html=1;" edge="1" parent="1" source="b12" target="b13">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be13" style="endArrow=block;html=1;" edge="1" parent="1" source="b13" target="b14">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be14" value="SI" style="endArrow=block;html=1;" edge="1" parent="1" source="b14" target="b15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="be15" value="NO" style="endArrow=block;html=1;" edge="1" parent="1" source="b10" target="b16">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="DIAG-WEB" name="Flujo Web/Admin (Aprobación)">
+        <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="w1" value="Inicio" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="60" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="w2" value="Ver solicitudes/incident es pendientes" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="150" width="260" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="w3" value="Seleccionar una solicitud" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="240" width="260" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="w4" value="Revisar auditoría e historial del casillero" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="330" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="w5" value="¿Aprobar recuperación?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="420" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="w6" value="Rechazar solicitud&#xa;Mantener bloqueo&#xa;Registrar decisión" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6e6;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="540" width="280" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="w7" value="Aprobar solicitud&#xa;Enviar aprobación al backend" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="380" y="430" width="260" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="w8" value="Backend genera PMT + habilita RECUPERACIÓN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="690" y="430" width="300" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="w9" value="Fin" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="740" y="560" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <!-- Edges -->
+                <mxCell id="we1" style="endArrow=block;html=1;" edge="1" parent="1" source="w1" target="w2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="we2" style="endArrow=block;html=1;" edge="1" parent="1" source="w2" target="w3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="we3" style="endArrow=block;html=1;" edge="1" parent="1" source="w3" target="w4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="we4" style="endArrow=block;html=1;" edge="1" parent="1" source="w4" target="w5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="we5" value="NO" style="endArrow=block;html=1;" edge="1" parent="1" source="w5" target="w6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="we6" value="SI" style="endArrow=block;html=1;" edge="1" parent="1" source="w5" target="w7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="we7" style="endArrow=block;html=1;" edge="1" parent="1" source="w7" target="w8">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="we8" style="endArrow=block;html=1;" edge="1" parent="1" source="w8" target="w9">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
