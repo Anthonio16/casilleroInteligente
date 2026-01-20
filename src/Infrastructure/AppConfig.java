@@ -5,9 +5,9 @@ import java.net.URL;
 
 public abstract class AppConfig {
     //Paths Storage
-    public static final String DATABASE = "jdbc:sqlite:storage\\Databases\\antCiberDron.sqlite";
-    public static final String DATAFILE = "storage\\DataFiles\\pat_mic.csv";
-    public static final String LOGFILE  = "storage\\Logs\\AppErrors.log";
+    public static final String DATABASE = "jdbc:sqlite:casilleroInteligente\\storage\\Databases\\casilleroInteligente.sqlite";
+    public static final String DATAFILE = "casilleroInteligente\\storage\\DataFiles\\casilleroInteligente.csv";
+    public static final String LOGFILE  = "casilleroInteligente\\storage\\Logs\\AppErrors.log";
 
     //Resources
     public static final URL URL_MAIN    = AppConfig.class.getResource("Resource/logo.png");
