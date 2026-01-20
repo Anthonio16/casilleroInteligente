@@ -1,0 +1,80 @@
+package DataAccess.DTOs;
+
+public class RegistroEventoDTO {
+
+    private Integer IdRegistroEvento;
+    private Integer IdTipoEvento;
+    private Integer IdUsuario;
+    private String  FechaCreacion;
+    private String  FechaModifica;
+
+    public RegistroEventoDTO() {
+    }
+
+    public RegistroEventoDTO(Integer idTipoEvento, Integer idUsuario) {
+        IdRegistroEvento = 0;
+        IdTipoEvento    = idTipoEvento;
+        IdUsuario       = idUsuario;
+    }
+
+    public RegistroEventoDTO(Integer idRegistroEvento, Integer idTipoEvento, Integer idUsuario,
+                             String fechaCreacion, String fechaModifica) {
+        IdRegistroEvento = idRegistroEvento;
+        IdTipoEvento     = idTipoEvento;
+        IdUsuario        = idUsuario;
+        FechaCreacion    = fechaCreacion;
+        FechaModifica    = fechaModifica;
+    }
+
+    public Integer getIdRegistroEvento() {
+        return IdRegistroEvento;
+    }
+
+    public void setIdRegistroEvento(Integer idRegistroEvento) {
+        IdRegistroEvento = idRegistroEvento;
+    }
+
+    public Integer getIdTipoEvento() {
+        return IdTipoEvento;
+    }
+
+    public void setIdTipoEvento(Integer idTipoEvento) {
+        IdTipoEvento = idTipoEvento;
+    }
+
+    public Integer getIdUsuario() {
+        return IdUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        IdUsuario = idUsuario;
+    }
+
+    public String getFechaCreacion() {
+        return FechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        FechaCreacion = fechaCreacion;
+    }
+
+    public String getFechaModifica() {
+        return FechaModifica;
+    }
+
+    public void setFechaModifica(String fechaModifica) {
+        FechaModifica = fechaModifica;
+    }
+
+    @Override
+
+    public String toString(){
+        return getClass().getName()
+        + "\nIdRegistroEvento: " + getIdRegistroEvento()
+        + "\nIdTipoEvento: "     + getIdTipoEvento()
+        + "\nIdUsuario: "        + getIdUsuario()
+        + "\nFechaCreacion: "    + getFechaCreacion()
+        + "\nFechaModifica: "    + getFechaModifica()
+        + "\n ----------------------------";
+    }
+}
