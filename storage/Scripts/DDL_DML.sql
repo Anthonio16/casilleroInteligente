@@ -1,6 +1,4 @@
--- database: casilleroInteligente\storage\Databases\casilleroInteligente.sqlite
-
-PRAGMA foreign_keys = OFF;
+-- database: storage\Databases\casilleroInteligente.sqlite
 
 DROP TABLE IF EXISTS RegistroEvento;
 DROP TABLE IF EXISTS Tokenacceso;
