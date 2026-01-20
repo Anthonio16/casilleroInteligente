@@ -1,4 +1,4 @@
--- database: storage\Databases\casilleroInteligente.sqlite
+-- database: casilleroInteligente\storage\Databases\casilleroInteligente.sqlite
 
 DROP TABLE IF EXISTS RegistroEvento;
 DROP TABLE IF EXISTS Tokenacceso;
