@@ -217,5 +217,17 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
             throw new AppException(null, e, getClass(), "mapResultSetToEntity");
         }
     }
+    protected List<T> mapResultSetToEntityList(ResultSet rs) throws AppException {
+    List<T> list = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                list.add(mapResultSetToEntity(rs));
+            }
+            return list;
+        } catch (Exception e) {
+            throw new AppException(null, e, getClass(), "mapResultSetToEntityList");
+        }
+    }
+
 }
 
