@@ -2,69 +2,52 @@ package DataAccess.DTOs;
 
 public class EstadoSolicitudDTO {
     private Integer IdEstadoSolicitud;
-    private String Nombre;
-    private String Descripcion;
-    private String FechaCreacion;
-    private String FechaModifica;
-    
+    private String  Nombre;
+    private String  Descripcion;
+    private String  Estado;        // 'A' / 'X'
+    private String  FechaCreacion;
+    private String  FechaModifica;
+
     public EstadoSolicitudDTO() {}
-    
-    public EstadoSolicitudDTO(Integer IdEstadoSolicitud, String nombre, String descripcion, String fechaCreacion,String fechaModifica) {
-        this.IdEstadoSolicitud = IdEstadoSolicitud;
-        Nombre = nombre;
-        Descripcion = descripcion;
-        FechaCreacion = fechaCreacion;
-        FechaModifica = fechaModifica;
-    }
-        
-    public Integer getIdEstadoSolicitud() {
-        return IdEstadoSolicitud;
-    }
 
-    public void setIdEstadoSolicitud(Integer idEstadoSolicitud) {
+    public EstadoSolicitudDTO(Integer idEstadoSolicitud, String nombre, String descripcion,
+                              String estado, String fechaCreacion, String fechaModifica) {
         IdEstadoSolicitud = idEstadoSolicitud;
+        Nombre            = nombre;
+        Descripcion       = descripcion;
+        Estado            = estado;
+        FechaCreacion     = fechaCreacion;
+        FechaModifica     = fechaModifica;
     }
 
-    public String getNombre() {
-        return Nombre;
-    }
+    public Integer getIdEstadoSolicitud() { return IdEstadoSolicitud; }
+    public void setIdEstadoSolicitud(Integer idEstadoSolicitud) { IdEstadoSolicitud = idEstadoSolicitud; }
 
-    public void setNombre(String nombre) {
-        Nombre = nombre;
-    }
+    public String getNombre() { return Nombre; }
+    public void setNombre(String nombre) { Nombre = nombre; }
 
-    public String getDescripcion() {
-        return Descripcion;
-    }
+    public String getDescripcion() { return Descripcion; }
+    public void setDescripcion(String descripcion) { Descripcion = descripcion; }
 
-    public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
-    }
+    public String getEstado() { return Estado; }
+    public void setEstado(String estado) { Estado = estado; }
 
-    public String getFechaCreacion() {
-        return FechaCreacion;
-    }
+    public String getFechaCreacion() { return FechaCreacion; }
+    public void setFechaCreacion(String fechaCreacion) { FechaCreacion = fechaCreacion; }
 
-    public void setFechaCreacion(String fechaCreacion) {
-        FechaCreacion = fechaCreacion;
-    }
-
-    public String getFechaModifica() {
-        return FechaModifica;
-    }
-
-    public void setFechaModifica(String fechaModifica) {
-        FechaModifica = fechaModifica;
-    }
+    public String getFechaModifica() { return FechaModifica; }
+    public void setFechaModifica(String fechaModifica) { FechaModifica = fechaModifica; }
 
     @Override
     public String toString() {
         return getClass().getName()
-        + "\n IdEstadoSolicitud :" + getIdEstadoSolicitud   ()
-        + "\n Nombre            :" + getNombre              ()
-        + "\n Descripcion       :" + getDescripcion         ()
-        + "\n FechaCreacion     :" + getFechaCreacion       ()
-        + "\n FechaModifica     :" + getFechaModifica       ();  
+            + "\n IdEstadoSolicitud : " + getIdEstadoSolicitud()
+            + "\n Nombre            : " + getNombre()
+            + "\n Descripcion       : " + getDescripcion()
+            + "\n Estado            : " + getEstado()
+            + "\n FechaCreacion     : " + getFechaCreacion()
+            + "\n FechaModifica     : " + getFechaModifica()
+            + "\n ----------------------------";
     }
-
 }
+

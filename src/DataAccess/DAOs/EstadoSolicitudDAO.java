@@ -1,31 +1,31 @@
 package DataAccess.DAOs;
 
-import DataAccess.DTOs.UsuarioTipoDTO;
+import DataAccess.DTOs.EstadoSolicitudDTO;
 import DataAccess.Helpers.DataHelperSQLiteDAO;
 import Infrastructure.AppException;
 import java.util.List;
 
-public class UsuarioTipoDAO extends DataHelperSQLiteDAO<UsuarioTipoDTO> {
+public class EstadoSolicitudDAO extends DataHelperSQLiteDAO<EstadoSolicitudDTO> {
 
-    public UsuarioTipoDAO() throws AppException {
-        super(UsuarioTipoDTO.class, "UsuarioTipo", "IdUsuarioTipo");
+    public EstadoSolicitudDAO() throws AppException {
+        super(EstadoSolicitudDTO.class, "EstadoSolicitud", "IdEstadoSolicitud");
     }
 
-    public UsuarioTipoDTO obtenerPorId(int idUsuarioTipo) throws AppException {
+    public EstadoSolicitudDTO obtenerPorId(int idEstadoSolicitud) throws AppException {
         String query =
             "SELECT " +
-            "  idUsuarioTipo     AS IdUsuarioTipo, " +
+            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
             "  Nombre            AS Nombre, " +
             "  Descripcion       AS Descripcion, " +
             "  Estado            AS Estado, " +
             "  FechaCreacion     AS FechaCreacion, " +
             "  FechaModificacion AS FechaModifica " +
-            "FROM UsuarioTipo " +
-            "WHERE idUsuarioTipo = ? " +
+            "FROM EstadoSolicitud " +
+            "WHERE idEstadoSolicitud = ? AND Estado = 'A' " +
             "LIMIT 1";
 
         try (var stmt = openConnection().prepareStatement(query)) {
-            stmt.setInt(1, idUsuarioTipo);
+            stmt.setInt(1, idEstadoSolicitud);
             try (var rs = stmt.executeQuery()) {
                 return rs.next() ? mapResultSetToEntity(rs) : null;
             }
@@ -34,17 +34,17 @@ public class UsuarioTipoDAO extends DataHelperSQLiteDAO<UsuarioTipoDTO> {
         }
     }
 
-    public UsuarioTipoDTO obtenerPorNombre(String nombre) throws AppException {
+    public EstadoSolicitudDTO obtenerPorNombre(String nombre) throws AppException {
         String query =
             "SELECT " +
-            "  idUsuarioTipo     AS IdUsuarioTipo, " +
+            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
             "  Nombre            AS Nombre, " +
             "  Descripcion       AS Descripcion, " +
             "  Estado            AS Estado, " +
             "  FechaCreacion     AS FechaCreacion, " +
             "  FechaModificacion AS FechaModifica " +
-            "FROM UsuarioTipo " +
-            "WHERE Nombre = ? " +
+            "FROM EstadoSolicitud " +
+            "WHERE Nombre = ? AND Estado = 'A' " +
             "LIMIT 1";
 
         try (var stmt = openConnection().prepareStatement(query)) {
@@ -58,55 +58,30 @@ public class UsuarioTipoDAO extends DataHelperSQLiteDAO<UsuarioTipoDTO> {
     }
 
     public Integer obtenerIdPorNombre(String nombre) throws AppException {
-        UsuarioTipoDTO dto = obtenerPorNombre(nombre);
-        return (dto == null) ? null : dto.getIdUsuarioTipo();
+        EstadoSolicitudDTO dto = obtenerPorNombre(nombre);
+        return dto == null ? null : dto.getIdEstadoSolicitud();
     }
 
-    /**
-     * Lista solo los tipos activos (Estado='Activo')
-     */
-    public List<UsuarioTipoDTO> listarActivos() throws AppException {
+    public List<EstadoSolicitudDTO> listarTodosActivos() throws AppException {
         String query =
             "SELECT " +
-            "  idUsuarioTipo     AS IdUsuarioTipo, " +
+            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
             "  Nombre            AS Nombre, " +
             "  Descripcion       AS Descripcion, " +
             "  Estado            AS Estado, " +
             "  FechaCreacion     AS FechaCreacion, " +
             "  FechaModificacion AS FechaModifica " +
-            "FROM UsuarioTipo " +
-            "WHERE Estado = 'Activo' " +
-            "ORDER BY idUsuarioTipo ASC";
+            "FROM EstadoSolicitud " +
+            "WHERE Estado = 'A' " +
+            "ORDER BY idEstadoSolicitud ASC";
 
         try (var stmt = openConnection().prepareStatement(query);
              var rs = stmt.executeQuery()) {
             return mapResultSetToEntityList(rs);
         } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "listarActivos");
-        }
-    }
-
-    /**
-     * Lista todos (por si en algún punto quieres ver también inactivos)
-     */
-    public List<UsuarioTipoDTO> listarTodos() throws AppException {
-        String query =
-            "SELECT " +
-            "  idUsuarioTipo     AS IdUsuarioTipo, " +
-            "  Nombre            AS Nombre, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM UsuarioTipo " +
-            "ORDER BY idUsuarioTipo ASC";
-
-        try (var stmt = openConnection().prepareStatement(query);
-             var rs = stmt.executeQuery()) {
-            return mapResultSetToEntityList(rs);
-        } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "listarTodos");
+            throw new AppException(null, e, getClass(), "listarTodosActivos");
         }
     }
 }
+
 

@@ -3,67 +3,67 @@ package DataAccess.DTOs;
 public class SolicitudDTO {
     private Integer IdSolicitud;
     private Integer IdCasillero;
+    private Integer IdAdmin;
     private Integer IdEstadoSolicitud;
-    private String FechaCreacion;
-    private String FechaModifica;
-    
+
+    private String  Estado;        // 'A' / 'X'
+    private String  FechaCreacion;
+    private String  FechaModifica;
+
     public SolicitudDTO() {}
-    
-    public SolicitudDTO(Integer IdSolicitud, Integer IdCasillero, Integer IdEstadoSolicitud, String fechaCreacion,String fechaModifica) {
-        this.IdSolicitud = IdSolicitud;
-        this.IdCasillero = IdCasillero;
-        this.IdEstadoSolicitud = IdEstadoSolicitud;
-        FechaCreacion = fechaCreacion;
-        FechaModifica = fechaModifica;
+
+    // Para crear (sin PK ni fechas)
+    public SolicitudDTO(Integer idCasillero, Integer idAdmin, Integer idEstadoSolicitud) {
+        IdSolicitud       = 0;
+        IdCasillero       = idCasillero;
+        IdAdmin           = idAdmin;
+        IdEstadoSolicitud = idEstadoSolicitud;
+        Estado            = "A";
     }
 
-    public Integer getIdSolicitud() {
-        return IdSolicitud;
+    // Completo (cuando lees de BD)
+    public SolicitudDTO(Integer idSolicitud, Integer idCasillero, Integer idAdmin, Integer idEstadoSolicitud,
+                        String estado, String fechaCreacion, String fechaModifica) {
+        IdSolicitud       = idSolicitud;
+        IdCasillero       = idCasillero;
+        IdAdmin           = idAdmin;
+        IdEstadoSolicitud = idEstadoSolicitud;
+        Estado            = estado;
+        FechaCreacion     = fechaCreacion;
+        FechaModifica     = fechaModifica;
     }
 
-    public void setIdSolicitud(Integer IdSolicitud) {
-        this.IdSolicitud = IdSolicitud;
-    }
+    public Integer getIdSolicitud() { return IdSolicitud; }
+    public void setIdSolicitud(Integer idSolicitud) { IdSolicitud = idSolicitud; }
 
-    public Integer getIdCasillero() {
-        return IdCasillero;
-    }
+    public Integer getIdCasillero() { return IdCasillero; }
+    public void setIdCasillero(Integer idCasillero) { IdCasillero = idCasillero; }
 
-    public void setIdCasillero(Integer IdCasillero) {
-        this.IdCasillero = IdCasillero;
-    }
+    public Integer getIdAdmin() { return IdAdmin; }
+    public void setIdAdmin(Integer idAdmin) { IdAdmin = idAdmin; }
 
-    public Integer getIdEstadoSolicitud() {
-        return IdEstadoSolicitud;
-    }
+    public Integer getIdEstadoSolicitud() { return IdEstadoSolicitud; }
+    public void setIdEstadoSolicitud(Integer idEstadoSolicitud) { IdEstadoSolicitud = idEstadoSolicitud; }
 
-    public void setIdEstadoSolicitud(Integer IdEstadoSolicitud) {
-        this.IdEstadoSolicitud = IdEstadoSolicitud;
-    }
+    public String getEstado() { return Estado; }
+    public void setEstado(String estado) { Estado = estado; }
 
-    public String getFechaCreacion() {
-        return FechaCreacion;
-    }
+    public String getFechaCreacion() { return FechaCreacion; }
+    public void setFechaCreacion(String fechaCreacion) { FechaCreacion = fechaCreacion; }
 
-    public void setFechaCreacion(String fechaCreacion) {
-        FechaCreacion = fechaCreacion;
-    }
-
-    public String getFechaModifica() {
-        return FechaModifica;
-    }
-
-    public void setFechaModifica(String fechaModifica) {
-        FechaModifica = fechaModifica;
-    }
+    public String getFechaModifica() { return FechaModifica; }
+    public void setFechaModifica(String fechaModifica) { FechaModifica = fechaModifica; }
 
     @Override
     public String toString() {
         return getClass().getName()
-        + "\n IdSolicitud        :" + getIdSolicitud       ()
-        + "\n IdCasillero        :" + getIdCasillero       ()
-        + "\n IdEstadoSolicitud  :" + getIdEstadoSolicitud ()
-        + "\n FechaCreacion      :" + getFechaCreacion     ()
-        + "\n FechaModifica      :" + getFechaModifica     ();  
+            + "\n IdSolicitud        : " + getIdSolicitud()
+            + "\n IdCasillero        : " + getIdCasillero()
+            + "\n IdAdmin            : " + getIdAdmin()
+            + "\n IdEstadoSolicitud  : " + getIdEstadoSolicitud()
+            + "\n Estado             : " + getEstado()
+            + "\n FechaCreacion      : " + getFechaCreacion()
+            + "\n FechaModifica      : " + getFechaModifica()
+            + "\n ----------------------------";
     }
 }

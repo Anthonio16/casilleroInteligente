@@ -1,19 +1,23 @@
 package DataAccess.DAOs;
-import java.util.List;
 
 import DataAccess.DTOs.RegistroEventoDTO;
 import DataAccess.Helpers.DataHelperSQLiteDAO;
 import Infrastructure.AppException;
+import java.util.List;
 
 public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
+
     public RegistroEventoDAO() throws AppException {
         super(RegistroEventoDTO.class, "RegistroEvento", "IdRegistroEvento");
     }
-    
-    public void crearEvento( int IdTipoEvento, int idUsuario, int idCasillero) throws AppException {
-        String query = "INSERT INTO RegistroEvento (IdTipoEvento, IdUsuario, IdCasillero, FechaHora) VALUES (?, ?, ?, datetime('now'))";
+
+    /**
+     * Inserta un evento. NO insertamos fechas porque en SQLite ya tienen DEFAULT.
+     */
+    public void crearEvento(int idTipoEvento, int idUsuario, int idCasillero) throws AppException {
+        String query = "INSERT INTO RegistroEvento (idTipoEvento, idUsuario, idCasillero) VALUES (?, ?, ?)";
         try (var stmt = openConnection().prepareStatement(query)) {
-            stmt.setInt(1, IdTipoEvento);
+            stmt.setInt(1, idTipoEvento);
             stmt.setInt(2, idUsuario);
             stmt.setInt(3, idCasillero);
             stmt.executeUpdate();
@@ -22,8 +26,23 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         }
     }
 
+    /**
+     * Devuelve eventos por casillero (más reciente primero).
+     * Usamos ALIAS para que el mapper encuentre los campos del DTO.
+     */
     public List<RegistroEventoDTO> obtenerEventosCasillero(int idCasillero) throws AppException {
-        String query = "SELECT * FROM RegistroEvento WHERE IdCasillero = ? ORDER BY FechaHora DESC";
+        String query =
+            "SELECT " +
+            "  idRegistroEvento  AS IdRegistroEvento, " +
+            "  idTipoEvento      AS IdTipoEvento, " +
+            "  idUsuario         AS IdUsuario, " +
+            "  idCasillero       AS IdCasillero, " +
+            "  FechaCreacion     AS FechaCreacion, " +
+            "  FechaModificacion AS FechaModifica " +
+            "FROM RegistroEvento " +
+            "WHERE idCasillero = ? " +
+            "ORDER BY FechaModificacion DESC, idRegistroEvento DESC";
+
         try (var stmt = openConnection().prepareStatement(query)) {
             stmt.setInt(1, idCasillero);
             try (var rs = stmt.executeQuery()) {
@@ -34,8 +53,22 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         }
     }
 
+    /**
+     * Devuelve eventos por usuario (más reciente primero).
+     */
     public List<RegistroEventoDTO> obtenerEventosUsuario(int idUsuario) throws AppException {
-        String query = "SELECT * FROM RegistroEvento WHERE IdUsuario = ? ORDER BY FechaHora DESC";
+        String query =
+            "SELECT " +
+            "  idRegistroEvento  AS IdRegistroEvento, " +
+            "  idTipoEvento      AS IdTipoEvento, " +
+            "  idUsuario         AS IdUsuario, " +
+            "  idCasillero       AS IdCasillero, " +
+            "  FechaCreacion     AS FechaCreacion, " +
+            "  FechaModificacion AS FechaModifica " +
+            "FROM RegistroEvento " +
+            "WHERE idUsuario = ? " +
+            "ORDER BY FechaModificacion DESC, idRegistroEvento DESC";
+
         try (var stmt = openConnection().prepareStatement(query)) {
             stmt.setInt(1, idUsuario);
             try (var rs = stmt.executeQuery()) {
@@ -46,20 +79,31 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         }
     }
 
+    /**
+     * Devuelve el último evento registrado para un casillero.
+     */
     public RegistroEventoDTO obtenerUltimoEventoCasillero(int idCasillero) throws AppException {
-        String query = "SELECT * FROM RegistroEvento WHERE IdCasillero = ? ORDER BY FechaHora DESC LIMIT 1";
+        String query =
+            "SELECT " +
+            "  idRegistroEvento  AS IdRegistroEvento, " +
+            "  idTipoEvento      AS IdTipoEvento, " +
+            "  idUsuario         AS IdUsuario, " +
+            "  idCasillero       AS IdCasillero, " +
+            "  FechaCreacion     AS FechaCreacion, " +
+            "  FechaModificacion AS FechaModifica " +
+            "FROM RegistroEvento " +
+            "WHERE idCasillero = ? " +
+            "ORDER BY FechaModificacion DESC, idRegistroEvento DESC " +
+            "LIMIT 1";
+
         try (var stmt = openConnection().prepareStatement(query)) {
             stmt.setInt(1, idCasillero);
             try (var rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToEntity(rs);
-                } else {
-                    return null;
-                }
+                return rs.next() ? mapResultSetToEntity(rs) : null;
             }
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "obtenerUltimoEventoCasillero");
         }
     }
-
 }
+

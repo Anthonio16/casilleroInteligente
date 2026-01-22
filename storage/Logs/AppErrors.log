@@ -1,0 +1,14 @@
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-21 21:04:56 | EstadoCasilleroDAO.mapResultSetToEntity | Nombre
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-21 21:04:56 | EstadoCasilleroDAO.obtenerIdPorNombre | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-21 21:05:16 | EstadoCasilleroDAO.mapResultSetToEntity | Nombre
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-21 21:05:16 | EstadoCasilleroDAO.obtenerIdPorNombre | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-21 21:45:59 | TokenAccesoDAO.obtenerActivoPorCasillero | [SQLITE_ERROR] SQL error or missing database (no such column: FechaModificacion)
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-21 22:18:47 | EstadoSolicitudDAO.readAll | [SQLITE_ERROR] SQL error or missing database (no such column: Estado)
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-21 22:22:42 | EstadoSolicitudDAO.readAll | [SQLITE_ERROR] SQL error or missing database (no such column: Estado)
