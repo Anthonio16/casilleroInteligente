@@ -8,16 +8,13 @@ import java.util.List;
 public class SolicitudDAO extends DataHelperSQLiteDAO<SolicitudDTO> {
 
     public SolicitudDAO() throws AppException {
-        super(SolicitudDTO.class, "Solicitud", "IdSolicitud");
+        super(SolicitudDTO.class, "Solicitud", "idSolicitud");
     }
 
-    // ✅ MÉTODO LIMPIO (3 parámetros)
+    // ✅ Firma limpia: (casillero, admin, estadoSolicitud)
     public Integer crearSolicitud(int idCasillero, int idAdmin, int idEstadoSolicitud) throws AppException {
-        String query =
-            "INSERT INTO Solicitud (idCasillero, idAdmin, idEstadoSolicitud, Estado) " +
-            "VALUES (?, ?, ?, 'A')";
-
-        try (var stmt = openConnection().prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS)) {
+        String sql = "INSERT INTO Solicitud (idCasillero, idAdmin, idEstadoSolicitud, Estado) VALUES (?, ?, ?, 'A')";
+        try (var stmt = openConnection().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, idCasillero);
             stmt.setInt(2, idAdmin);
             stmt.setInt(3, idEstadoSolicitud);
@@ -31,21 +28,51 @@ public class SolicitudDAO extends DataHelperSQLiteDAO<SolicitudDTO> {
         }
     }
 
+
+
+    public List<SolicitudDTO> listarPorCasillero(int idCasillero) throws AppException {
+        String sql = "SELECT * FROM Solicitud WHERE idCasillero = ? AND Estado = 'A' ORDER BY idSolicitud DESC";
+        try (var stmt = openConnection().prepareStatement(sql)) {
+            stmt.setInt(1, idCasillero);
+            try (var rs = stmt.executeQuery()) {
+                return mapResultSetToEntityList(rs);
+            }
+        } catch (Exception e) {
+            throw new AppException(null, e, getClass(), "listarPorCasillero");
+        }
+    }
+
+
+
+    // ✅ Soft delete
+    public void desactivarSolicitud(int idSolicitud) throws AppException {
+        String sql =
+            "UPDATE Solicitud " +
+            "SET Estado = 'X', FechaModificacion = datetime('now','localtime') " +
+            "WHERE idSolicitud = ?";
+        try (var stmt = openConnection().prepareStatement(sql)) {
+            stmt.setInt(1, idSolicitud);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new AppException(null, e, getClass(), "desactivarSolicitud");
+        }
+    }
+
     public SolicitudDTO obtenerPorId(int idSolicitud) throws AppException {
-        String query =
+        String sql =
             "SELECT " +
-            "  idSolicitud       AS IdSolicitud, " +
-            "  idCasillero       AS IdCasillero, " +
-            "  idAdmin           AS IdAdmin, " +
-            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
+            "  idSolicitud        AS idSolicitud, " +
+            "  idCasillero        AS idCasillero, " +
+            "  idAdmin            AS idAdmin, " +
+            "  idEstadoSolicitud  AS idEstadoSolicitud, " +
+            "  Estado             AS Estado, " +
+            "  FechaCreacion      AS FechaCreacion, " +
+            "  FechaModificacion  AS FechaModificacion " +
             "FROM Solicitud " +
             "WHERE idSolicitud = ? AND Estado = 'A' " +
             "LIMIT 1";
 
-        try (var stmt = openConnection().prepareStatement(query)) {
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idSolicitud);
             try (var rs = stmt.executeQuery()) {
                 return rs.next() ? mapResultSetToEntity(rs) : null;
@@ -55,49 +82,42 @@ public class SolicitudDAO extends DataHelperSQLiteDAO<SolicitudDTO> {
         }
     }
 
-    public List<SolicitudDTO> listarTodasActivas() throws AppException {
-        String query =
+    public List<SolicitudDTO> listarPendientes() throws AppException {
+        String sql =
             "SELECT " +
-            "  idSolicitud       AS IdSolicitud, " +
-            "  idCasillero       AS IdCasillero, " +
-            "  idAdmin           AS IdAdmin, " +
-            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
+            "  idSolicitud        AS idSolicitud, " +
+            "  idCasillero        AS idCasillero, " +
+            "  idAdmin            AS idAdmin, " +
+            "  idEstadoSolicitud  AS idEstadoSolicitud, " +
+            "  Estado             AS Estado, " +
+            "  FechaCreacion      AS FechaCreacion, " +
+            "  FechaModificacion  AS FechaModificacion " +
             "FROM Solicitud " +
-            "WHERE Estado = 'A' " +
-            "ORDER BY idSolicitud DESC";
+            "WHERE Estado = 'A' AND idEstadoSolicitud = 1 " +
+            "ORDER BY FechaModificacion DESC, idSolicitud DESC";
 
-        try (var stmt = openConnection().prepareStatement(query);
+        try (var stmt = openConnection().prepareStatement(sql);
              var rs = stmt.executeQuery()) {
             return mapResultSetToEntityList(rs);
         } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "listarTodasActivas");
+            throw new AppException(null, e, getClass(), "listarPendientes");
         }
     }
 
-    public List<SolicitudDTO> listarPorCasillero(int idCasillero) throws AppException {
-        String query =
-            "SELECT " +
-            "  idSolicitud       AS IdSolicitud, " +
-            "  idCasillero       AS IdCasillero, " +
-            "  idAdmin           AS IdAdmin, " +
-            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM Solicitud " +
-            "WHERE idCasillero = ? AND Estado = 'A' " +
-            "ORDER BY idSolicitud DESC";
+    public void actualizarEstadoSolicitud(int idSolicitud, int idEstadoSolicitud) throws AppException {
+        String sql =
+            "UPDATE Solicitud " +
+            "SET idEstadoSolicitud = ?, " +
+            "    FechaModificacion = datetime('now','localtime') " +
+            "WHERE idSolicitud = ? AND Estado = 'A'";
 
-        try (var stmt = openConnection().prepareStatement(query)) {
-            stmt.setInt(1, idCasillero);
-            try (var rs = stmt.executeQuery()) {
-                return mapResultSetToEntityList(rs);
-            }
+        try (var stmt = openConnection().prepareStatement(sql)) {
+            stmt.setInt(1, idEstadoSolicitud);
+            stmt.setInt(2, idSolicitud);
+            stmt.executeUpdate();
         } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "listarPorCasillero");
+            throw new AppException(null, e, getClass(), "actualizarEstadoSolicitud");
         }
     }
+
 }

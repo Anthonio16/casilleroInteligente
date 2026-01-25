@@ -1,49 +1,34 @@
 package DataAccess.DTOs;
 
 public class TokenAccesoDTO {
-
-    private Integer IdTokenAcceso;
-    private Integer IdSolicitud;
-    private Integer IdCasillero;
+    private Integer idTokenacceso;
+    private Integer idSolicitud;
+    private Integer idCasillero;
     private String  TokenHash;
     private String  Estado;
     private String  FechaCreacion;
-    private String  FechaModifica;
+    private String  FechaModificacion;
     private String  FechaExpiracion;
 
     public TokenAccesoDTO() {}
 
-    // Constructor simple (cuando creas un token nuevo)
-    public TokenAccesoDTO(Integer idSolicitud, Integer idCasillero, String tokenHash, String estado, String fechaExpiracion) {
-        IdTokenAcceso   = 0;
-        IdSolicitud     = idSolicitud;
-        IdCasillero     = idCasillero;
-        TokenHash       = tokenHash;
-        Estado          = estado;
-        FechaExpiracion = fechaExpiracion;
+    public TokenAccesoDTO(Integer idSolicitud, Integer idCasillero, String tokenHash, String fechaExpiracion) {
+        this.idTokenacceso = 0;
+        this.idSolicitud = idSolicitud;
+        this.idCasillero = idCasillero;
+        this.TokenHash = tokenHash;
+        this.Estado = "A";
+        this.FechaExpiracion = fechaExpiracion;
     }
 
-    // Constructor completo (cuando lees de la BD)
-    public TokenAccesoDTO(Integer idTokenAcceso, Integer idSolicitud, Integer idCasillero, String tokenHash,
-                          String estado, String fechaCreacion, String fechaModifica, String fechaExpiracion) {
-        IdTokenAcceso   = idTokenAcceso;
-        IdSolicitud     = idSolicitud;
-        IdCasillero     = idCasillero;
-        TokenHash       = tokenHash;
-        Estado          = estado;
-        FechaCreacion   = fechaCreacion;
-        FechaModifica   = fechaModifica;
-        FechaExpiracion = fechaExpiracion;
-    }
+    public Integer getIdTokenacceso() { return idTokenacceso; }
+    public void setIdTokenacceso(Integer idTokenacceso) { this.idTokenacceso = idTokenacceso; }
 
-    public Integer getIdTokenAcceso() { return IdTokenAcceso; }
-    public void setIdTokenAcceso(Integer idTokenAcceso) { IdTokenAcceso = idTokenAcceso; }
+    public Integer getIdSolicitud() { return idSolicitud; }
+    public void setIdSolicitud(Integer idSolicitud) { this.idSolicitud = idSolicitud; }
 
-    public Integer getIdSolicitud() { return IdSolicitud; }
-    public void setIdSolicitud(Integer idSolicitud) { IdSolicitud = idSolicitud; }
-
-    public Integer getIdCasillero() { return IdCasillero; }
-    public void setIdCasillero(Integer idCasillero) { IdCasillero = idCasillero; }
+    public Integer getIdCasillero() { return idCasillero; }
+    public void setIdCasillero(Integer idCasillero) { this.idCasillero = idCasillero; }
 
     public String getTokenHash() { return TokenHash; }
     public void setTokenHash(String tokenHash) { TokenHash = tokenHash; }
@@ -54,8 +39,8 @@ public class TokenAccesoDTO {
     public String getFechaCreacion() { return FechaCreacion; }
     public void setFechaCreacion(String fechaCreacion) { FechaCreacion = fechaCreacion; }
 
-    public String getFechaModifica() { return FechaModifica; }
-    public void setFechaModifica(String fechaModifica) { FechaModifica = fechaModifica; }
+    public String getFechaModificacion() { return FechaModificacion; }
+    public void setFechaModificacion(String fechaModificacion) { FechaModificacion = fechaModificacion; }
 
     public String getFechaExpiracion() { return FechaExpiracion; }
     public void setFechaExpiracion(String fechaExpiracion) { FechaExpiracion = fechaExpiracion; }
@@ -63,15 +48,16 @@ public class TokenAccesoDTO {
     @Override
     public String toString() {
         return getClass().getName()
-            + "\n IdTokenAcceso     : " + getIdTokenAcceso()
-            + "\n IdSolicitud       : " + getIdSolicitud()
-            + "\n IdCasillero       : " + getIdCasillero()
-            + "\n TokenHash         : " + getTokenHash()
-            + "\n Estado            : " + getEstado()
-            + "\n FechaCreacion     : " + getFechaCreacion()
-            + "\n FechaModifica     : " + getFechaModifica()
-            + "\n FechaExpiracion   : " + getFechaExpiracion()
+            + "\n idTokenacceso      : " + getIdTokenacceso()
+            + "\n idSolicitud        : " + getIdSolicitud()
+            + "\n idCasillero        : " + getIdCasillero()
+            + "\n TokenHash          : " + getTokenHash()
+            + "\n Estado             : " + getEstado()
+            + "\n FechaCreacion      : " + getFechaCreacion()
+            + "\n FechaModificacion  : " + getFechaModificacion()
+            + "\n FechaExpiracion    : " + getFechaExpiracion()
             + "\n ----------------------------";
     }
 }
+
 

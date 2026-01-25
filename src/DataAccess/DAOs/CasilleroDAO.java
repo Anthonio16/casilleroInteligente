@@ -1,10 +1,9 @@
 package DataAccess.DAOs;
 
-import java.util.List;
-
 import DataAccess.DTOs.CasilleroDTO;
 import DataAccess.Helpers.DataHelperSQLiteDAO;
 import Infrastructure.AppException;
+import java.util.List;
 
 public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
 
@@ -196,6 +195,10 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "asignarEstudiante");
         }
+    }
+
+    public void  registrarPinOk(int idCasillero) throws AppException {
+        resetIntentos(idCasillero);
     }
 }
 

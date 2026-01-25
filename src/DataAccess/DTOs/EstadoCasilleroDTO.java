@@ -1,6 +1,7 @@
 package DataAccess.DTOs;
 
 public class EstadoCasilleroDTO {
+
     private Integer IdEstadoCasillero;
     private String  Nombre;
     private String  Descripcion;
@@ -10,8 +11,25 @@ public class EstadoCasilleroDTO {
 
     public EstadoCasilleroDTO() {}
 
+    public EstadoCasilleroDTO(String nombre, String descripcion) {
+        this.IdEstadoCasillero = 0;
+        this.Nombre = nombre;
+        this.Descripcion = descripcion;
+        this.Estado = "A";
+    }
+
+    public EstadoCasilleroDTO(Integer idEstadoCasillero, String nombre, String descripcion,
+                              String estado, String fechaCreacion, String fechaModifica) {
+        this.IdEstadoCasillero = idEstadoCasillero;
+        this.Nombre = nombre;
+        this.Descripcion = descripcion;
+        this.Estado = estado;
+        this.FechaCreacion = fechaCreacion;
+        this.FechaModifica = fechaModifica;
+    }
+
     public Integer getIdEstadoCasillero() { return IdEstadoCasillero; }
-    public void setIdEstadoCasillero(Integer idEstadoCasillero) { IdEstadoCasillero = idEstadoCasillero; }
+    public void setIdEstadoCasillero(Integer idEstadoCasillero) { this.IdEstadoCasillero = idEstadoCasillero; }
 
     public String getNombre() { return Nombre; }
     public void setNombre(String nombre) { Nombre = nombre; }
@@ -31,13 +49,14 @@ public class EstadoCasilleroDTO {
     @Override
     public String toString() {
         return getClass().getName()
-            + "\nIdEstadoCasillero: " + IdEstadoCasillero
-            + "\nNombre: " + Nombre
-            + "\nDescripcion: " + Descripcion
-            + "\nEstado: " + Estado
-            + "\nFechaCreacion: " + FechaCreacion
-            + "\nFechaModifica: " + FechaModifica
-            + "\n----------------------------";
+            + "\n IdEstadoCasillero : " + getIdEstadoCasillero()
+            + "\n Nombre            : " + getNombre()
+            + "\n Descripcion       : " + getDescripcion()
+            + "\n Estado            : " + getEstado()
+            + "\n FechaCreacion     : " + getFechaCreacion()
+            + "\n FechaModifica     : " + getFechaModifica()
+            + "\n ----------------------------";
     }
 }
+
 

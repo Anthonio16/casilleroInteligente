@@ -86,10 +86,11 @@ CREATE TABLE EstadoSolicitud (
     idEstadoSolicitud   INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre              VARCHAR(20) NOT NULL UNIQUE,
     Descripcion         VARCHAR(100) NULL,
-    Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
-    FechaCreacion       DATETIME    NOT NULL DEFAULT (datetime('now','localtime')),
-    FechaModificacion   DATETIME    NOT NULL DEFAULT (datetime('now','localtime'))
+    Estado              VARCHAR(10) NOT NULL DEFAULT 'A',
+    FechaCreacion       DATETIME NOT NULL DEFAULT (datetime('now','localtime')),
+    FechaModificacion   DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
+
 
 CREATE TABLE Solicitud (
     idSolicitud         INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -307,5 +308,7 @@ SELECT * FROM vw_CasilleroDashboard_Admin;
 SELECT * FROM vw_CasilleroDashboard_Estudiante;
 SELECT * FROM vw_MisCasilleros_Estudiante WHERE idEstudiante = 2;
 SELECT * FROM vw_MisCasilleros_Estudiante WHERE idEstudiante = 3;
+
+
 
 

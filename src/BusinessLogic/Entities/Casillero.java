@@ -1,64 +1,37 @@
 package BusinessLogic.Entities;
 
 public class Casillero {
+    private final int idCasillero;
+    private Integer idEstudiante;          // puede ser null
+    private EstadoCasillero estadoCasillero;
+    private int intentosFallidos;
+    private String estadoRegistro;         // 'A' o 'X' (de tu BD)
 
-
-    private int intentos;
-    private boolean bloqueado;
-    private boolean abierto;
-    private boolean solenoideActivo;
-
-    public Casillero() {
-        this.intentos = 0;
-        this.bloqueado = false;
-        this.abierto = false;
-        this.solenoideActivo = false;
+    public Casillero(int idCasillero, Integer idEstudiante, EstadoCasillero estadoCasillero,
+                     int intentosFallidos, String estadoRegistro) {
+        this.idCasillero = idCasillero;
+        this.idEstudiante = idEstudiante;
+        this.estadoCasillero = estadoCasillero;
+        this.intentosFallidos = intentosFallidos;
+        this.estadoRegistro = estadoRegistro;
     }
 
-    public boolean abrir() {
-        if (bloqueado) {
-            System.out.println("Casillero bloqueado");
-            return false;
-        }
+    public int getIdCasillero() { return idCasillero; }
+    public Integer getIdEstudiante() { return idEstudiante; }
+    public void setIdEstudiante(Integer idEstudiante) { this.idEstudiante = idEstudiante; }
 
-        solenoideActivo = true;
-        abierto = true;
-        System.out.println("Casillero abierto");
-        return true;
-    }
+    public EstadoCasillero getEstadoCasillero() { return estadoCasillero; }
+    public void setEstadoCasillero(EstadoCasillero estadoCasillero) { this.estadoCasillero = estadoCasillero; }
 
-    public void cerrar() {
-        solenoideActivo = false;
-        abierto = false;
-        System.out.println("Casillero cerrado");
-    }
+    public int getIntentosFallidos() { return intentosFallidos; }
+    public void setIntentosFallidos(int intentosFallidos) { this.intentosFallidos = intentosFallidos; }
 
-    public boolean estadoSolenoide() {
-        return solenoideActivo;
-    }
+    public String getEstadoRegistro() { return estadoRegistro; }
+    public void setEstadoRegistro(String estadoRegistro) { this.estadoRegistro = estadoRegistro; }
 
-    public void registrarIntentoFallido() {
-        intentos++;
-        if (intentos >= 3) {
-            bloquear();
-        }
-    }
-
-    public void bloquear() {
-        bloqueado = true;
-        solenoideActivo = false;
-        abierto = false;
-        System.out.println("Casillero bloqueado");
-    }
-
-    
-    //public void desbloquear() {
-    //    bloqueado = false;
-    //    intentos = 0;
-    //    System.out.println("Casillero desbloqueado");
-    //}
-
-    public boolean isBloqueado() {
-        return bloqueado;
+    public boolean estaBloqueado() {
+        return estadoCasillero == EstadoCasillero.LOCKED;
     }
 }
+
+

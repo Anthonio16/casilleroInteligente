@@ -2,36 +2,45 @@ package BusinessLogic.Entities;
 
 public abstract class Usuario {
 
-    protected String usuario;
-    protected int pin;
-    private int intentos;
+    protected Integer idUsuario;
+    protected Integer idUsuarioTipo;  // 1=Admin, 2=Estudiante (según inserts)
+    protected String nombre;
+    protected EstadoRegistro estado;
 
-    public Usuario(String usuario, int pin) {
-        this.usuario = usuario;
-        this.pin = pin;
-        this.intentos = 0;
+    // Solo para pruebas locales (en real: PIN HASH en BD)
+    protected Integer pinTemporal;
+    protected int intentosPin;
+
+    protected Usuario(Integer idUsuario, Integer idUsuarioTipo, String nombre, EstadoRegistro estado) {
+        this.idUsuario = idUsuario;
+        this.idUsuarioTipo = idUsuarioTipo;
+        this.nombre = nombre;
+        this.estado = estado == null ? EstadoRegistro.A : estado;
+        this.intentosPin = 0;
     }
 
-    public boolean validarPin(int pinIngresado) {
+    public Integer getIdUsuario() { return idUsuario; }
+    public Integer getIdUsuarioTipo() { return idUsuarioTipo; }
+    public String getNombre() { return nombre; }
+    public EstadoRegistro getEstado() { return estado; }
 
-        if (this.pin == pinIngresado) {
-            intentos = 0;
+    public void setPinTemporal(Integer pinTemporal) {
+        this.pinTemporal = pinTemporal;
+        this.intentosPin = 0;
+    }
+
+    public int getIntentosPin() { return intentosPin; }
+    public void resetIntentosPin() { intentosPin = 0; }
+
+    // Para prototipo: valida vs pinTemporal
+    public boolean validarPinTemporal(int pinIngresado) {
+        if (pinTemporal == null) return false;
+
+        if (pinTemporal == pinIngresado) {
+            intentosPin = 0;
             return true;
-        } else {
-            intentos++;
-            return false;
         }
-    }
-
-    public int getIntentos() {
-        return intentos;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void registrarPin(int nuevoPin) {
-        this.pin = nuevoPin;
+        intentosPin++;
+        return false;
     }
 }

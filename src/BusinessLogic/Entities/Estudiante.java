@@ -1,32 +1,20 @@
 package BusinessLogic.Entities;
-import BusinessLogic.Interfaces.IAutenticacion;
 
-public class Estudiante extends Usuario implements IAutenticacion {
+public class Estudiante extends Usuario {
 
-    private int pinActual;
-    
-
-    public Estudiante(String usiario, int pin) {
-        super(usiario, pin);
-        this.pinActual = pin;
+    public Estudiante(Integer idUsuario, String nombre) {
+        super(idUsuario, 2, nombre, EstadoRegistro.A);
     }
 
-    public void leerEntrada(){
-    }
+    public boolean cambiarPinTemporal(int pinActual, int nuevoPin) {
+        if (pinTemporal == null) return false;
 
-    public boolean cambiarPIN(int pinActual) {
-        if (this.pin == pinActual) {
+        if (pinTemporal == pinActual) {
+            setPinTemporal(nuevoPin);
             return true;
         }
+        intentosPin++;
         return false;
     }
-
-    @Override
-    public boolean validarPin(int pinIngresado){
-        if (super.validarPin(pinIngresado)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
+

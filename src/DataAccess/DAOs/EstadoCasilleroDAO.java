@@ -1,68 +1,49 @@
 package DataAccess.DAOs;
 
-import java.util.List;
-
 import DataAccess.DTOs.EstadoCasilleroDTO;
 import DataAccess.Helpers.DataHelperSQLiteDAO;
 import Infrastructure.AppException;
+import java.util.List;
 
 public class EstadoCasilleroDAO extends DataHelperSQLiteDAO<EstadoCasilleroDTO> {
 
     public EstadoCasilleroDAO() throws AppException {
-        super(EstadoCasilleroDTO.class, "EstadoCasillero", "IdEstadoCasillero");
+        super(EstadoCasilleroDTO.class, "EstadoCasillero", "idEstadoCasillero");
     }
 
-    /**
-     * Obtiene el ID del estado por nombre (ej: "Locked", "Ready to Unlock")
-     */
-    public Integer obtenerIdPorNombre(String nombre) throws AppException {
-        String query =
-            "SELECT " +
-            "  idEstadoCasillero AS IdEstadoCasillero, " +
-            "  Nombre            AS Nombre, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM EstadoCasillero " +
-            "WHERE Nombre = ? " +
+    // Obtiene DTO por nombre (Locked, Ready to Unlock, etc.)
+    public EstadoCasilleroDTO obtenerPorNombre(String nombre) throws AppException {
+        String sql =
+            "SELECT * FROM EstadoCasillero " +
+            "WHERE Nombre = ? AND Estado = 'A' " +
             "LIMIT 1";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setString(1, nombre);
             try (var rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    EstadoCasilleroDTO dto = mapResultSetToEntity(rs);
-                    return dto.getIdEstadoCasillero();
-                }
-                return null;
+                return rs.next() ? mapResultSetToEntity(rs) : null;
             }
         } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "obtenerIdPorNombre");
+            throw new AppException(null, e, getClass(), "obtenerPorNombre");
         }
     }
 
-    /**
-     * Lista todos los estados de casillero
-     */
-    public List<EstadoCasilleroDTO> listarTodos() throws AppException {
-        String query =
-            "SELECT " +
-            "  idEstadoCasillero AS IdEstadoCasillero, " +
-            "  Nombre            AS Nombre, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM EstadoCasillero " +
-            "ORDER BY idEstadoCasillero ASC";
+    // Obtiene ID por nombre
+    public Integer obtenerIdPorNombre(String nombre) throws AppException {
+        EstadoCasilleroDTO dto = obtenerPorNombre(nombre);
+        return dto == null ? null : dto.getIdEstadoCasillero();
+    }
 
-        try (var stmt = openConnection().prepareStatement(query);
+    // Lista activos
+    public List<EstadoCasilleroDTO> listarActivos() throws AppException {
+        String sql =
+            "SELECT * FROM EstadoCasillero " +
+            "WHERE Estado = 'A' " +
+            "ORDER BY idEstadoCasillero ASC";
+        try (var stmt = openConnection().prepareStatement(sql);
              var rs = stmt.executeQuery()) {
             return mapResultSetToEntityList(rs);
         } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "listarTodos");
+            throw new AppException(null, e, getClass(), "listarActivos");
         }
     }
 }
-

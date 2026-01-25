@@ -12,3 +12,21 @@
 ╰──── LOG  ❱❱ 2026-01-21 22:18:47 | EstadoSolicitudDAO.readAll | [SQLITE_ERROR] SQL error or missing database (no such column: Estado)
 ╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
 ╰──── LOG  ❱❱ 2026-01-21 22:22:42 | EstadoSolicitudDAO.readAll | [SQLITE_ERROR] SQL error or missing database (no such column: Estado)
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 20:39:17 | EstadoSolicitudDAO.readAll | [SQLITE_ERROR] SQL error or missing database (no such column: Estado)
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 20:40:51 | EstadoSolicitudDAO.readAll | [SQLITE_ERROR] SQL error or missing database (no such column: Estado)
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 20:43:56 | EstadoSolicitudDAO.mapResultSetToEntity | idEstadoSolicitud
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 20:54:16 | EstadoSolicitudDAO.mapResultSetToEntity | IdEstadoSolicitud
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 20:54:16 | EstadoSolicitudDAO.obtenerPorNombre | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 20:54:34 | EstadoSolicitudDAO.mapResultSetToEntity | IdEstadoSolicitud
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 20:54:34 | EstadoSolicitudDAO.obtenerPorNombre | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 21:17:56 | RegistroEventoDAO.mapResultSetToEntity | Estado
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-24 21:17:57 | RegistroEventoDAO.obtenerUltimoEventoPorCasillero | Ups! Error inesperado. Por favor, contacte al administrador del sistema.

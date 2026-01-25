@@ -1,11 +1,4 @@
-import DataAccess.DAOs.EstadoSolicitudDAO;
-import DataAccess.DAOs.SolicitudDAO;
-import DataAccess.DAOs.TokenAccesoDAO;
-import DataAccess.DTOs.EstadoSolicitudDTO;
 import DataAccess.DTOs.SolicitudDTO;
-import DataAccess.DTOs.TokenAccesoDTO;
-import Infrastructure.AppException;
-import java.util.List;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -36,122 +29,233 @@ public class App {
         // System.out.println(utdao.listarActivos());
 
 
-        try {
-            testEstadoSolicitud_Solicitud_Token();
-        } catch (AppException e) {
-            System.out.println("\n? FALLÓ UN TEST (AppException): " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("\n? FALLÓ UN TEST (Exception): " + e.getMessage());
-            e.printStackTrace();
-        }
+    //     System.out.println("\n===== TEST EstadoSolicitudDAO =====");
+
+    //         EstadoSolicitudDAO estadoDAO = new EstadoSolicitudDAO();
+    //         var estados = estadoDAO.readAll(); // ya funciona porque tabla tiene Estado='A'
+    //         System.out.println("Total estados solicitud: " + estados.size());
+    //         if (!estados.isEmpty()) System.out.println("Primero:\n" + estados.get(0));
+
+    //         Integer idPendiente = estadoDAO.obtenerIdPorNombre("Pendiente");
+    //         System.out.println("Pendiente ID: " + idPendiente);
+
+    //         System.out.println("\n===== TEST SolicitudDAO =====");
+    //         SolicitudDAO solicitudDAO = new SolicitudDAO();
+
+    //         var solicitudes = solicitudDAO.readAll();
+    //         System.out.println("Total solicitudes: " + solicitudes.size());
+    //         if (!solicitudes.isEmpty()) System.out.println("Primera:\n" + solicitudes.get(0));
+
+    //         Integer nuevaId = solicitudDAO.crearSolicitud(3, 1, (idPendiente != null ? idPendiente : 1));
+    //         System.out.println("Nueva solicitud creada ID: " + nuevaId);
+    //         System.out.println("Nueva solicitud:\n" + solicitudDAO.readBy(nuevaId));
+
+    //         System.out.println("\n===== TEST TokenAccesoDAO =====");
+    //         TokenAccesoDAO tokenDAO = new TokenAccesoDAO();
+
+    //         Integer tokenId = tokenDAO.crearToken15Min(nuevaId, 3, "hash_" + System.currentTimeMillis());
+    //         System.out.println("Token creado ID: " + tokenId);
+
+    //         var activo = tokenDAO.obtenerActivoPorCasillero(3);
+    //         System.out.println("Token activo casillero 3:\n" + activo);
+
+    //         var tokens = tokenDAO.listarPorSolicitud(nuevaId);
+    //         System.out.println("Tokens por solicitud " + nuevaId + ": " + tokens.size());
+
+    //         tokenDAO.desactivarToken(tokenId);
+    //         System.out.println("Token desactivado ID: " + tokenId);
+
+    // System.out.println("\n===== TEST RegistroEventoDAO =====");
+
+    // RegistroEventoDAO dao = new RegistroEventoDAO();
+
+    // // 1) Crear evento nuevo (ejemplo: Pin FAIL = 2, usuario 2, casillero 1)
+    // boolean ok = dao.crearEvento(2, 2, 1);
+    // System.out.println("Evento insertado: " + ok);
+
+    // // 2) Último evento del casillero 1
+    // var ultimo = dao.obtenerUltimoEventoPorCasillero(1);
+    // System.out.println("Último evento casillero 1:\n" + ultimo);
+
+    // // 3) Lista eventos casillero 1
+    // var listaC = dao.obtenerEventosPorCasillero(1);
+    // System.out.println("Eventos casillero 1: " + listaC.size());
+    // if (!listaC.isEmpty()) System.out.println("Primero:\n" + listaC.get(0));
+
+    // // 4) Lista eventos usuario 2
+    // var listaU = dao.obtenerEventosPorUsuario(2);
+    // System.out.println("Eventos usuario 2: " + listaU.size());
+    // if (!listaU.isEmpty()) System.out.println("Primero:\n" + listaU.get(0));    
+
+
+    // System.out.println("\n===== TEST EstadoCasilleroDAO =====");
+    // var dao = new EstadoCasilleroDAO();
+
+    // System.out.println("Locked ID: " + dao.obtenerIdPorNombre("Locked"));
+    // System.out.println("Ready to Unlock ID: " + dao.obtenerIdPorNombre("Ready to Unlock"));
+
+    // var lista = dao.listarActivos();
+    // System.out.println("Total estados activos: " + lista.size());
+    // if (!lista.isEmpty()) System.out.println("Primero:\n" + lista.get(0));
+
+
+    // System.out.println("\n===== TEST CasilleroService.validarPin (v2) =====");
+
+    // var service = new BusinessLogic.Services.CasilleroService();
+    // var casDAO = new DataAccess.DAOs.CasilleroDAO();
+    // var solDAO = new DataAccess.DAOs.SolicitudDAO();
+
+    // int idCasillero = 4; // usa uno que no te importe bloquear
+    // int idUsuario   = 2;
+
+    // System.out.println("Antes:\n" + casDAO.obtenerPorId(idCasillero));
+
+    // System.out.println("Try 1: " + service.validarPin(idCasillero, idUsuario, "0000"));
+    // System.out.println("Try 2: " + service.validarPin(idCasillero, idUsuario, "0000"));
+    // System.out.println("Try 3: " + service.validarPin(idCasillero, idUsuario, "0000"));
+
+    // System.out.println("Después:\n" + casDAO.obtenerPorId(idCasillero));
+
+    // var solicitudes = solDAO.listarPorCasillero(idCasillero);
+    // System.out.println("Solicitudes para casillero " + idCasillero + ": " + solicitudes.size());
+    // if (!solicitudes.isEmpty()) System.out.println("Última:\n" + solicitudes.get(0));
+
+
+    
+    // System.out.println("\n===== TEST RecuperacionService (APROBAR + RECHAZAR) =====");
+
+    // var rs = new BusinessLogic.Services.RecuperacionService();
+
+    // var pendientes = rs.listarPendientes();
+    // System.out.println("Pendientes: " + pendientes.size());
+
+    // if (pendientes.isEmpty()) {
+    //     System.out.println("No hay solicitudes pendientes para probar.");
+    //     return;
+    // }
+
+    // int idAdmin = 1;
+
+    // // ====== 1) APROBAR primera pendiente ======
+    // var solAprobar = pendientes.get(0);
+    // int idSolicitudAprobar = solAprobar.getIdSolicitud();
+    // int idCasilleroAprobar = solAprobar.getIdCasillero();
+
+    // System.out.println("\n--- APROBAR ---");
+    // System.out.println("Solicitud a aprobar:\n" + solAprobar);
+
+    // Integer idToken = rs.aprobarSolicitud(idSolicitudAprobar, idAdmin);
+    // System.out.println("Aprobada  Token creado ID: " + idToken);
+
+    // var tokenActivo = rs.tokenActivoCasillero(idCasilleroAprobar);
+    // System.out.println("Token activo casillero " + idCasilleroAprobar + ":\n" + tokenActivo);
+
+    // // ====== 2) RECHAZAR segunda pendiente (si existe) ======
+    // System.out.println("\n--- RECHAZAR ---");
+
+    // if (pendientes.size() < 2) {
+    //     System.out.println("Solo hay 1 pendiente. Creando otra solicitud pendiente para poder rechazar...");
+
+    //     // Si tu CasilleroService crea solicitudes al bloquear, puedes crear manual con SolicitudDAO:
+    //     var sdao = new DataAccess.DAOs.SolicitudDAO();
+
+    //     // Crea una solicitud pendiente para el casillero 2 (ajusta si quieres otro)
+    //     Integer nuevaId = sdao.crearSolicitud(2, idAdmin, 1);
+    //     System.out.println("Nueva solicitud pendiente creada ID: " + nuevaId);
+
+    //     // Recargar pendientes
+    //     pendientes = rs.listarPendientes();
+    //     System.out.println("Pendientes ahora: " + pendientes.size());
+
+    //     if (pendientes.isEmpty()) {
+    //         System.out.println("No pude generar una pendiente para rechazar.");
+    //         return;
+    //     }
+    // }
+
+    // // Elegimos una solicitud distinta a la aprobada (por si quedó aún pendiente alguna)
+    // DataAccess.DTOs.SolicitudDTO solRechazar = null;
+    // for (var s : pendientes) {
+    //     if (s.getIdSolicitud() != null && s.getIdSolicitud() != idSolicitudAprobar) {
+    //         solRechazar = s;
+    //         break;
+    //     }
+    // }
+    // if (solRechazar == null) {
+    //     // fallback: toma la primera (aunque normalmente no debería pasar)
+    //     solRechazar = pendientes.get(0);
+    // }
+
+    // int idSolicitudRechazar = solRechazar.getIdSolicitud();
+    // System.out.println("Solicitud a rechazar:\n" + solRechazar);
+
+    // rs.rechazarSolicitud(idSolicitudRechazar, idAdmin);
+    // System.out.println("Rechazada  (idSolicitud=" + idSolicitudRechazar + ")");
+
+    System.out.println("\n===== TEST RecuperacionService (FORZADO) =====");
+
+    int idAdmin = 1;
+    int idCasilleroAprobar = 1;
+    int idCasilleroRechazar = 2;
+
+    var rec = new BusinessLogic.Services.RecuperacionService();
+    var solicitudDAO = new DataAccess.DAOs.SolicitudDAO();
+
+    // ---------- APROBAR ----------
+    System.out.println("\n--- APROBAR ---");
+
+    var pendientes = rec.listarPendientes();
+    if (pendientes == null || pendientes.isEmpty()) {
+        System.out.println("No hay pendientes. Creando una pendiente para aprobar...");
+        Integer nueva = solicitudDAO.crearSolicitud(idCasilleroAprobar, idAdmin, 1); // 1=Pendiente
+        System.out.println("Nueva solicitud pendiente creada ID: " + nueva);
+        pendientes = rec.listarPendientes();
     }
 
-    // =========================
-    //  TEST 3 EN 1
-    // =========================
-    private static void testEstadoSolicitud_Solicitud_Token() throws AppException {
-        System.out.println("\n===== TEST EstadoSolicitudDAO =====");
-
-        EstadoSolicitudDAO estadoDAO = new EstadoSolicitudDAO();
-        List<EstadoSolicitudDTO> estados = estadoDAO.readAll();
-        System.out.println("Total estados solicitud: " + estados.size());
-
-        if (!estados.isEmpty()) {
-            System.out.println("Primero:\n" + estados.get(0));
-        }
-
-        // Si tienes método obtenerIdPorNombre("Pendiente") úsalo, si no, lo buscamos manualmente
-        Integer idPendiente = buscarIdEstadoSolicitud(estados, "Pendiente");
-        Integer idAprobada  = buscarIdEstadoSolicitud(estados, "Aprobada");
-
-        System.out.println("Pendiente: " + idPendiente);
-        System.out.println("ID Aprobada: " + idAprobada);
-
-        // readBy
-        if (idAprobada != null) {
-            EstadoSolicitudDTO aprobada = estadoDAO.readBy(idAprobada);
-            System.out.println("Por ID (Aprobada):\n" + aprobada);
-        }
-
-        System.out.println("\n===== TEST SolicitudDAO =====");
-
-        SolicitudDAO solicitudDAO = new SolicitudDAO();
-
-        List<SolicitudDTO> solicitudes = solicitudDAO.readAll();
-        System.out.println("Total solicitudes: " + solicitudes.size());
-
-        if (!solicitudes.isEmpty()) {
-            System.out.println("Primera:\n" + solicitudes.get(0));
-        }
-
-        // readBy
-        SolicitudDTO sol1 = solicitudDAO.readBy(1);
-        System.out.println("Solicitud ID=1:\n" + sol1);
-
-        // listar por casillero (si tu método se llama distinto, cambia aquí)
-        List<SolicitudDTO> solicitudesCas1 = solicitudDAO.listarPorCasillero(1);
-        System.out.println("Solicitudes casillero 1: " + solicitudesCas1.size());
-
-        // crear solicitud nueva (casillero 3, admin 1, estado Pendiente)
-        // Si tu DAO NO tiene crearSolicitud, comenta esto.
-        Integer nuevaIdSolicitud = null;
-        if (idPendiente == null) idPendiente = 1; // fallback
-
-        nuevaIdSolicitud = solicitudDAO.crearSolicitud(3, 1, idPendiente);
-        System.out.println("Nueva solicitud creada ID: " + nuevaIdSolicitud);
-
-        SolicitudDTO nuevaSolicitud = solicitudDAO.readBy(nuevaIdSolicitud);
-        System.out.println("Nueva solicitud DTO:\n" + nuevaSolicitud);
-
-        System.out.println("\n===== TEST TokenAccesoDAO =====");
-
-        TokenAccesoDAO tokenDAO = new TokenAccesoDAO();
-
-        // crear token con expiración 15 min, para la nueva solicitud y casillero 3
-        Integer nuevoIdToken = tokenDAO.crearToken15Min(nuevaIdSolicitud, 3, "hash_token_prueba_" + System.currentTimeMillis());
-        System.out.println("Nuevo Token creado ID: " + nuevoIdToken);
-
-        TokenAccesoDTO tokenLeido = tokenDAO.obtenerPorId(nuevoIdToken);
-        System.out.println("Token por ID:\n" + tokenLeido);
-
-        // obtener activo por casillero 3
-        TokenAccesoDTO tokenActivo = tokenDAO.obtenerActivoPorCasillero(3);
-        System.out.println("Token ACTIVO casillero 3:\n" + tokenActivo);
-
-        // listar por solicitud
-        List<TokenAccesoDTO> tokensSolicitud = tokenDAO.listarPorSolicitud(nuevaIdSolicitud);
-        System.out.println("Tokens de la solicitud " + nuevaIdSolicitud + ": " + tokensSolicitud.size());
-        if (!tokensSolicitud.isEmpty()) {
-            System.out.println("Primero:\n" + tokensSolicitud.get(0));
-        }
-
-        // desactivar token
-        tokenDAO.desactivarToken(nuevoIdToken);
-        System.out.println("Token desactivado: " + nuevoIdToken);
-
-        TokenAccesoDTO tokenLuego = tokenDAO.obtenerPorId(nuevoIdToken);
-        System.out.println("Token luego de desactivar:\n" + tokenLuego);
-
-        // si quieres: expirar vencidos
-        tokenDAO.expirarTokensVencidos();
-        System.out.println("ExpirarTokensVencidos() ejecutado ✅");
+    if (pendientes == null || pendientes.isEmpty()) {
+        System.out.println("Sigue sin haber pendientes. Revisa listarPendientes() y EstadoSolicitud=1.");
+        return;
     }
 
-    // =========================
-    //  HELPERS DEL TEST
-    // =========================
-    private static Integer buscarIdEstadoSolicitud(List<EstadoSolicitudDTO> list, String nombre) {
-        if (list == null) return null;
-        for (EstadoSolicitudDTO e : list) {
-            if (e != null && e.getNombre() != null && e.getNombre().equalsIgnoreCase(nombre)) {
-                return e.getIdEstadoSolicitud();
-            }
+    var solA = pendientes.get(0);
+    System.out.println("Solicitud a aprobar:\n" + solA);
+
+    Integer idToken = rec.aprobarSolicitud(solA.getIdSolicitud(), idAdmin);
+    System.out.println("Aprobada ✅ Token creado ID: " + idToken);
+
+    var tokenActivo = rec.tokenActivoCasillero(solA.getIdCasillero());
+    System.out.println("Token activo casillero " + solA.getIdCasillero() + ":\n" + tokenActivo);
+
+    // ---------- RECHAZAR ----------
+    System.out.println("\n--- RECHAZAR ---");
+
+    // Creamos una pendiente nueva para rechazar sí o sí
+    Integer idSolR = solicitudDAO.crearSolicitud(idCasilleroRechazar, idAdmin, 1);
+    System.out.println("Nueva solicitud pendiente creada ID: " + idSolR);
+
+    // Volvemos a consultar pendientes y buscamos esa
+    pendientes = rec.listarPendientes();
+    SolicitudDTO solR = null;
+    for (SolicitudDTO s : pendientes) {
+        if (s.getIdSolicitud() != null && s.getIdSolicitud().intValue() == idSolR.intValue()) {
+            solR = s;
+            break;
         }
-        return null;
     }
+    if (solR == null) {
+        // fallback: usa la primera pendiente
+        solR = pendientes.get(0);
+    }
+
+    System.out.println("Solicitud a rechazar:\n" + solR);
+    rec.rechazarSolicitud(solR.getIdSolicitud(), idAdmin);
+    System.out.println("Rechazada ✅ (idSolicitud=" + solR.getIdSolicitud() + ")");
+    }
+
+
 
 
 
     
 }
+

@@ -8,46 +8,13 @@ import java.util.List;
 public class EstadoSolicitudDAO extends DataHelperSQLiteDAO<EstadoSolicitudDTO> {
 
     public EstadoSolicitudDAO() throws AppException {
-        super(EstadoSolicitudDTO.class, "EstadoSolicitud", "IdEstadoSolicitud");
+        super(EstadoSolicitudDTO.class, "EstadoSolicitud", "idEstadoSolicitud");
     }
 
-    public EstadoSolicitudDTO obtenerPorId(int idEstadoSolicitud) throws AppException {
-        String query =
-            "SELECT " +
-            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
-            "  Nombre            AS Nombre, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM EstadoSolicitud " +
-            "WHERE idEstadoSolicitud = ? AND Estado = 'A' " +
-            "LIMIT 1";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
-            stmt.setInt(1, idEstadoSolicitud);
-            try (var rs = stmt.executeQuery()) {
-                return rs.next() ? mapResultSetToEntity(rs) : null;
-            }
-        } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "obtenerPorId");
-        }
-    }
-
+    // ✅ Limpio: sin alias, para que mapResultSetToEntity encuentre "idEstadoSolicitud"
     public EstadoSolicitudDTO obtenerPorNombre(String nombre) throws AppException {
-        String query =
-            "SELECT " +
-            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
-            "  Nombre            AS Nombre, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM EstadoSolicitud " +
-            "WHERE Nombre = ? AND Estado = 'A' " +
-            "LIMIT 1";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
+        String sql = "SELECT * FROM EstadoSolicitud WHERE Nombre = ? AND Estado = 'A' LIMIT 1";
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setString(1, nombre);
             try (var rs = stmt.executeQuery()) {
                 return rs.next() ? mapResultSetToEntity(rs) : null;
@@ -58,30 +25,28 @@ public class EstadoSolicitudDAO extends DataHelperSQLiteDAO<EstadoSolicitudDTO> 
     }
 
     public Integer obtenerIdPorNombre(String nombre) throws AppException {
-        EstadoSolicitudDTO dto = obtenerPorNombre(nombre);
-        return dto == null ? null : dto.getIdEstadoSolicitud();
+        String sql = "SELECT idEstadoSolicitud FROM EstadoSolicitud WHERE Nombre = ? AND Estado = 'A' LIMIT 1";
+        try (var stmt = openConnection().prepareStatement(sql)) {
+            stmt.setString(1, nombre);
+            try (var rs = stmt.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : null;
+            }
+        } catch (Exception e) {
+            throw new AppException(null, e, getClass(), "obtenerIdPorNombre");
+        }
     }
 
-    public List<EstadoSolicitudDTO> listarTodosActivos() throws AppException {
-        String query =
-            "SELECT " +
-            "  idEstadoSolicitud AS IdEstadoSolicitud, " +
-            "  Nombre            AS Nombre, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM EstadoSolicitud " +
-            "WHERE Estado = 'A' " +
-            "ORDER BY idEstadoSolicitud ASC";
-
-        try (var stmt = openConnection().prepareStatement(query);
+    // Opcional: si quieres listar (sin depender del readAll si estás probando)
+    public List<EstadoSolicitudDTO> listarTodos() throws AppException {
+        String sql = "SELECT * FROM EstadoSolicitud WHERE Estado = 'A' ORDER BY idEstadoSolicitud ASC";
+        try (var stmt = openConnection().prepareStatement(sql);
              var rs = stmt.executeQuery()) {
             return mapResultSetToEntityList(rs);
         } catch (Exception e) {
-            throw new AppException(null, e, getClass(), "listarTodosActivos");
+            throw new AppException(null, e, getClass(), "listarTodos");
         }
     }
 }
+
 
 

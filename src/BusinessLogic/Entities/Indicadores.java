@@ -5,17 +5,22 @@ public class Indicadores {
     private boolean ledRojo;
     private boolean ledVerde;
 
-    public void encenderLedRojo() {
-        ledRojo = true;
-    }
-
-    public void encenderLedVerde() {
+    public void ok() {
         ledVerde = true;
+        ledRojo = false;
     }
 
-    public void parpadearError() {
-        // Lógica para parpadear el LED rojo
+    public void error() {
+        ledRojo = true;
+        ledVerde = false;
     }
 
-    
+    public void apagar() {
+        ledRojo = false;
+        ledVerde = false;
+    }
+
+    public boolean isLedRojo() { return ledRojo; }
+    public boolean isLedVerde() { return ledVerde; }
 }
+
