@@ -21,14 +21,14 @@ public class CasilleroService {
     private final RegistroEventoDAO registroEventoDAO;
     private final SolicitudDAO solicitudDAO;
 
-    // IDs según tu BD
+    
     private static final int ESTADO_READY  = 1;
     private static final int ESTADO_LOCKED = 2;
 
-    // Estados Solicitud según tu BD
+    
     private static final int SOL_PENDIENTE = 1;
 
-    // Admin por defecto (mientras no tengas login real en BL)
+    
     private static final int ADMIN_DEFAULT = 1;
 
     public CasilleroService() throws AppException {
@@ -40,7 +40,6 @@ public class CasilleroService {
     }
 
     /**
-     * Valida PIN del casillero:
      * - OK  -> resetea intentos, registra evento Pin OK
      * - FAIL-> incrementa intentos, registra Pin FAIL
      * - al 3er FAIL -> bloquea, registra Locked 3 Fails y crea Solicitud Pendiente (si no existe)
@@ -50,9 +49,9 @@ public class CasilleroService {
         CasilleroDTO dto = casilleroDAO.obtenerPorId(idCasillero);
         if (dto == null) throw new AppException("Casillero no existe", null, getClass(), "validarPin");
 
-        // Si ya está bloqueado, NO seguimos registrando Pin FAIL (evita spam de eventos)
+        
         if (dto.getIdEstadoCasillero() != null && dto.getIdEstadoCasillero() == ESTADO_LOCKED) {
-            // Asegura que exista solicitud pendiente (por si fue bloqueado por otro flujo)
+           
             asegurarSolicitudPendiente(idCasillero);
             return ResultadoValidacionPin.BLOQUEADO;
         }
@@ -79,7 +78,7 @@ public class CasilleroService {
         Integer idTipoFail = tipoEventoDAO.findIdByName("Pin FAIL");
         if (idTipoFail != null) registroEventoDAO.crearEvento(idTipoFail, idUsuario, idCasillero);
 
-        // leer intentos actuales
+       
         CasilleroDTO dto2 = casilleroDAO.obtenerPorId(idCasillero);
         int intentos = (dto2 != null && dto2.getIntentosFallidos() != null) ? dto2.getIntentosFallidos() : 0;
 
@@ -89,7 +88,7 @@ public class CasilleroService {
             Integer idTipoLocked = tipoEventoDAO.findIdByName("Locked 3 Fails");
             if (idTipoLocked != null) registroEventoDAO.crearEvento(idTipoLocked, idUsuario, idCasillero);
 
-            // ✅ crea solicitud pendiente solo si NO existe una pendiente activa
+          
             asegurarSolicitudPendiente(idCasillero);
 
             return ResultadoValidacionPin.BLOQUEADO;
@@ -98,9 +97,7 @@ public class CasilleroService {
         return ResultadoValidacionPin.FAIL;
     }
 
-    /**
-     * Evita duplicar solicitudes: si ya hay una Pendiente activa para ese casillero, no crea otra.
-     */
+   
     private void asegurarSolicitudPendiente(int idCasillero) throws AppException {
         List<SolicitudDTO> list = solicitudDAO.listarPorCasillero(idCasillero);
         boolean yaExistePendiente = false;
@@ -122,7 +119,7 @@ public class CasilleroService {
         }
     }
 
-    // ===== helpers =====
+    // ===== Helpers =====
     private static String sha256(String input) throws AppException {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

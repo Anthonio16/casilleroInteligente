@@ -17,7 +17,7 @@ public class TokenService {
     private final TipoEventoDAO tipoEventoDAO;
     private final RegistroEventoDAO eventoDAO;
 
-    // IDs según tu catálogo EstadoCasillero
+    
     private static final int ESTADO_READY  = 1;
     private static final int ESTADO_LOCKED = 2;
 
@@ -29,7 +29,6 @@ public class TokenService {
     }
 
     /**
-     * Valida Token del casillero:
      * - Si NO hay token activo/no expirado -> NO_TOKEN
      * - Si token OK -> desbloquea casillero (Ready), resetea intentos, registra "Token OK", desactiva token
      * - Si token FAIL -> registra "Token FAIL"
@@ -59,24 +58,24 @@ public class TokenService {
             casilleroDAO.resetIntentos(idCasillero);
             casilleroDAO.actualizarEstado(idCasillero, ESTADO_READY);
 
-            // Evento Token OK
+            //  OK
             Integer idTipoOk = tipoEventoDAO.findIdByName("Token OK");
             if (idTipoOk != null) eventoDAO.crearEvento(idTipoOk, idUsuario, idCasillero);
 
-            // Desactiva token usado
+            // Desactiva token
             tokenDAO.desactivarTokensPorCasillero(token.getIdTokenacceso());
 
             return ResultadoValidacionToken.OK;
         }
 
-        // Evento Token FAIL
+        //  FAIL
         Integer idTipoFail = tipoEventoDAO.findIdByName("Token FAIL");
         if (idTipoFail != null) eventoDAO.crearEvento(idTipoFail, idUsuario, idCasillero);
 
         return ResultadoValidacionToken.FAIL;
     }
 
-    // ===== helpers =====
+    // ===== Helpers =====
     private static String sha256(String input) throws AppException {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

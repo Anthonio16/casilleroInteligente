@@ -19,7 +19,7 @@ public abstract class CMDInput {
             str =  sc.next();
             try {
                 n = Integer.parseInt(str);
-            } catch (Exception _) {
+            } catch (Exception e) {
                 System.out.println(errorMsg);
             }
         }while(n<0);
@@ -43,7 +43,7 @@ public abstract class CMDInput {
         System.out.print("\n\nPress any key..");
         try{
             System.in.read();
-        }catch(Exception _){
+        }catch(Exception e){
             System.out.println("");
         }
     }
