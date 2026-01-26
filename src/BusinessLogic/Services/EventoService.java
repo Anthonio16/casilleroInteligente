@@ -1,29 +1,27 @@
-// =========================================================
-// BusinessLogic/Services/EventoService.java
-// =========================================================
 package BusinessLogic.Services;
 
 import DataAccess.DAOs.EventoDAOJoin;
-import DataAccess.DTOs.EventoConNombreDTO;
+import DataAccess.DTOs.RegistroEventoNombreDTO;
 import Infrastructure.AppException;
 import java.util.List;
 
 public class EventoService {
 
-    private final EventoDAOJoin eventoJoinDAO;
+    private final EventoDAOJoin eventoDAO;
 
     public EventoService() throws AppException {
-        this.eventoJoinDAO = new EventoDAOJoin();
+        this.eventoDAO = new EventoDAOJoin();
     }
 
-    public EventoConNombreDTO ultimoEventoConNombre(int idCasillero) throws AppException {
-        return eventoJoinDAO.ultimoEventoConNombre(idCasillero);
+    public RegistroEventoNombreDTO ultimoEventoConNombre(int idCasillero) throws AppException {
+        return eventoDAO.ultimoEventoConNombre(idCasillero);
     }
 
-    public List<EventoConNombreDTO> listarConNombre(int idCasillero) throws AppException {
-        return eventoJoinDAO.listarConNombre(idCasillero);
+    public List<RegistroEventoNombreDTO> listarConNombre(int idCasillero) throws AppException {
+        return eventoDAO.listarConNombre(idCasillero);
     }
 }
+
 
 
 

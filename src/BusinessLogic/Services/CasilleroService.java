@@ -207,4 +207,9 @@ public class CasilleroService {
     public enum ResultadoValidacionPin {
         OK, FAIL, BLOQUEADO
     }
+
+    public CasilleroDTO obtenerCasillero(int idCasillero) throws AppException {
+    return casilleroDAO.obtenerPorId(idCasillero);
+    }
+
 }

@@ -17,9 +17,13 @@ public class TokenService {
     private final TipoEventoDAO tipoEventoDAO;
     private final RegistroEventoDAO eventoDAO;
 
-    // IDs según tu catálogo EstadoCasillero
-    private static final int ESTADO_READY  = 1;
-    private static final int ESTADO_LOCKED = 2;
+    // EstadoCasillero
+    private static final int ESTADO_READY = 1;
+
+    // TipoEvento.Nombre (exactos)
+    private static final String EV_TOKEN_OK   = "Token OK";
+    private static final String EV_TOKEN_FAIL = "Token FAIL";
+    private static final String EV_DESBLOQ    = "Desbloqueo";
 
     public TokenService() throws AppException {
         this.tokenDAO = new TokenAccesoDAO();
@@ -31,12 +35,8 @@ public class TokenService {
     /**
      * Valida Token del casillero:
      * - Si NO hay token activo/no expirado -> NO_TOKEN
-     * - Si token OK -> desbloquea casillero (Ready), resetea intentos, registra "Token OK", desactiva token
-     * - Si token FAIL -> registra "Token FAIL"
-     *
-     * Nota: por compatibilidad compara:
-     *  1) tokenIngresado == TokenHash (directo)
-     *  2) sha256(tokenIngresado) == TokenHash (por si guardas hash real)
+     * - Si token OK -> READY=1, reset intentos, evento Token OK + Desbloqueo, desactiva token
+     * - Si token FAIL -> evento Token FAIL
      */
     public ResultadoValidacionToken validarToken(int idCasillero, int idUsuario, String tokenIngresado) throws AppException {
 
@@ -44,39 +44,44 @@ public class TokenService {
         if (cas == null) throw new AppException("Casillero no existe", null, getClass(), "validarToken");
 
         TokenAccesoDTO token = tokenDAO.obtenerActivoPorCasillero(idCasillero);
-        if (token == null) {
+        if (token == null || token.getTokenHash() == null) {
             return ResultadoValidacionToken.NO_TOKEN;
         }
 
+        if (tokenIngresado == null) tokenIngresado = "";
+
         String tokenDb = token.getTokenHash();
-        boolean ok = tokenDb != null && (
-                tokenDb.equalsIgnoreCase(tokenIngresado) ||
-                tokenDb.equalsIgnoreCase(sha256(tokenIngresado))
-        );
+
+        boolean ok =
+            tokenDb.equalsIgnoreCase(tokenIngresado) ||
+            tokenDb.equalsIgnoreCase(sha256(tokenIngresado));
 
         if (ok) {
-            // Desbloquear casillero y reset intentos
+            // 1) reset intentos + READY
             casilleroDAO.resetIntentos(idCasillero);
             casilleroDAO.actualizarEstado(idCasillero, ESTADO_READY);
 
-            // Evento Token OK
-            Integer idTipoOk = tipoEventoDAO.findIdByName("Token OK");
-            if (idTipoOk != null) eventoDAO.crearEvento(idTipoOk, idUsuario, idCasillero);
+            // 2) eventos estrictos
+            eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_OK), idUsuario, idCasillero);
+            eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_DESBLOQ),  idUsuario, idCasillero);
 
-            // Desactiva token usado
-            tokenDAO.desactivarTokensPorCasillero(token.getIdTokenacceso());
+            // 3) desactiva SOLO el token usado
+            tokenDAO.desactivarToken(token.getIdTokenacceso());
 
             return ResultadoValidacionToken.OK;
         }
 
-        // Evento Token FAIL
-        Integer idTipoFail = tipoEventoDAO.findIdByName("Token FAIL");
-        if (idTipoFail != null) eventoDAO.crearEvento(idTipoFail, idUsuario, idCasillero);
-
+        // FAIL
+        eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_FAIL), idUsuario, idCasillero);
         return ResultadoValidacionToken.FAIL;
     }
 
-    // ===== helpers =====
+    private int tipoEventoIdOrThrow(String nombre) throws AppException {
+        Integer id = tipoEventoDAO.findIdByName(nombre);
+        if (id == null) throw new AppException("No existe TipoEvento: " + nombre, null, getClass(), "tipoEventoIdOrThrow");
+        return id;
+    }
+
     private static String sha256(String input) throws AppException {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -93,4 +98,5 @@ public class TokenService {
         OK, FAIL, NO_TOKEN
     }
 }
+
 
