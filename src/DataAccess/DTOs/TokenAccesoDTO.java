@@ -10,23 +10,32 @@ public class TokenAccesoDTO {
     private String  FechaModificacion;
     private String  FechaExpiracion;
 
+    
+    
     public TokenAccesoDTO() {}
-
-    public TokenAccesoDTO(Integer idSolicitud, Integer idCasillero, String tokenHash, String fechaExpiracion) {
-        this.idTokenacceso = 0;
-        this.idSolicitud = idSolicitud;
-        this.idCasillero = idCasillero;
-        this.TokenHash = tokenHash;
-        this.Estado = "A";
-        this.FechaExpiracion = fechaExpiracion;
+    
+    public TokenAccesoDTO(String tokenHash, String estado, String fechaCreacion) {
+        TokenHash = tokenHash;
+        Estado = estado;
+        FechaCreacion = fechaCreacion;
     }
-
+    public TokenAccesoDTO(Integer idTokenacceso, Integer idSolicitud, Integer idCasillero, String tokenHash,
+            String estado, String fechaCreacion, String fechaModificacion, String fechaExpiracion) {
+        idTokenacceso = 0;
+        idSolicitud = 0;
+        idCasillero = 0;
+        TokenHash = tokenHash;
+        Estado = estado;
+        FechaCreacion = fechaCreacion;
+        FechaModificacion = fechaModificacion;
+        FechaExpiracion = fechaExpiracion;
+    }
     public Integer getIdTokenacceso() { return idTokenacceso; }
     public void setIdTokenacceso(Integer idTokenacceso) { this.idTokenacceso = idTokenacceso; }
-
+    
     public Integer getIdSolicitud() { return idSolicitud; }
     public void setIdSolicitud(Integer idSolicitud) { this.idSolicitud = idSolicitud; }
-
+    
     public Integer getIdCasillero() { return idCasillero; }
     public void setIdCasillero(Integer idCasillero) { this.idCasillero = idCasillero; }
 
@@ -48,16 +57,14 @@ public class TokenAccesoDTO {
     @Override
     public String toString() {
         return getClass().getName()
-            + "\n idTokenacceso      : " + getIdTokenacceso()
-            + "\n idSolicitud        : " + getIdSolicitud()
-            + "\n idCasillero        : " + getIdCasillero()
-            + "\n TokenHash          : " + getTokenHash()
-            + "\n Estado             : " + getEstado()
-            + "\n FechaCreacion      : " + getFechaCreacion()
-            + "\n FechaModificacion  : " + getFechaModificacion()
-            + "\n FechaExpiracion    : " + getFechaExpiracion()
+            + "\n idTokenacceso      : " + idTokenacceso
+            + "\n idSolicitud        : " + idSolicitud
+            + "\n idCasillero        : " + idCasillero
+            + "\n TokenHash          : " + TokenHash
+            + "\n Estado             : " + Estado
+            + "\n FechaCreacion      : " + FechaCreacion
+            + "\n FechaModificacion  : " + FechaModificacion
+            + "\n FechaExpiracion    : " + FechaExpiracion
             + "\n ----------------------------";
     }
 }
-
-

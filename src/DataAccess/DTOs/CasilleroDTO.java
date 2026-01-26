@@ -1,105 +1,57 @@
 package DataAccess.DTOs;
 
 public class CasilleroDTO {
-    private Integer IdCasillero;
-    private Integer IdEstudiante;
-    private Integer IdEstadoCasillero;
+
+    private Integer idCasillero;
+    private Integer idEstadoCasillero;
+    private Integer idEstudiante;
     private Integer IntentosFallidos;
-    private String Descripcion;
-    private String Estado;
-    private String FechaCreacion;
-    private String FechaModifica;
-    
-    
+    private String  Descripcion;
+    private String  Estado;
+    private String  FechaCreacion;
+    private String  FechaModificacion;
+
     public CasilleroDTO() {}
-    
-    public CasilleroDTO(Integer IdCasillero, Integer IdEstudiante, Integer IdEstadoCasillero, Integer IntentosFallidos,
-        String descripcion, String estado, String fechaCreacion, String fechaModificacion) {
-        this.IdCasillero = IdCasillero;
-        this.IdEstudiante = IdEstudiante;
-        this.IdEstadoCasillero = IdEstadoCasillero;
-        this.IntentosFallidos = IntentosFallidos;
-        Descripcion = descripcion;
-        Estado = estado;
-        FechaCreacion = fechaCreacion;
-        FechaModifica = fechaModificacion;
-    }
-    
-    
-    public Integer getIdCasillero() {
-        return IdCasillero;
-    }
 
-    public void setIdCasillero(Integer IdCasillero) {
-        this.IdCasillero = IdCasillero;
-    }
+    public Integer getIdCasillero() { return idCasillero; }
+    public void setIdCasillero(Integer idCasillero) { this.idCasillero = idCasillero; }
 
-    public Integer getIdEstudiante() {
-        return IdEstudiante;
-    }
+    public Integer getIdEstadoCasillero() { return idEstadoCasillero; }
+    public void setIdEstadoCasillero(Integer idEstadoCasillero) { this.idEstadoCasillero = idEstadoCasillero; }
 
-    public void setIdEstudiante(Integer IdEstudiante) {
-        this.IdEstudiante = IdEstudiante;
-    }
+    public Integer getIdEstudiante() { return idEstudiante; }
+    public void setIdEstudiante(Integer idEstudiante) { this.idEstudiante = idEstudiante; }
 
-    public Integer getIdEstadoCasillero() {
-        return IdEstadoCasillero;
-    }
+    public Integer getIntentosFallidos() { return IntentosFallidos; }
+    public void setIntentosFallidos(Integer intentosFallidos) { IntentosFallidos = intentosFallidos; }
 
-    public void setIdEstadoCasillero(Integer IdEstadoCasillero) {
-        this.IdEstadoCasillero = IdEstadoCasillero;
-    }
+    public String getDescripcion() { return Descripcion; }
+    public void setDescripcion(String descripcion) { Descripcion = descripcion; }
 
-    public Integer getIntentosFallidos() {
-        return IntentosFallidos;
-    }
+    public String getEstado() { return Estado; }
+    public void setEstado(String estado) { Estado = estado; }
 
-    public void setIntentosFallidos(Integer IntentosFallidos) {
-        this.IntentosFallidos = IntentosFallidos;
-    }
+    public String getFechaCreacion() { return FechaCreacion; }
+    public void setFechaCreacion(String fechaCreacion) { FechaCreacion = fechaCreacion; }
 
-    public String getDescripcion() {
-        return Descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
-    }
-
-    public String getEstado() {
-        return Estado;
-    }
-
-    public void setEstado(String estado) {
-        Estado = estado;
-    }
-
-    public String getFechaCreacion() {
-        return FechaCreacion;
-    }
-
-    public void setFechaCreacion(String fechaCreacion) {
-        FechaCreacion = fechaCreacion;
-    }
-
-    public String getFechaModifica() {
-        return FechaModifica;
-    }
-
-    public void setFechaModifica(String fechaModifica) {
-        FechaModifica = fechaModifica;
-    }
+    public String getFechaModificacion() { return FechaModificacion; }
+    public void setFechaModificacion(String fechaModificacion) { FechaModificacion = fechaModificacion; }
 
     @Override
     public String toString() {
         return getClass().getName()
-        + "\n IdCasillero       :" + getIdCasillero      ()
-        + "\n IdEstudiante      :" + getIdEstudiante     ()
-        + "\n IdEstadoCasillero :" + getIdEstadoCasillero()
-        + "\n IntentosFallidos  :" + getIntentosFallidos ()
-        + "\n Descripcion       :" + getDescripcion      ()
-        + "\n Estado            :" + getEstado           ()
-        + "\n FechaCreacion     :" + getFechaCreacion    ()
-        + "\n FechaModifica     :" + getFechaModifica    ();
+            + "\n idCasillero       : " + idCasillero
+            + "\n idEstudiante      : " + idEstudiante
+            + "\n idEstadoCasillero : " + idEstadoCasillero
+            + "\n IntentosFallidos  : " + IntentosFallidos
+            + "\n Descripcion       : " + Descripcion
+            + "\n Estado            : " + Estado
+            + "\n FechaCreacion     : " + FechaCreacion
+            + "\n FechaModificacion : " + FechaModificacion
+            + "\n ----------------------------";
     }
 }
+
+
+
+

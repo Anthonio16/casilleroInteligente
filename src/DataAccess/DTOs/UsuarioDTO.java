@@ -3,75 +3,52 @@ package DataAccess.DTOs;
 public class UsuarioDTO {
     private Integer idUsuario;
     private Integer idUsuarioTipo;
-    private String  nombre;
-    private String  clave;
-    private String  descripcion;
-    private String  estado;
-    private String  fechaCreacion;
-    private String  fechaModificacion;
+    private String  Nombre;
+    private String  Clave;
+    private String  Descripcion;
+    private String  Estado;
+    private String  FechaCreacion;
+    private String  FechaModificacion;
 
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-    public Integer getIdUsuarioTipo() {
-        return idUsuarioTipo;
-    }
-    public void setIdUsuarioTipo(Integer idUsuarioTipo) {
-        this.idUsuarioTipo = idUsuarioTipo;
-    }
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public String getClave() {
-        return clave;
-    }
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-    public String getDescripcion() {
-        return descripcion;
-    }
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    public String getEstado() {
-        return estado;
-    }
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-    public String getFechaCreacion() {
-        return fechaCreacion;
-    }
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-    public String getFechaModificacion() {
-        return fechaModificacion;
-    }
-    public void setFechaModificacion(String fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-    
+    public UsuarioDTO() {}
+
+    public Integer getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(Integer idUsuario) { this.idUsuario = idUsuario; }
+
+    public Integer getIdUsuarioTipo() { return idUsuarioTipo; }
+    public void setIdUsuarioTipo(Integer idUsuarioTipo) { this.idUsuarioTipo = idUsuarioTipo; }
+
+    public String getNombre() { return Nombre; }
+    public void setNombre(String nombre) { Nombre = nombre; }
+
+    public String getClave() { return Clave; }
+    public void setClave(String clave) { Clave = clave; }
+
+    public String getDescripcion() { return Descripcion; }
+    public void setDescripcion(String descripcion) { Descripcion = descripcion; }
+
+    public String getEstado() { return Estado; }
+    public void setEstado(String estado) { Estado = estado; }
+
+    public String getFechaCreacion() { return FechaCreacion; }
+    public void setFechaCreacion(String fechaCreacion) { FechaCreacion = fechaCreacion; }
+
+    public String getFechaModificacion() { return FechaModificacion; }
+    public void setFechaModificacion(String fechaModificacion) { FechaModificacion = fechaModificacion; }
+
     @Override
     public String toString() {
         return getClass().getName()
-            + "\nIdUsuario: " +         getIdUsuario()
-            + "\nIdUsuarioTipo: " +     getIdUsuarioTipo()
-            + "\nNombre: " +            getNombre()
-            + "\nClave: " +             getClave()
-            + "\nDescripcion: " +       getDescripcion()
-            + "\nEstado: " +            getEstado()
-            + "\nFechaCreacion: " +     getFechaCreacion()
-            + "\nFechaModificacion: " + getFechaModificacion()
-            + "\n----------------------------";
+            + "\n idUsuario         : " + idUsuario
+            + "\n idUsuarioTipo     : " + idUsuarioTipo
+            + "\n Nombre            : " + Nombre
+            + "\n Clave             : " + Clave
+            + "\n Descripcion       : " + Descripcion
+            + "\n Estado            : " + Estado
+            + "\n FechaCreacion     : " + FechaCreacion
+            + "\n FechaModificacion : " + FechaModificacion
+            + "\n ----------------------------";
     }
-
 }
+
 

@@ -1,7 +1,11 @@
+// =========================================================
+// DataAccess/DTOs/EventoConNombreDTO.java
+// =========================================================
 package DataAccess.DTOs;
 
-public class RegistroEventoDTO {
+public class EventoConNombreDTO {
 
+    // columnas de RegistroEvento
     private Integer idRegistroEvento;
     private Integer idTipoEvento;
     private Integer idUsuario;
@@ -10,28 +14,10 @@ public class RegistroEventoDTO {
     private String  FechaCreacion;
     private String  FechaModificacion;
 
-    public RegistroEventoDTO() {}
+    // columna del JOIN con TipoEvento
+    private String NombreEvento;
 
-    // Para crear (sin fechas, sin PK)
-    public RegistroEventoDTO(Integer idTipoEvento, Integer idUsuario, Integer idCasillero) {
-        idRegistroEvento = 0;
-        idTipoEvento = 0;
-        idUsuario = 0;
-        idCasillero = 0;
-        Estado = "A";
-    }
-
-    // Completo
-    public RegistroEventoDTO(Integer idRegistroEvento, Integer idTipoEvento, Integer idUsuario, Integer idCasillero,
-                             String estado, String fechaCreacion, String fechaModificacion) {
-        idRegistroEvento = 0;
-        idTipoEvento = 0;
-        idUsuario = 0;
-        idCasillero = 0;
-        Estado = estado;
-        FechaCreacion = fechaCreacion;
-        FechaModificacion = fechaModificacion;
-    }
+    public EventoConNombreDTO() {}
 
     public Integer getIdRegistroEvento() { return idRegistroEvento; }
     public void setIdRegistroEvento(Integer idRegistroEvento) { this.idRegistroEvento = idRegistroEvento; }
@@ -54,16 +40,21 @@ public class RegistroEventoDTO {
     public String getFechaModificacion() { return FechaModificacion; }
     public void setFechaModificacion(String fechaModificacion) { FechaModificacion = fechaModificacion; }
 
+    public String getNombreEvento() { return NombreEvento; }
+    public void setNombreEvento(String nombreEvento) { NombreEvento = nombreEvento; }
+
     @Override
     public String toString() {
         return getClass().getName()
-            + "\n idRegistroEvento  : " + getIdRegistroEvento()
-            + "\n idTipoEvento      : " + getIdTipoEvento()
-            + "\n idUsuario         : " + getIdUsuario()
-            + "\n idCasillero       : " + getIdCasillero()
-            + "\n Estado            : " + getEstado()
-            + "\n FechaCreacion     : " + getFechaCreacion()
-            + "\n FechaModificacion : " + getFechaModificacion()
+            + "\n idRegistroEvento  : " + idRegistroEvento
+            + "\n idTipoEvento      : " + idTipoEvento
+            + "\n NombreEvento      : " + NombreEvento
+            + "\n idUsuario         : " + idUsuario
+            + "\n idCasillero       : " + idCasillero
+            + "\n Estado            : " + Estado
+            + "\n FechaCreacion     : " + FechaCreacion
+            + "\n FechaModificacion : " + FechaModificacion
             + "\n ----------------------------";
     }
 }
+

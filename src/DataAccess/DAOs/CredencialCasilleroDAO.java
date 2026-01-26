@@ -3,28 +3,22 @@ package DataAccess.DAOs;
 import DataAccess.DTOs.CredencialCasilleroDTO;
 import DataAccess.Helpers.DataHelperSQLiteDAO;
 import Infrastructure.AppException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class CredencialCasilleroDAO extends DataHelperSQLiteDAO<CredencialCasilleroDTO> {
 
     public CredencialCasilleroDAO() throws AppException {
-        super(CredencialCasilleroDTO.class, "CredencialCasillero", "IdCredencialCasillero");
+        super(CredencialCasilleroDTO.class, "CredencialCasillero", "idCredencialCasillero");
     }
 
     public CredencialCasilleroDTO getByCasillero(int idCasillero) throws AppException {
-        String query =
-            "SELECT " +
-            "  idCredencialCasillero AS IdCredencialCasillero, " +
-            "  idCasillero           AS IdCasillero, " +
-            "  pinHash               AS pinHash " +
-            "FROM CredencialCasillero " +
-            "WHERE idCasillero = ? " +
+        String sql =
+            "SELECT * FROM CredencialCasillero " +
+            "WHERE idCasillero = ? AND Estado = 'A' " +
             "LIMIT 1";
 
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idCasillero);
-            try (ResultSet rs = stmt.executeQuery()) {
+            try (var rs = stmt.executeQuery()) {
                 return rs.next() ? mapResultSetToEntity(rs) : null;
             }
         } catch (Exception e) {
@@ -32,34 +26,35 @@ public class CredencialCasilleroDAO extends DataHelperSQLiteDAO<CredencialCasill
         }
     }
 
-    public void updatePinHashByCasillero(int idCasillero, String nuevoPinHash) throws AppException {
-        String query =
+    public boolean updatePinHashByCasillero(int idCasillero, String nuevoPinHash) throws AppException {
+        String sql =
             "UPDATE CredencialCasillero " +
-            "SET pinHash = ? " +
-            "WHERE idCasillero = ?";
+            "SET pinHash = ?, FechaModificacion = datetime('now','localtime') " +
+            "WHERE idCasillero = ? AND Estado = 'A'";
 
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setString(1, nuevoPinHash);
             stmt.setInt(2, idCasillero);
-            stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "updatePinHashByCasillero");
         }
     }
 
-    public void updatePinHashById(int idCredencialCasillero, String nuevoPinHash) throws AppException {
-        String query =
+    public boolean updatePinHashById(int idCredencialCasillero, String nuevoPinHash) throws AppException {
+        String sql =
             "UPDATE CredencialCasillero " +
-            "SET pinHash = ? " +
-            "WHERE idCredencialCasillero = ?";
+            "SET pinHash = ?, FechaModificacion = datetime('now','localtime') " +
+            "WHERE idCredencialCasillero = ? AND Estado = 'A'";
 
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setString(1, nuevoPinHash);
             stmt.setInt(2, idCredencialCasillero);
-            stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "updatePinHashById");
         }
     }
 }
+
 

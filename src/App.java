@@ -1,261 +1,192 @@
+// =========================================================
+// App.java  (TEST COMPLETO: LOGIN + PIN(3 FAILS) + APROBAR + TOKEN + EVENTOS JOIN)
+// =========================================================
+import java.util.List;
+
+import BusinessLogic.Services.AuthService;
+import BusinessLogic.Services.CasilleroService;
+import BusinessLogic.Services.RecuperacionService;
+import BusinessLogic.Services.EventoService;
+
+import DataAccess.DTOs.UsuarioDTO;
 import DataAccess.DTOs.SolicitudDTO;
+import DataAccess.DTOs.TokenAccesoDTO;
+import DataAccess.DTOs.CasilleroDTO;
+import DataAccess.DTOs.EventoConNombreDTO;
+
+import DataAccess.DAOs.CasilleroDAO;
+import DataAccess.DAOs.TokenAccesoDAO;
+
+import Infrastructure.AppException;
 
 public class App {
-    public static void main(String[] args) throws Exception {
 
-        // var estadoDAO = new EstadoCasilleroDAO();
-        // System.out.println("Locked ID = " + estadoDAO.obtenerIdPorNombre("Locked"));
-
-        // var casDAO = new CasilleroDAO();
-        // System.out.println(casDAO.obtenerPorId(1));
-        // casDAO.incrementarIntentos(1);
-        // System.out.println(casDAO.obtenerPorId(1));
-
-    
-
-        // var teDAO = new TipoEventoDAO();
-        // System.out.println(teDAO.findIdByName("Pin OK"));
-        // System.out.println(teDAO.findByName("Pin FAIL"));
-        // System.out.println(teDAO.findAll().size());
-
-        // var udao = new UsuarioDAO();
-        // System.out.println(udao.obtenerPorId(1));
-        // System.out.println(udao.login("admin", "admin123"));
-        // System.out.println(udao.listarActivos().size());
-
-        // var utdao = new UsuarioTipoDAO();
-        // System.out.println(utdao.obtenerIdPorNombre("Admin"));
-        // System.out.println(utdao.obtenerPorNombre("Estudiante"));
-        // System.out.println(utdao.listarActivos());
-
-
-    //     System.out.println("\n===== TEST EstadoSolicitudDAO =====");
-
-    //         EstadoSolicitudDAO estadoDAO = new EstadoSolicitudDAO();
-    //         var estados = estadoDAO.readAll(); // ya funciona porque tabla tiene Estado='A'
-    //         System.out.println("Total estados solicitud: " + estados.size());
-    //         if (!estados.isEmpty()) System.out.println("Primero:\n" + estados.get(0));
-
-    //         Integer idPendiente = estadoDAO.obtenerIdPorNombre("Pendiente");
-    //         System.out.println("Pendiente ID: " + idPendiente);
-
-    //         System.out.println("\n===== TEST SolicitudDAO =====");
-    //         SolicitudDAO solicitudDAO = new SolicitudDAO();
-
-    //         var solicitudes = solicitudDAO.readAll();
-    //         System.out.println("Total solicitudes: " + solicitudes.size());
-    //         if (!solicitudes.isEmpty()) System.out.println("Primera:\n" + solicitudes.get(0));
-
-    //         Integer nuevaId = solicitudDAO.crearSolicitud(3, 1, (idPendiente != null ? idPendiente : 1));
-    //         System.out.println("Nueva solicitud creada ID: " + nuevaId);
-    //         System.out.println("Nueva solicitud:\n" + solicitudDAO.readBy(nuevaId));
-
-    //         System.out.println("\n===== TEST TokenAccesoDAO =====");
-    //         TokenAccesoDAO tokenDAO = new TokenAccesoDAO();
-
-    //         Integer tokenId = tokenDAO.crearToken15Min(nuevaId, 3, "hash_" + System.currentTimeMillis());
-    //         System.out.println("Token creado ID: " + tokenId);
-
-    //         var activo = tokenDAO.obtenerActivoPorCasillero(3);
-    //         System.out.println("Token activo casillero 3:\n" + activo);
-
-    //         var tokens = tokenDAO.listarPorSolicitud(nuevaId);
-    //         System.out.println("Tokens por solicitud " + nuevaId + ": " + tokens.size());
-
-    //         tokenDAO.desactivarToken(tokenId);
-    //         System.out.println("Token desactivado ID: " + tokenId);
-
-    // System.out.println("\n===== TEST RegistroEventoDAO =====");
-
-    // RegistroEventoDAO dao = new RegistroEventoDAO();
-
-    // // 1) Crear evento nuevo (ejemplo: Pin FAIL = 2, usuario 2, casillero 1)
-    // boolean ok = dao.crearEvento(2, 2, 1);
-    // System.out.println("Evento insertado: " + ok);
-
-    // // 2) Último evento del casillero 1
-    // var ultimo = dao.obtenerUltimoEventoPorCasillero(1);
-    // System.out.println("Último evento casillero 1:\n" + ultimo);
-
-    // // 3) Lista eventos casillero 1
-    // var listaC = dao.obtenerEventosPorCasillero(1);
-    // System.out.println("Eventos casillero 1: " + listaC.size());
-    // if (!listaC.isEmpty()) System.out.println("Primero:\n" + listaC.get(0));
-
-    // // 4) Lista eventos usuario 2
-    // var listaU = dao.obtenerEventosPorUsuario(2);
-    // System.out.println("Eventos usuario 2: " + listaU.size());
-    // if (!listaU.isEmpty()) System.out.println("Primero:\n" + listaU.get(0));    
-
-
-    // System.out.println("\n===== TEST EstadoCasilleroDAO =====");
-    // var dao = new EstadoCasilleroDAO();
-
-    // System.out.println("Locked ID: " + dao.obtenerIdPorNombre("Locked"));
-    // System.out.println("Ready to Unlock ID: " + dao.obtenerIdPorNombre("Ready to Unlock"));
-
-    // var lista = dao.listarActivos();
-    // System.out.println("Total estados activos: " + lista.size());
-    // if (!lista.isEmpty()) System.out.println("Primero:\n" + lista.get(0));
-
-
-    // System.out.println("\n===== TEST CasilleroService.validarPin (v2) =====");
-
-    // var service = new BusinessLogic.Services.CasilleroService();
-    // var casDAO = new DataAccess.DAOs.CasilleroDAO();
-    // var solDAO = new DataAccess.DAOs.SolicitudDAO();
-
-    // int idCasillero = 4; // usa uno que no te importe bloquear
-    // int idUsuario   = 2;
-
-    // System.out.println("Antes:\n" + casDAO.obtenerPorId(idCasillero));
-
-    // System.out.println("Try 1: " + service.validarPin(idCasillero, idUsuario, "0000"));
-    // System.out.println("Try 2: " + service.validarPin(idCasillero, idUsuario, "0000"));
-    // System.out.println("Try 3: " + service.validarPin(idCasillero, idUsuario, "0000"));
-
-    // System.out.println("Después:\n" + casDAO.obtenerPorId(idCasillero));
-
-    // var solicitudes = solDAO.listarPorCasillero(idCasillero);
-    // System.out.println("Solicitudes para casillero " + idCasillero + ": " + solicitudes.size());
-    // if (!solicitudes.isEmpty()) System.out.println("Última:\n" + solicitudes.get(0));
-
-
-    
-    // System.out.println("\n===== TEST RecuperacionService (APROBAR + RECHAZAR) =====");
-
-    // var rs = new BusinessLogic.Services.RecuperacionService();
-
-    // var pendientes = rs.listarPendientes();
-    // System.out.println("Pendientes: " + pendientes.size());
-
-    // if (pendientes.isEmpty()) {
-    //     System.out.println("No hay solicitudes pendientes para probar.");
-    //     return;
-    // }
-
-    // int idAdmin = 1;
-
-    // // ====== 1) APROBAR primera pendiente ======
-    // var solAprobar = pendientes.get(0);
-    // int idSolicitudAprobar = solAprobar.getIdSolicitud();
-    // int idCasilleroAprobar = solAprobar.getIdCasillero();
-
-    // System.out.println("\n--- APROBAR ---");
-    // System.out.println("Solicitud a aprobar:\n" + solAprobar);
-
-    // Integer idToken = rs.aprobarSolicitud(idSolicitudAprobar, idAdmin);
-    // System.out.println("Aprobada  Token creado ID: " + idToken);
-
-    // var tokenActivo = rs.tokenActivoCasillero(idCasilleroAprobar);
-    // System.out.println("Token activo casillero " + idCasilleroAprobar + ":\n" + tokenActivo);
-
-    // // ====== 2) RECHAZAR segunda pendiente (si existe) ======
-    // System.out.println("\n--- RECHAZAR ---");
-
-    // if (pendientes.size() < 2) {
-    //     System.out.println("Solo hay 1 pendiente. Creando otra solicitud pendiente para poder rechazar...");
-
-    //     // Si tu CasilleroService crea solicitudes al bloquear, puedes crear manual con SolicitudDAO:
-    //     var sdao = new DataAccess.DAOs.SolicitudDAO();
-
-    //     // Crea una solicitud pendiente para el casillero 2 (ajusta si quieres otro)
-    //     Integer nuevaId = sdao.crearSolicitud(2, idAdmin, 1);
-    //     System.out.println("Nueva solicitud pendiente creada ID: " + nuevaId);
-
-    //     // Recargar pendientes
-    //     pendientes = rs.listarPendientes();
-    //     System.out.println("Pendientes ahora: " + pendientes.size());
-
-    //     if (pendientes.isEmpty()) {
-    //         System.out.println("No pude generar una pendiente para rechazar.");
-    //         return;
-    //     }
-    // }
-
-    // // Elegimos una solicitud distinta a la aprobada (por si quedó aún pendiente alguna)
-    // DataAccess.DTOs.SolicitudDTO solRechazar = null;
-    // for (var s : pendientes) {
-    //     if (s.getIdSolicitud() != null && s.getIdSolicitud() != idSolicitudAprobar) {
-    //         solRechazar = s;
-    //         break;
-    //     }
-    // }
-    // if (solRechazar == null) {
-    //     // fallback: toma la primera (aunque normalmente no debería pasar)
-    //     solRechazar = pendientes.get(0);
-    // }
-
-    // int idSolicitudRechazar = solRechazar.getIdSolicitud();
-    // System.out.println("Solicitud a rechazar:\n" + solRechazar);
-
-    // rs.rechazarSolicitud(idSolicitudRechazar, idAdmin);
-    // System.out.println("Rechazada  (idSolicitud=" + idSolicitudRechazar + ")");
-
-    System.out.println("\n===== TEST RecuperacionService (FORZADO) =====");
-
-    int idAdmin = 1;
-    int idCasilleroAprobar = 1;
-    int idCasilleroRechazar = 2;
-
-    var rec = new BusinessLogic.Services.RecuperacionService();
-    var solicitudDAO = new DataAccess.DAOs.SolicitudDAO();
-
-    // ---------- APROBAR ----------
-    System.out.println("\n--- APROBAR ---");
-
-    var pendientes = rec.listarPendientes();
-    if (pendientes == null || pendientes.isEmpty()) {
-        System.out.println("No hay pendientes. Creando una pendiente para aprobar...");
-        Integer nueva = solicitudDAO.crearSolicitud(idCasilleroAprobar, idAdmin, 1); // 1=Pendiente
-        System.out.println("Nueva solicitud pendiente creada ID: " + nueva);
-        pendientes = rec.listarPendientes();
-    }
-
-    if (pendientes == null || pendientes.isEmpty()) {
-        System.out.println("Sigue sin haber pendientes. Revisa listarPendientes() y EstadoSolicitud=1.");
-        return;
-    }
-
-    var solA = pendientes.get(0);
-    System.out.println("Solicitud a aprobar:\n" + solA);
-
-    Integer idToken = rec.aprobarSolicitud(solA.getIdSolicitud(), idAdmin);
-    System.out.println("Aprobada ✅ Token creado ID: " + idToken);
-
-    var tokenActivo = rec.tokenActivoCasillero(solA.getIdCasillero());
-    System.out.println("Token activo casillero " + solA.getIdCasillero() + ":\n" + tokenActivo);
-
-    // ---------- RECHAZAR ----------
-    System.out.println("\n--- RECHAZAR ---");
-
-    // Creamos una pendiente nueva para rechazar sí o sí
-    Integer idSolR = solicitudDAO.crearSolicitud(idCasilleroRechazar, idAdmin, 1);
-    System.out.println("Nueva solicitud pendiente creada ID: " + idSolR);
-
-    // Volvemos a consultar pendientes y buscamos esa
-    pendientes = rec.listarPendientes();
-    SolicitudDTO solR = null;
-    for (SolicitudDTO s : pendientes) {
-        if (s.getIdSolicitud() != null && s.getIdSolicitud().intValue() == idSolR.intValue()) {
-            solR = s;
-            break;
+    public static void main(String[] args) {
+        try {
+            System.out.println("===== LOGIN (patmic/patmic123) =====");
+
+            AuthService auth = new AuthService();
+            UsuarioDTO admin = auth.login("patmic", "patmic123");
+
+            System.out.println("\nLOGIN OK:");
+            System.out.println(admin);
+
+            // ===== Services =====
+            CasilleroService casilleroService = new CasilleroService();
+            RecuperacionService recuperacionService = new RecuperacionService();
+            EventoService eventoService = new EventoService();
+
+            // ===== DAOs (solo para imprimir estado y token) =====
+            CasilleroDAO casilleroDAO = new CasilleroDAO();
+            TokenAccesoDAO tokenDAO = new TokenAccesoDAO();
+
+            System.out.println("\n===== TEST RecuperacionService (APROBAR + RECHAZAR) =====");
+
+            // -----------------------------------------------------------------
+            // 1) Pendientes iniciales
+            // -----------------------------------------------------------------
+            List<SolicitudDTO> pendientes = recuperacionService.listarPendientes();
+            System.out.println("Pendientes iniciales: " + (pendientes == null ? 0 : pendientes.size()));
+
+            // -----------------------------------------------------------------
+            // 2) Si no hay pendientes, creamos una con 3 FAILS en casillero 1
+            // -----------------------------------------------------------------
+            if (pendientes == null || pendientes.isEmpty()) {
+                System.out.println("\nNo hay pendientes. Creando una pendiente con CasilleroService (3 FAILS)...");
+                crearPendienteConTresFails(casilleroService, 1, 2); // casillero=1, usuario=2 (estudiante2)
+                pendientes = recuperacionService.listarPendientes();
+                System.out.println("Pendientes ahora: " + (pendientes == null ? 0 : pendientes.size()));
+            }
+
+            if (pendientes == null || pendientes.isEmpty()) {
+                throw new AppException("No se pudo crear una solicitud pendiente para probar", null, App.class, "main");
+            }
+
+            // Tomamos la primera pendiente (más reciente, por tu ORDER BY DESC)
+            SolicitudDTO solAprobar = pendientes.get(0);
+
+            // -----------------------------------------------------------------
+            // 3) APROBAR
+            // -----------------------------------------------------------------
+            System.out.println("\n--- APROBAR ---");
+            System.out.println("Solicitud a aprobar:");
+            System.out.println(solAprobar);
+
+            Integer idTokenCreado = recuperacionService.aprobarSolicitud(solAprobar.getIdSolicitud(), admin.getIdUsuario());
+            System.out.println("Aprobada | Token creado ID: " + idTokenCreado);
+
+            // Token activo del casillero
+            TokenAccesoDTO tokenActivo = tokenDAO.obtenerActivoPorCasillero(solAprobar.getIdCasillero());
+            System.out.println("Token activo casillero " + solAprobar.getIdCasillero() + ":");
+            System.out.println(tokenActivo);
+
+            // Casillero debe quedar READY=1
+            CasilleroDTO cas1 = casilleroDAO.obtenerPorId(solAprobar.getIdCasillero());
+            System.out.println("Casillero después de aprobar (debe quedar READY=1):");
+            System.out.println(cas1);
+
+            // Último evento con nombre (JOIN)
+            System.out.println("Último evento casillero " + solAprobar.getIdCasillero() + " (JOIN):");
+            EventoConNombreDTO ultJoin1 = eventoService.ultimoEventoConNombre(solAprobar.getIdCasillero());
+            System.out.println(ultJoin1);
+
+            // -----------------------------------------------------------------
+            // 4) Validar TOKEN (debe abrir / dejar READY=1 y registrar Token OK + Desbloqueo)
+            // -----------------------------------------------------------------
+            System.out.println("\n--- VALIDAR TOKEN (debe ser OK) ---");
+            if (tokenActivo == null || tokenActivo.getTokenHash() == null) {
+                System.out.println("No hay token activo para probar validarToken().");
+            } else {
+                boolean tokenOk = casilleroService.validarToken(
+                    solAprobar.getIdCasillero(),
+                    admin.getIdUsuario(),          // quien ejecuta la acción
+                    tokenActivo.getTokenHash()     // usamos exactamente el TokenHash para que pase
+                );
+                System.out.println("validarToken -> " + (tokenOk ? "OK" : "FAIL"));
+
+                CasilleroDTO cas1b = casilleroDAO.obtenerPorId(solAprobar.getIdCasillero());
+                System.out.println("Casillero después de validar token (READY=1):");
+                System.out.println(cas1b);
+
+                System.out.println("Último evento casillero " + solAprobar.getIdCasillero() + " (JOIN):");
+                EventoConNombreDTO ultJoin1b = eventoService.ultimoEventoConNombre(solAprobar.getIdCasillero());
+                System.out.println(ultJoin1b);
+            }
+
+            // -----------------------------------------------------------------
+            // 5) RECHAZAR: forzamos 3 FAILS en casillero 2 para crear otra pendiente
+            // -----------------------------------------------------------------
+            System.out.println("\n--- RECHAZAR ---");
+            System.out.println("Forzando 3 FAILS en casillero 2 (usuario 2) ...");
+            crearPendienteConTresFails(casilleroService, 2, 2);
+
+            List<SolicitudDTO> pendientes2 = recuperacionService.listarPendientes();
+            if (pendientes2 == null || pendientes2.isEmpty()) {
+                System.out.println("No hay pendientes para rechazar (raro).");
+            } else {
+                // La más reciente debería ser del casillero 2
+                SolicitudDTO solRechazar = pendientes2.get(0);
+
+                System.out.println("Solicitud a rechazar:");
+                System.out.println(solRechazar);
+
+                recuperacionService.rechazarSolicitud(solRechazar.getIdSolicitud(), admin.getIdUsuario());
+                System.out.println("Rechazada (idSolicitud=" + solRechazar.getIdSolicitud() + ")");
+
+                System.out.println("Último evento casillero " + solRechazar.getIdCasillero() + " (JOIN):");
+                EventoConNombreDTO ultJoin2 = eventoService.ultimoEventoConNombre(solRechazar.getIdCasillero());
+                System.out.println(ultJoin2);
+            }
+
+            // -----------------------------------------------------------------
+            // 6) LISTAR eventos con nombre (JOIN) para casillero 1 (TOP)
+            // -----------------------------------------------------------------
+            System.out.println("\n--- EVENTOS CASILLERO 1 (JOIN / TOP) ---");
+            List<EventoConNombreDTO> eventos1 = eventoService.listarConNombre(1);
+            if (eventos1 == null || eventos1.isEmpty()) {
+                System.out.println("No hay eventos para casillero 1");
+            } else {
+                int top = Math.min(8, eventos1.size());
+                for (int i = 0; i < top; i++) {
+                    System.out.println(eventos1.get(i));
+                }
+            }
+
+        } catch (AppException ae) {
+            System.err.println("\nFALLÓ (AppException): " + ae.getMessage());
+            ae.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("\nFALLÓ (Exception): " + (e != null ? e.getMessage() : "null"));
+            e.printStackTrace();
         }
     }
-    if (solR == null) {
-        // fallback: usa la primera pendiente
-        solR = pendientes.get(0);
+
+    // =========================================================
+    // Helpers de test
+    // =========================================================
+
+    /**
+     * Fuerza 3 fallos seguidos para bloquear y crear solicitud pendiente.
+     * - casilleroService.validarPin se encarga de:
+     *   - incrementar intentos
+     *   - al 3er fail -> LOCKED + evento Locked 3 Fails + crear Solicitud Pendiente
+     */
+    private static void crearPendienteConTresFails(CasilleroService casilleroService, int idCasillero, int idUsuario)
+        throws AppException {
+
+        // Pin incorrecto intencional (cualquier valor que NO coincida con pinHash)
+        String pinMalo = "00000";
+
+        for (int i = 1; i <= 3; i++) {
+            CasilleroService.ResultadoValidacionPin r = casilleroService.validarPin(idCasillero, idUsuario, pinMalo);
+            System.out.println("Try " + i + ": " + r);
+            if (r == CasilleroService.ResultadoValidacionPin.BLOQUEADO) break;
+        }
+
+        // Mostrar estado casillero
+        CasilleroDAO casilleroDAO = new CasilleroDAO();
+        CasilleroDTO dto = casilleroDAO.obtenerPorId(idCasillero);
+        System.out.println("Casillero actual:");
+        System.out.println(dto);
     }
-
-    System.out.println("Solicitud a rechazar:\n" + solR);
-    rec.rechazarSolicitud(solR.getIdSolicitud(), idAdmin);
-    System.out.println("Rechazada ✅ (idSolicitud=" + solR.getIdSolicitud() + ")");
-    }
-
-
-
-
-
-    
 }
-

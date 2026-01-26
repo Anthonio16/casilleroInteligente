@@ -9,8 +9,9 @@ public class SolicitudDTO {
     private String  FechaCreacion;
     private String  FechaModificacion;
 
+    
     public SolicitudDTO() {}
-
+    
     public SolicitudDTO(Integer idCasillero, Integer idAdmin, Integer idEstadoSolicitud) {
         this.idSolicitud = 0;
         this.idCasillero = idCasillero;
@@ -18,7 +19,17 @@ public class SolicitudDTO {
         this.idEstadoSolicitud = idEstadoSolicitud;
         this.Estado = "A";
     }
-
+    
+    public SolicitudDTO(Integer idSolicitud, Integer idCasillero, Integer idAdmin, Integer idEstadoSolicitud,
+            String estado, String fechaCreacion, String fechaModificacion) {
+        this.idSolicitud = idSolicitud;
+        this.idCasillero = idCasillero;
+        this.idAdmin = idAdmin;
+        this.idEstadoSolicitud = idEstadoSolicitud;
+        Estado = estado;
+        FechaCreacion = fechaCreacion;
+        FechaModificacion = fechaModificacion;
+    }
     public Integer getIdSolicitud() { return idSolicitud; }
     public void setIdSolicitud(Integer idSolicitud) { this.idSolicitud = idSolicitud; }
 
@@ -43,13 +54,13 @@ public class SolicitudDTO {
     @Override
     public String toString() {
         return getClass().getName()
-            + "\n idSolicitud        : " + getIdSolicitud()
-            + "\n idCasillero        : " + getIdCasillero()
-            + "\n idAdmin            : " + getIdAdmin()
-            + "\n idEstadoSolicitud  : " + getIdEstadoSolicitud()
-            + "\n Estado             : " + getEstado()
-            + "\n FechaCreacion      : " + getFechaCreacion()
-            + "\n FechaModificacion  : " + getFechaModificacion()
+            + "\n idSolicitud        : " + idSolicitud
+            + "\n idCasillero        : " + idCasillero
+            + "\n idAdmin            : " + idAdmin
+            + "\n idEstadoSolicitud  : " + idEstadoSolicitud
+            + "\n Estado             : " + Estado
+            + "\n FechaCreacion      : " + FechaCreacion
+            + "\n FechaModificacion  : " + FechaModificacion
             + "\n ----------------------------";
     }
 }

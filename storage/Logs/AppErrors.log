@@ -30,3 +30,21 @@
 ╰──── LOG  ❱❱ 2026-01-24 21:17:56 | RegistroEventoDAO.mapResultSetToEntity | Estado
 ╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
 ╰──── LOG  ❱❱ 2026-01-24 21:17:57 | RegistroEventoDAO.obtenerUltimoEventoPorCasillero | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-25 18:57:51 | CasilleroDAO.mapResultSetToEntity | IdCasillero
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-25 18:57:51 | CasilleroDAO.obtenerPorId | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-25 18:58:19 | CasilleroDAO.mapResultSetToEntity | IdCasillero
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-25 18:58:19 | CasilleroDAO.obtenerPorId | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-25 19:24:13 | CredencialCasilleroDAO.mapResultSetToEntity | Estado
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-25 19:24:13 | CredencialCasilleroDAO.getByCasillero | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Ups! Error inesperado. Por favor, contacte al administrador del sistema. 
+╰──── LOG  ❱❱ 2026-01-25 19:41:23 | AuthService.login | Cannot invoke "java.lang.Exception.getMessage()" because "e" is null
+╭─💀─ SHOW ❱❱ Usuario no existe 
+╰──── LOG  ❱❱ 2026-01-25 19:41:54 | AuthService.login | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Usuario no existe 
+╰──── LOG  ❱❱ 2026-01-25 19:48:20 | undefined.undefined | Ups! Error inesperado. Por favor, contacte al administrador del sistema.

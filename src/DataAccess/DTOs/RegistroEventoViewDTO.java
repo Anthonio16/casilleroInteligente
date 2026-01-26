@@ -1,43 +1,25 @@
 package DataAccess.DTOs;
 
-public class RegistroEventoDTO {
-
+public class RegistroEventoViewDTO {
     private Integer idRegistroEvento;
     private Integer idTipoEvento;
+    private String  NombreTipoEvento;   // <-- viene del JOIN
     private Integer idUsuario;
     private Integer idCasillero;
     private String  Estado;
     private String  FechaCreacion;
     private String  FechaModificacion;
 
-    public RegistroEventoDTO() {}
-
-    // Para crear (sin fechas, sin PK)
-    public RegistroEventoDTO(Integer idTipoEvento, Integer idUsuario, Integer idCasillero) {
-        idRegistroEvento = 0;
-        idTipoEvento = 0;
-        idUsuario = 0;
-        idCasillero = 0;
-        Estado = "A";
-    }
-
-    // Completo
-    public RegistroEventoDTO(Integer idRegistroEvento, Integer idTipoEvento, Integer idUsuario, Integer idCasillero,
-                             String estado, String fechaCreacion, String fechaModificacion) {
-        idRegistroEvento = 0;
-        idTipoEvento = 0;
-        idUsuario = 0;
-        idCasillero = 0;
-        Estado = estado;
-        FechaCreacion = fechaCreacion;
-        FechaModificacion = fechaModificacion;
-    }
+    public RegistroEventoViewDTO() {}
 
     public Integer getIdRegistroEvento() { return idRegistroEvento; }
     public void setIdRegistroEvento(Integer idRegistroEvento) { this.idRegistroEvento = idRegistroEvento; }
 
     public Integer getIdTipoEvento() { return idTipoEvento; }
     public void setIdTipoEvento(Integer idTipoEvento) { this.idTipoEvento = idTipoEvento; }
+
+    public String getNombreTipoEvento() { return NombreTipoEvento; }
+    public void setNombreTipoEvento(String nombreTipoEvento) { NombreTipoEvento = nombreTipoEvento; }
 
     public Integer getIdUsuario() { return idUsuario; }
     public void setIdUsuario(Integer idUsuario) { this.idUsuario = idUsuario; }
@@ -57,13 +39,15 @@ public class RegistroEventoDTO {
     @Override
     public String toString() {
         return getClass().getName()
-            + "\n idRegistroEvento  : " + getIdRegistroEvento()
-            + "\n idTipoEvento      : " + getIdTipoEvento()
-            + "\n idUsuario         : " + getIdUsuario()
-            + "\n idCasillero       : " + getIdCasillero()
-            + "\n Estado            : " + getEstado()
-            + "\n FechaCreacion     : " + getFechaCreacion()
-            + "\n FechaModificacion : " + getFechaModificacion()
+            + "\n idRegistroEvento   : " + idRegistroEvento
+            + "\n idTipoEvento       : " + idTipoEvento
+            + "\n NombreTipoEvento   : " + NombreTipoEvento
+            + "\n idUsuario          : " + idUsuario
+            + "\n idCasillero        : " + idCasillero
+            + "\n Estado             : " + Estado
+            + "\n FechaCreacion      : " + FechaCreacion
+            + "\n FechaModificacion  : " + FechaModificacion
             + "\n ----------------------------";
     }
 }
+

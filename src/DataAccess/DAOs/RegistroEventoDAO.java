@@ -11,7 +11,7 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         super(RegistroEventoDTO.class, "RegistroEvento", "idRegistroEvento");
     }
 
-    // Inserta un evento (fechas y estado las maneja SQLite por DEFAULT)
+    // Inserta un evento (Estado/Fechas lo hace SQLite por DEFAULT)
     public boolean crearEvento(int idTipoEvento, int idUsuario, int idCasillero) throws AppException {
         String sql = "INSERT INTO RegistroEvento (idTipoEvento, idUsuario, idCasillero) VALUES (?, ?, ?)";
         try (var stmt = openConnection().prepareStatement(sql)) {
@@ -24,12 +24,25 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         }
     }
 
+    public RegistroEventoDTO obtenerPorId(int idRegistroEvento) throws AppException {
+        String sql = "SELECT * FROM RegistroEvento WHERE idRegistroEvento = ? AND Estado='A' LIMIT 1";
+        try (var stmt = openConnection().prepareStatement(sql)) {
+            stmt.setInt(1, idRegistroEvento);
+            try (var rs = stmt.executeQuery()) {
+                return rs.next() ? mapResultSetToEntity(rs) : null;
+            }
+        } catch (Exception e) {
+            throw new AppException(null, e, getClass(), "obtenerPorId");
+        }
+    }
+
     // Eventos por casillero (más reciente primero)
     public List<RegistroEventoDTO> obtenerEventosPorCasillero(int idCasillero) throws AppException {
         String sql =
             "SELECT * FROM RegistroEvento " +
-            "WHERE idCasillero = ? AND Estado = 'A' " +
+            "WHERE idCasillero = ? AND Estado='A' " +
             "ORDER BY FechaModificacion DESC, idRegistroEvento DESC";
+
         try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idCasillero);
             try (var rs = stmt.executeQuery()) {
@@ -44,8 +57,9 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
     public List<RegistroEventoDTO> obtenerEventosPorUsuario(int idUsuario) throws AppException {
         String sql =
             "SELECT * FROM RegistroEvento " +
-            "WHERE idUsuario = ? AND Estado = 'A' " +
+            "WHERE idUsuario = ? AND Estado='A' " +
             "ORDER BY FechaModificacion DESC, idRegistroEvento DESC";
+
         try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idUsuario);
             try (var rs = stmt.executeQuery()) {
@@ -60,9 +74,10 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
     public RegistroEventoDTO obtenerUltimoEventoPorCasillero(int idCasillero) throws AppException {
         String sql =
             "SELECT * FROM RegistroEvento " +
-            "WHERE idCasillero = ? AND Estado = 'A' " +
+            "WHERE idCasillero = ? AND Estado='A' " +
             "ORDER BY FechaModificacion DESC, idRegistroEvento DESC " +
             "LIMIT 1";
+
         try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idCasillero);
             try (var rs = stmt.executeQuery()) {
@@ -73,5 +88,3 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         }
     }
 }
-
-

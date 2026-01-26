@@ -2,7 +2,7 @@ package DataAccess.DTOs;
 
 public class EstadoCasilleroDTO {
 
-    private Integer IdEstadoCasillero;
+    private Integer idEstadoCasillero;
     private String  Nombre;
     private String  Descripcion;
     private String  Estado;
@@ -12,7 +12,7 @@ public class EstadoCasilleroDTO {
     public EstadoCasilleroDTO() {}
 
     public EstadoCasilleroDTO(String nombre, String descripcion) {
-        this.IdEstadoCasillero = 0;
+        this.idEstadoCasillero = 0;
         this.Nombre = nombre;
         this.Descripcion = descripcion;
         this.Estado = "A";
@@ -20,7 +20,7 @@ public class EstadoCasilleroDTO {
 
     public EstadoCasilleroDTO(Integer idEstadoCasillero, String nombre, String descripcion,
                               String estado, String fechaCreacion, String fechaModifica) {
-        this.IdEstadoCasillero = idEstadoCasillero;
+        this.idEstadoCasillero = idEstadoCasillero;
         this.Nombre = nombre;
         this.Descripcion = descripcion;
         this.Estado = estado;
@@ -28,9 +28,8 @@ public class EstadoCasilleroDTO {
         this.FechaModifica = fechaModifica;
     }
 
-    public Integer getIdEstadoCasillero() { return IdEstadoCasillero; }
-    public void setIdEstadoCasillero(Integer idEstadoCasillero) { this.IdEstadoCasillero = idEstadoCasillero; }
-
+    public Integer getIdEstadoCasillero() { return idEstadoCasillero; }
+    public void setIdEstadoCasillero(Integer idEstadoCasillero) { this.idEstadoCasillero = idEstadoCasillero; }
     public String getNombre() { return Nombre; }
     public void setNombre(String nombre) { Nombre = nombre; }
 

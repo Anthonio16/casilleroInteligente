@@ -70,7 +70,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
             if (!name.equalsIgnoreCase(tablePK)
                 && !name.equalsIgnoreCase("Estado")
                 && !name.equalsIgnoreCase("FechaCreacion")
-                && !name.equalsIgnoreCase("FechaModifica")) {
+                && !name.equalsIgnoreCase("FechaModificacion")) {
                 columns.append(name).append(",");
                 placeholders.append("?,");
             }
@@ -89,7 +89,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
                 if (!name.equalsIgnoreCase(tablePK)
                     && !name.equalsIgnoreCase("Estado")
                     && !name.equalsIgnoreCase("FechaCreacion")
-                    && !name.equalsIgnoreCase("FechaModifica")) 
+                    && !name.equalsIgnoreCase("FechaModificacion")) 
                         stmt.setObject(index++, field.get(entity));
             }
             return (stmt.executeUpdate() > 0);
@@ -118,7 +118,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
                 }
             }
 
-            updates.append("FechaModifica = ?"); // campo técnico de auditoría
+            updates.append("FechaModificacion = ?"); // campo técnico de auditoría
 
             String sql = String.format("UPDATE %s SET %s WHERE %s = ?", tableName, updates, tablePK);
 
@@ -134,7 +134,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
                     }
                 }
 
-                stmt.setString(index++, getDataTimeNow()); // FechaModifica
+                stmt.setString(index++, getDataTimeNow()); // FechaModificacion
                 stmt.setObject(index, pkValue); // WHERE PK = ?
 
                 return stmt.executeUpdate() > 0;
@@ -147,7 +147,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
 
     @Override
     public boolean delete(Integer id) throws AppException {
-        String sql = String.format("UPDATE %s SET Estado = ?, FechaModifica = ? WHERE %s = ?", tableName, tablePK);
+        String sql = String.format("UPDATE %s SET Estado = ?, FechaModificacion = ? WHERE %s = ?", tableName, tablePK);
         try (PreparedStatement stmt = openConnection().prepareStatement(sql)) {
             stmt.setString(1, "X");
             stmt.setString(2, getDataTimeNow());

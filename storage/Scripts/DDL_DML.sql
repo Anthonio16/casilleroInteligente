@@ -132,7 +132,7 @@ INSERT INTO UsuarioTipo (Nombre, Descripcion) VALUES
 ('Estudiante', 'Usuario estudiante');
 
 INSERT INTO Usuario (idUsuarioTipo, Nombre, Clave, Descripcion) VALUES
-(1, 'admin',       'admin123', 'Administrador del sistema'),
+(1, 'patmic',       'patmic123', 'Administrador del sistema'),
 (2, 'estudiante1', 'est123',   'Estudiante 1'),
 (2, 'estudiante2', 'est123',   'Estudiante 2');
 
@@ -308,7 +308,5 @@ SELECT * FROM vw_CasilleroDashboard_Admin;
 SELECT * FROM vw_CasilleroDashboard_Estudiante;
 SELECT * FROM vw_MisCasilleros_Estudiante WHERE idEstudiante = 2;
 SELECT * FROM vw_MisCasilleros_Estudiante WHERE idEstudiante = 3;
-
-
 
 

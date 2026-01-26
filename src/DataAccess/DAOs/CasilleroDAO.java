@@ -8,28 +8,16 @@ import java.util.List;
 public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
 
     public CasilleroDAO() throws AppException {
-        super(CasilleroDTO.class, "Casillero", "IdCasillero");
+        super(CasilleroDTO.class, "Casillero", "idCasillero");
     }
 
-    /**
-     * Obtiene un casillero por ID
-     */
-    public CasilleroDTO obtenerPorId(int idCasillero) throws AppException {
-        String query =
-            "SELECT " +
-            "  idCasillero       AS IdCasillero, " +
-            "  idEstadoCasillero AS IdEstadoCasillero, " +
-            "  idEstudiante      AS IdEstudiante, " +
-            "  IntentosFallidos  AS IntentosFallidos, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM Casillero " +
-            "WHERE idCasillero = ? " +
-            "LIMIT 1";
+    // =========================
+    // READS
+    // =========================
 
-        try (var stmt = openConnection().prepareStatement(query)) {
+    public CasilleroDTO obtenerPorId(int idCasillero) throws AppException {
+        String sql = "SELECT * FROM Casillero WHERE idCasillero = ? AND Estado = 'A' LIMIT 1";
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idCasillero);
             try (var rs = stmt.executeQuery()) {
                 return rs.next() ? mapResultSetToEntity(rs) : null;
@@ -39,24 +27,9 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
         }
     }
 
-    /**
-     * Lista todos los casilleros
-     */
     public List<CasilleroDTO> listarTodos() throws AppException {
-        String query =
-            "SELECT " +
-            "  idCasillero       AS IdCasillero, " +
-            "  idEstadoCasillero AS IdEstadoCasillero, " +
-            "  idEstudiante      AS IdEstudiante, " +
-            "  IntentosFallidos  AS IntentosFallidos, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM Casillero " +
-            "ORDER BY idCasillero ASC";
-
-        try (var stmt = openConnection().prepareStatement(query);
+        String sql = "SELECT * FROM Casillero WHERE Estado = 'A' ORDER BY idCasillero ASC";
+        try (var stmt = openConnection().prepareStatement(sql);
              var rs = stmt.executeQuery()) {
             return mapResultSetToEntityList(rs);
         } catch (Exception e) {
@@ -64,25 +37,9 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
         }
     }
 
-    /**
-     * Lista casilleros por estudiante (mis casilleros)
-     */
     public List<CasilleroDTO> obtenerPorEstudiante(int idEstudiante) throws AppException {
-        String query =
-            "SELECT " +
-            "  idCasillero       AS IdCasillero, " +
-            "  idEstadoCasillero AS IdEstadoCasillero, " +
-            "  idEstudiante      AS IdEstudiante, " +
-            "  IntentosFallidos  AS IntentosFallidos, " +
-            "  Descripcion       AS Descripcion, " +
-            "  Estado            AS Estado, " +
-            "  FechaCreacion     AS FechaCreacion, " +
-            "  FechaModificacion AS FechaModifica " +
-            "FROM Casillero " +
-            "WHERE idEstudiante = ? " +
-            "ORDER BY idCasillero ASC";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
+        String sql = "SELECT * FROM Casillero WHERE idEstudiante = ? AND Estado = 'A' ORDER BY idCasillero ASC";
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idEstudiante);
             try (var rs = stmt.executeQuery()) {
                 return mapResultSetToEntityList(rs);
@@ -93,26 +50,27 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
     }
 
     /**
-     * Lista casilleros disponibles (por nombre del estado: "Ready to Unlock")
-     * Nota: esto filtra por el catálogo EstadoCasillero.Nombre
+     * Casilleros disponibles filtrando por el catálogo EstadoCasillero.Nombre.
+     * Importante: aquí NO usamos SELECT * porque hay JOIN.
+     * Por eso seleccionamos solo columnas de Casillero (con sus nombres reales).
      */
     public List<CasilleroDTO> obtenerDisponibles() throws AppException {
-        String query =
+        String sql =
             "SELECT " +
-            "  c.idCasillero       AS IdCasillero, " +
-            "  c.idEstadoCasillero AS IdEstadoCasillero, " +
-            "  c.idEstudiante      AS IdEstudiante, " +
-            "  c.IntentosFallidos  AS IntentosFallidos, " +
-            "  c.Descripcion       AS Descripcion, " +
-            "  c.Estado            AS Estado, " +
-            "  c.FechaCreacion     AS FechaCreacion, " +
-            "  c.FechaModificacion AS FechaModifica " +
+            "  c.idCasillero, " +
+            "  c.idEstadoCasillero, " +
+            "  c.idEstudiante, " +
+            "  c.IntentosFallidos, " +
+            "  c.Descripcion, " +
+            "  c.Estado, " +
+            "  c.FechaCreacion, " +
+            "  c.FechaModificacion " +
             "FROM Casillero c " +
             "JOIN EstadoCasillero ec ON ec.idEstadoCasillero = c.idEstadoCasillero " +
-            "WHERE ec.Nombre = 'Ready to Unlock' " +
+            "WHERE c.Estado = 'A' AND ec.Nombre = 'Ready to Unlock' " +
             "ORDER BY c.idCasillero ASC";
 
-        try (var stmt = openConnection().prepareStatement(query);
+        try (var stmt = openConnection().prepareStatement(sql);
              var rs = stmt.executeQuery()) {
             return mapResultSetToEntityList(rs);
         } catch (Exception e) {
@@ -120,85 +78,67 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
         }
     }
 
-    /**
-     * Incrementa intentos fallidos en 1
-     */
-    public void incrementarIntentos(int idCasillero) throws AppException {
-        String query =
+    // =========================
+    // UPDATES (negocio)
+    // =========================
+
+    public boolean incrementarIntentos(int idCasillero) throws AppException {
+        String sql =
             "UPDATE Casillero " +
             "SET IntentosFallidos = IntentosFallidos + 1, " +
             "    FechaModificacion = datetime('now','localtime') " +
-            "WHERE idCasillero = ?";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
+            "WHERE idCasillero = ? AND Estado = 'A'";
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idCasillero);
-            stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "incrementarIntentos");
         }
     }
 
-    /**
-     * Resetea intentos fallidos a 0
-     */
-    public void resetIntentos(int idCasillero) throws AppException {
-        String query =
+    public boolean resetIntentos(int idCasillero) throws AppException {
+        String sql =
             "UPDATE Casillero " +
             "SET IntentosFallidos = 0, " +
             "    FechaModificacion = datetime('now','localtime') " +
-            "WHERE idCasillero = ?";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
+            "WHERE idCasillero = ? AND Estado = 'A'";
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idCasillero);
-            stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "resetIntentos");
         }
     }
 
-    /**
-     * Actualiza el estado de un casillero (por idEstadoCasillero)
-     */
-    public void actualizarEstado(int idCasillero, int idEstadoCasillero) throws AppException {
-        String query =
+    public boolean actualizarEstado(int idCasillero, int idEstadoCasillero) throws AppException {
+        String sql =
             "UPDATE Casillero " +
             "SET idEstadoCasillero = ?, " +
             "    FechaModificacion = datetime('now','localtime') " +
-            "WHERE idCasillero = ?";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
+            "WHERE idCasillero = ? AND Estado = 'A'";
+        try (var stmt = openConnection().prepareStatement(sql)) {
             stmt.setInt(1, idEstadoCasillero);
             stmt.setInt(2, idCasillero);
-            stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "actualizarEstado");
         }
     }
 
-    /**
-     * Asigna o libera un estudiante en el casillero
-     * (si idEstudiante es null, lo libera)
-     */
-    public void asignarEstudiante(int idCasillero, Integer idEstudiante) throws AppException {
-        String query =
+    public boolean asignarEstudiante(int idCasillero, Integer idEstudiante) throws AppException {
+        String sql =
             "UPDATE Casillero " +
             "SET idEstudiante = ?, " +
             "    FechaModificacion = datetime('now','localtime') " +
-            "WHERE idCasillero = ?";
-
-        try (var stmt = openConnection().prepareStatement(query)) {
+            "WHERE idCasillero = ? AND Estado = 'A'";
+        try (var stmt = openConnection().prepareStatement(sql)) {
             if (idEstudiante == null) stmt.setNull(1, java.sql.Types.INTEGER);
             else stmt.setInt(1, idEstudiante);
 
             stmt.setInt(2, idCasillero);
-            stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "asignarEstudiante");
         }
     }
-
-    public void  registrarPinOk(int idCasillero) throws AppException {
-        resetIntentos(idCasillero);
-    }
 }
-
