@@ -27,5 +27,69 @@ public class RegistroEventoNombreDTO {
     }
 
     // getters/setters (genera con tu IDE)
+
+    public Integer getIdRegistroEvento() {
+        return idRegistroEvento;
+    }
+
+    public void setIdRegistroEvento(Integer idRegistroEvento) {
+        this.idRegistroEvento = idRegistroEvento;
+    }
+
+    public Integer getIdTipoEvento() {
+        return idTipoEvento;
+    }
+
+    public void setIdTipoEvento(Integer idTipoEvento) {
+        this.idTipoEvento = idTipoEvento;
+    }
+
+    public String getNombre() {
+        return Nombre;
+    }
+
+    public void setNombre(String Nombre) {
+        this.Nombre = Nombre;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public Integer getIdCasillero() {
+        return idCasillero;
+    }
+
+    public void setIdCasillero(Integer idCasillero) {
+        this.idCasillero = idCasillero;
+    }
+
+    public String getEstado() {
+        return Estado;
+    }
+
+    public void setEstado(String Estado) {
+        this.Estado = Estado;
+    }
+
+    public String getFechaCreacion() {
+        return FechaCreacion;
+    }
+
+    public void setFechaCreacion(String FechaCreacion) {
+        this.FechaCreacion = FechaCreacion;
+    }
+
+    public String getFechaModificacion() {
+        return FechaModificacion;
+    }
+
+    public void setFechaModificacion(String FechaModificacion) {
+        this.FechaModificacion = FechaModificacion;
+    }
 }
 

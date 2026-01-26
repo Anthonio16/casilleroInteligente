@@ -17,7 +17,6 @@ public class TokenService {
     private final TipoEventoDAO tipoEventoDAO;
     private final RegistroEventoDAO eventoDAO;
 
-<<<<<<< HEAD
     // EstadoCasillero
     private static final int ESTADO_READY = 1;
 
@@ -25,11 +24,6 @@ public class TokenService {
     private static final String EV_TOKEN_OK   = "Token OK";
     private static final String EV_TOKEN_FAIL = "Token FAIL";
     private static final String EV_DESBLOQ    = "Desbloqueo";
-=======
-    
-    private static final int ESTADO_READY  = 1;
-    private static final int ESTADO_LOCKED = 2;
->>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
 
     public TokenService() throws AppException {
         this.tokenDAO = new TokenAccesoDAO();
@@ -39,6 +33,7 @@ public class TokenService {
     }
 
     /**
+     * Valida Token del casillero:
      * - Si NO hay token activo/no expirado -> NO_TOKEN
      * - Si token OK -> READY=1, reset intentos, evento Token OK + Desbloqueo, desactiva token
      * - Si token FAIL -> evento Token FAIL
@@ -66,26 +61,16 @@ public class TokenService {
             casilleroDAO.resetIntentos(idCasillero);
             casilleroDAO.actualizarEstado(idCasillero, ESTADO_READY);
 
-<<<<<<< HEAD
             // 2) eventos estrictos
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_OK), idUsuario, idCasillero);
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_DESBLOQ),  idUsuario, idCasillero);
 
             // 3) desactiva SOLO el token usado
             tokenDAO.desactivarToken(token.getIdTokenacceso());
-=======
-            //  OK
-            Integer idTipoOk = tipoEventoDAO.findIdByName("Token OK");
-            if (idTipoOk != null) eventoDAO.crearEvento(idTipoOk, idUsuario, idCasillero);
-
-            // Desactiva token
-            tokenDAO.desactivarTokensPorCasillero(token.getIdTokenacceso());
->>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
 
             return ResultadoValidacionToken.OK;
         }
 
-<<<<<<< HEAD
         // FAIL
         eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_FAIL), idUsuario, idCasillero);
         return ResultadoValidacionToken.FAIL;
@@ -97,16 +82,6 @@ public class TokenService {
         return id;
     }
 
-=======
-        //  FAIL
-        Integer idTipoFail = tipoEventoDAO.findIdByName("Token FAIL");
-        if (idTipoFail != null) eventoDAO.crearEvento(idTipoFail, idUsuario, idCasillero);
-
-        return ResultadoValidacionToken.FAIL;
-    }
-
-    // ===== Helpers =====
->>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
     private static String sha256(String input) throws AppException {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -123,5 +98,3 @@ public class TokenService {
         OK, FAIL, NO_TOKEN
     }
 }
-
-

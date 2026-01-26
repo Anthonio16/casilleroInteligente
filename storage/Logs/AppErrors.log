@@ -48,3 +48,7 @@
 ╰──── LOG  ❱❱ 2026-01-25 19:41:54 | AuthService.login | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
 ╭─💀─ SHOW ❱❱ Usuario no existe 
 ╰──── LOG  ❱❱ 2026-01-25 19:48:20 | undefined.undefined | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Usuario o clave incorrectos 
+╰──── LOG  ❱❱ 2026-01-26 15:59:37 | AuthService.login | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
+╭─💀─ SHOW ❱❱ Usuario o clave incorrectos 
+╰──── LOG  ❱❱ 2026-01-26 15:59:45 | AuthService.login | Ups! Error inesperado. Por favor, contacte al administrador del sistema.
