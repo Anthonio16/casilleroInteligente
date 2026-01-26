@@ -28,6 +28,7 @@ public class CasilleroService {
     private final SolicitudDAO solicitudDAO;
     private final TokenAccesoDAO tokenDAO;
 
+<<<<<<< HEAD
     // ===== Catálogos (según tu BD) =====
     private static final int ESTADO_READY  = 1;
     private static final int ESTADO_LOCKED = 2;
@@ -35,6 +36,16 @@ public class CasilleroService {
     private static final int SOL_PENDIENTE = 1;
 
     // Admin por defecto (mientras no tengas login admin real conectado a esto)
+=======
+    
+    private static final int ESTADO_READY  = 1;
+    private static final int ESTADO_LOCKED = 2;
+
+    
+    private static final int SOL_PENDIENTE = 1;
+
+    
+>>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
     private static final int ADMIN_DEFAULT = 1;
 
     // ===== Nombres exactos de TipoEvento (según tu INSERT) =====
@@ -57,19 +68,32 @@ public class CasilleroService {
     }
 
     /**
+<<<<<<< HEAD
      * Valida PIN del casillero:
      * - OK  -> resetea intentos, evento Pin OK
      * - FAIL-> incrementa intentos, evento Pin FAIL
      * - al 3er FAIL -> bloquea, evento Locked 3 Fails, crea Solicitud Pendiente (si no existe) + evento Pendiente
+=======
+     * - OK  -> resetea intentos, registra evento Pin OK
+     * - FAIL-> incrementa intentos, registra Pin FAIL
+     * - al 3er FAIL -> bloquea, registra Locked 3 Fails y crea Solicitud Pendiente (si no existe)
+>>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
      */
     public ResultadoValidacionPin validarPin(int idCasillero, int idUsuario, String pinPlano) throws AppException {
 
         CasilleroDTO cas = casilleroDAO.obtenerPorId(idCasillero);
         if (cas == null) throw new AppException("Casillero no existe", null, getClass(), "validarPin");
 
+<<<<<<< HEAD
         // Si ya está bloqueado: asegurar solicitud pendiente y devolver BLOQUEADO
         if (cas.getIdEstadoCasillero() != null && cas.getIdEstadoCasillero() == ESTADO_LOCKED) {
             asegurarSolicitudPendienteConEvento(idCasillero, ADMIN_DEFAULT);
+=======
+        
+        if (dto.getIdEstadoCasillero() != null && dto.getIdEstadoCasillero() == ESTADO_LOCKED) {
+           
+            asegurarSolicitudPendiente(idCasillero);
+>>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
             return ResultadoValidacionPin.BLOQUEADO;
         }
 
@@ -91,16 +115,33 @@ public class CasilleroService {
         casilleroDAO.incrementarIntentos(idCasillero);
         eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_PIN_FAIL), idUsuario, idCasillero);
 
+<<<<<<< HEAD
         CasilleroDTO cas2 = casilleroDAO.obtenerPorId(idCasillero);
         int intentos = (cas2 != null && cas2.getIntentosFallidos() != null) ? cas2.getIntentosFallidos() : 0;
+=======
+        Integer idTipoFail = tipoEventoDAO.findIdByName("Pin FAIL");
+        if (idTipoFail != null) registroEventoDAO.crearEvento(idTipoFail, idUsuario, idCasillero);
+
+       
+        CasilleroDTO dto2 = casilleroDAO.obtenerPorId(idCasillero);
+        int intentos = (dto2 != null && dto2.getIntentosFallidos() != null) ? dto2.getIntentosFallidos() : 0;
+>>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
 
         if (intentos >= 3) {
             // Bloquear
             casilleroDAO.actualizarEstado(idCasillero, ESTADO_LOCKED);
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_LOCKED_3FAILS), idUsuario, idCasillero);
 
+<<<<<<< HEAD
             // Crear solicitud pendiente (si no existe) + evento pendiente
             asegurarSolicitudPendienteConEvento(idCasillero, ADMIN_DEFAULT);
+=======
+            Integer idTipoLocked = tipoEventoDAO.findIdByName("Locked 3 Fails");
+            if (idTipoLocked != null) registroEventoDAO.crearEvento(idTipoLocked, idUsuario, idCasillero);
+
+          
+            asegurarSolicitudPendiente(idCasillero);
+>>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
 
             return ResultadoValidacionPin.BLOQUEADO;
         }
@@ -108,6 +149,7 @@ public class CasilleroService {
         return ResultadoValidacionPin.FAIL;
     }
 
+<<<<<<< HEAD
     /**
      * Valida TOKEN para desbloqueo:
      * - Busca token activo del casillero (no expirado, Estado='A')
@@ -122,6 +164,12 @@ public class CasilleroService {
      *    registra Token FAIL y retorna false
      */
     public boolean validarToken(int idCasillero, int idUsuario, String tokenIngresado) throws AppException {
+=======
+   
+    private void asegurarSolicitudPendiente(int idCasillero) throws AppException {
+        List<SolicitudDTO> list = solicitudDAO.listarPorCasillero(idCasillero);
+        boolean yaExistePendiente = false;
+>>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
 
         CasilleroDTO cas = casilleroDAO.obtenerPorId(idCasillero);
         if (cas == null) throw new AppException("Casillero no existe", null, getClass(), "validarToken");
@@ -182,6 +230,7 @@ public class CasilleroService {
         }
     }
 
+<<<<<<< HEAD
     // ===== helpers =====
 
     private int tipoEventoIdOrThrow(String nombre) throws AppException {
@@ -192,6 +241,9 @@ public class CasilleroService {
         return id;
     }
 
+=======
+    // ===== Helpers =====
+>>>>>>> 8ec0def35403ec88f68bad7a0a88c9a8715082aa
     private static String sha256(String input) throws AppException {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
