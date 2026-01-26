@@ -3,6 +3,7 @@ package UserInterface.DesktopApp.Forms;
 import BusinessLogic.Services.CasilleroService;
 import Infrastructure.AppException;
 import UserInterface.DesktopApp.AppComponent;
+import UserInterface.DesktopApp.UIStyles;
 import java.awt.*;
 import javax.swing.*;
 
@@ -15,26 +16,45 @@ public class PValidarPin extends JFrame {
     public PValidarPin(AppComponent app) {
         this.app = app;
 
-        setTitle("PValidarPin");
-        setSize(480, 220);
+        setTitle("Validar PIN - Casillero Inteligente");
+        setSize(560, 260);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10,10));
 
-        JPanel center = new JPanel(new GridLayout(2,2,8,8));
-        center.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
-        center.add(new JLabel("IdCasillero:"));
-        center.add(txtIdCas);
-        center.add(new JLabel("PIN:"));
-        center.add(txtPin);
+        UIStyles.applyFrame(this);
 
-        JPanel south = new JPanel(new FlowLayout());
+        JPanel form = new JPanel(new GridLayout(2,2,10,10));
+        form.setBackground(UIStyles.CARD);
+        form.add(new JLabel("IdCasillero:"));
+        form.add(txtIdCas);
+        form.add(new JLabel("PIN:"));
+        form.add(txtPin);
+
+        JLabel t = new JLabel("Validar PIN del casillero");
+        t.setFont(t.getFont().deriveFont(Font.BOLD, 16f));
+        JPanel cardInner = new JPanel(new BorderLayout(10,10));
+        cardInner.setBackground(UIStyles.CARD);
+        cardInner.add(t, BorderLayout.NORTH);
+        cardInner.add(form, BorderLayout.CENTER);
+
+        JPanel center = new JPanel(new BorderLayout());
+        center.setBackground(UIStyles.BG);
+        center.setBorder(BorderFactory.createEmptyBorder(14, 14, 0, 14));
+        center.add(UIStyles.card(cardInner), BorderLayout.CENTER);
+
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        south.setBackground(UIStyles.BG);
+        south.setBorder(BorderFactory.createEmptyBorder(10, 14, 14, 14));
         JButton btn = new JButton("Validar");
         JButton back = new JButton("Volver");
         back.addActionListener(e -> app.showHome());
         btn.addActionListener(e -> onValidar());
 
-        south.add(btn);
+        UIStyles.stylePrimary(btn);
+        UIStyles.styleSecondary(back);
+
         south.add(back);
+        south.add(btn);
 
         add(center, BorderLayout.CENTER);
         add(south, BorderLayout.SOUTH);

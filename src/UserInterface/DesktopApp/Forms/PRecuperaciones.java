@@ -4,6 +4,7 @@ import DataAccess.DTOs.SolicitudDTO;
 import DataAccess.DTOs.TokenAccesoDTO;
 import Infrastructure.AppException;
 import UserInterface.DesktopApp.AppComponent;
+import UserInterface.DesktopApp.UIStyles;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -14,36 +15,54 @@ public class PRecuperaciones extends JFrame {
     private final AppComponent app;
 
     private final DefaultTableModel model = new DefaultTableModel(
-        new Object[]{"idSolicitud","idCasillero","idAdmin","idEstado","estado"}, 0
-    );
+        new Object[]{"#","IdCasillero","IdAdmin","Estado","Creada"}, 0
+    ) {
+        @Override public boolean isCellEditable(int row, int column) { return false; }
+    };
     private final JTable table = new JTable(model);
 
     public PRecuperaciones(AppComponent app) {
         this.app = app;
 
         setTitle("PRecuperaciones (Admin)");
-        setSize(760, 360);
+        setSize(920, 420);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10,10));
 
-        add(new JScrollPane(table), BorderLayout.CENTER);
+        UIStyles.applyFrame(this);
 
-        JPanel south = new JPanel(new FlowLayout());
+        table.setRowHeight(24);
+        table.setFillsViewportHeight(true);
+
+        JPanel center = new JPanel(new BorderLayout());
+        center.setBackground(UIStyles.BG);
+        center.setBorder(BorderFactory.createEmptyBorder(10, 14, 14, 14));
+        center.add(UIStyles.card(new JScrollPane(table)), BorderLayout.CENTER);
+        add(center, BorderLayout.CENTER);
+
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        south.setBackground(UIStyles.BG);
+        south.setBorder(BorderFactory.createEmptyBorder(0, 14, 14, 14));
 
         JButton btnRef = new JButton("Refrescar");
         JButton btnApr = new JButton("Aprobar");
         JButton btnRec = new JButton("Rechazar");
         JButton btnBack = new JButton("Volver");
 
+        UIStyles.styleSecondary(btnRef);
+        UIStyles.stylePrimary(btnApr);
+        UIStyles.styleSecondary(btnRec);
+        UIStyles.styleSecondary(btnBack);
+
         btnRef.addActionListener(e -> refresh());
         btnApr.addActionListener(e -> aprobarSeleccion());
         btnRec.addActionListener(e -> rechazarSeleccion());
         btnBack.addActionListener(e -> app.showHome());
 
-        south.add(btnRef);
-        south.add(btnApr);
-        south.add(btnRec);
         south.add(btnBack);
+        south.add(btnRef);
+        south.add(btnRec);
+        south.add(btnApr);
 
         add(south, BorderLayout.SOUTH);
     }
@@ -65,8 +84,8 @@ public class PRecuperaciones extends JFrame {
                     s.getIdSolicitud(),
                     s.getIdCasillero(),
                     s.getIdAdmin(),
-                    s.getIdEstadoSolicitud(),
-                    s.getEstado()
+                    (s.getEstado() != null && !s.getEstado().trim().isEmpty()) ? s.getEstado() : ("Estado #" + s.getIdEstadoSolicitud()),
+                    s.getFechaCreacion()
                 });
             }
         } catch (AppException ex) {
