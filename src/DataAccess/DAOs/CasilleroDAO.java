@@ -11,10 +11,6 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
         super(CasilleroDTO.class, "Casillero", "idCasillero");
     }
 
-    // =========================
-    // READS
-    // =========================
-
     public CasilleroDTO obtenerPorId(int idCasillero) throws AppException {
         String sql = "SELECT * FROM Casillero WHERE idCasillero = ? AND Estado = 'A' LIMIT 1";
         try (var stmt = openConnection().prepareStatement(sql)) {
@@ -49,11 +45,6 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
         }
     }
 
-    /**
-     * Casilleros disponibles filtrando por el catálogo EstadoCasillero.Nombre.
-     * Importante: aquí NO usamos SELECT * porque hay JOIN.
-     * Por eso seleccionamos solo columnas de Casillero (con sus nombres reales).
-     */
     public List<CasilleroDTO> obtenerDisponibles() throws AppException {
         String sql =
             "SELECT " +
@@ -78,9 +69,6 @@ public class CasilleroDAO extends DataHelperSQLiteDAO<CasilleroDTO> {
         }
     }
 
-    // =========================
-    // UPDATES (negocio)
-    // =========================
 
     public boolean incrementarIntentos(int idCasillero) throws AppException {
         String sql =

@@ -2,7 +2,6 @@ package DataAccess.DTOs;
 
 public class CredencialCasilleroDTO {
 
-    // ====== columnas reales en BD ======
     private Integer idCredencialCasillero;
     private Integer idCasillero;
     private String  pinHash;
@@ -12,7 +11,6 @@ public class CredencialCasilleroDTO {
 
     public CredencialCasilleroDTO() {}
 
-    // Para crear (sin PK, sin fechas)
     public CredencialCasilleroDTO(Integer idCasillero, String pinHash) {
         this.idCredencialCasillero = 0;
         this.idCasillero = idCasillero;
@@ -20,7 +18,6 @@ public class CredencialCasilleroDTO {
         this.Estado = "A";
     }
 
-    // Completo
     public CredencialCasilleroDTO(Integer idCredencialCasillero, Integer idCasillero, String pinHash,
                                   String estado, String fechaCreacion, String fechaModificacion) {
         this.idCredencialCasillero = idCredencialCasillero;

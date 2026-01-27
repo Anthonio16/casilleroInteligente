@@ -16,11 +16,7 @@ public class TokenService {
     private final CasilleroDAO casilleroDAO;
     private final TipoEventoDAO tipoEventoDAO;
     private final RegistroEventoDAO eventoDAO;
-
-    // EstadoCasillero
     private static final int ESTADO_READY = 1;
-
-    // TipoEvento.Nombre (exactos)
     private static final String EV_TOKEN_OK   = "Token OK";
     private static final String EV_TOKEN_FAIL = "Token FAIL";
     private static final String EV_DESBLOQ    = "Desbloqueo";
@@ -32,12 +28,6 @@ public class TokenService {
         this.eventoDAO = new RegistroEventoDAO();
     }
 
-    /**
-     * Valida Token del casillero:
-     * - Si NO hay token activo/no expirado -> NO_TOKEN
-     * - Si token OK -> READY=1, reset intentos, evento Token OK + Desbloqueo, desactiva token
-     * - Si token FAIL -> evento Token FAIL
-     */
     public ResultadoValidacionToken validarToken(int idCasillero, int idUsuario, String tokenIngresado) throws AppException {
 
         CasilleroDTO cas = casilleroDAO.obtenerPorId(idCasillero);
@@ -57,21 +47,17 @@ public class TokenService {
             tokenDb.equalsIgnoreCase(sha256(tokenIngresado));
 
         if (ok) {
-            // 1) reset intentos + READY
             casilleroDAO.resetIntentos(idCasillero);
             casilleroDAO.actualizarEstado(idCasillero, ESTADO_READY);
 
-            // 2) eventos estrictos
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_OK), idUsuario, idCasillero);
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_DESBLOQ),  idUsuario, idCasillero);
 
-            // 3) desactiva SOLO el token usado
             tokenDAO.desactivarToken(token.getIdTokenacceso());
 
             return ResultadoValidacionToken.OK;
         }
 
-        // FAIL
         eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_FAIL), idUsuario, idCasillero);
         return ResultadoValidacionToken.FAIL;
     }

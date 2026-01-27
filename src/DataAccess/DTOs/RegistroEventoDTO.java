@@ -12,7 +12,6 @@ public class RegistroEventoDTO {
 
     public RegistroEventoDTO() {}
 
-    // Para crear (sin fechas, sin PK)
     public RegistroEventoDTO(Integer idTipoEvento, Integer idUsuario, Integer idCasillero) {
         idRegistroEvento = 0;
         idTipoEvento = 0;
@@ -21,7 +20,6 @@ public class RegistroEventoDTO {
         Estado = "A";
     }
 
-    // Completo
     public RegistroEventoDTO(Integer idRegistroEvento, Integer idTipoEvento, Integer idUsuario, Integer idCasillero,
                              String estado, String fechaCreacion, String fechaModificacion) {
         idRegistroEvento = 0;

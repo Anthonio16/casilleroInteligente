@@ -3,7 +3,7 @@ package DataAccess.DTOs;
 public class RegistroEventoViewDTO {
     private Integer idRegistroEvento;
     private Integer idTipoEvento;
-    private String  NombreTipoEvento;   // <-- viene del JOIN
+    private String  NombreTipoEvento;   
     private Integer idUsuario;
     private Integer idCasillero;
     private String  Estado;

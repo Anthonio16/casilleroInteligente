@@ -1,6 +1,3 @@
-// =========================================================
-// App.java  (LOGIN + RECUPERACIÓN + TOKEN + EVENTOS JOIN)
-// =========================================================
 import BusinessLogic.Services.AuthService;
 import BusinessLogic.Services.CasilleroService;
 import BusinessLogic.Services.EventoService;
@@ -24,9 +21,7 @@ public class App {
     public static void main(String[] args) {
 
         try {
-            // =========================
-            // 1) LOGIN ADMIN
-            // =========================
+            
             System.out.println("===== LOGIN (patmic/patmic123) =====");
             AuthService auth = new AuthService();
             UsuarioDTO admin = auth.login("patmic", "patmic123");
@@ -35,14 +30,12 @@ public class App {
 
             int idAdmin = admin.getIdUsuario();
 
-            // IDs de prueba (ajusta si tu BD tiene otros)
+           
             int idEstudiante = 2; // estudiante1
             int cas1 = 1;
             int cas2 = 2;
 
-            // =========================
-            // 2) SERVICES + DAO apoyo
-            // =========================
+           
             CasilleroService casilleroService = new CasilleroService();
             RecuperacionService recService    = new RecuperacionService();
             TokenService tokenService         = new TokenService();
@@ -50,14 +43,10 @@ public class App {
 
             CasilleroDAO casilleroDAO         = new CasilleroDAO(); // para imprimir estado del casillero
 
-            // =========================================================
-            // TEST RecuperacionService (APROBAR + RECHAZAR)
-            // =========================================================
+            
             System.out.println("\n===== TEST RecuperacionService (APROBAR + RECHAZAR) =====");
 
-            // =========================
-            // 3) APROBAR
-            // =========================
+            
             List<SolicitudDTO> pendientes = recService.listarPendientes();
             System.out.println("Pendientes iniciales: " + (pendientes == null ? 0 : pendientes.size()));
 
@@ -81,12 +70,11 @@ public class App {
             System.out.println("Token activo casillero " + solAprobar.getIdCasillero() + ":");
             System.out.println(tokenActivo);
 
-            // Casillero después de aprobar (debe quedar READY=1 e intentos=0 si tu service lo hace así)
             CasilleroDTO casAprob = casilleroDAO.obtenerPorId(solAprobar.getIdCasillero());
             System.out.println("Casillero después de aprobar (debe quedar READY=1):");
             System.out.println(casAprob);
 
-            // Validar token (debe ser OK)
+            // Validar token 
             if (tokenActivo != null && tokenActivo.getTokenHash() != null) {
                 System.out.println("\n--- VALIDAR TOKEN (debe ser OK) ---");
                 TokenService.ResultadoValidacionToken rTok = tokenService.validarToken(
@@ -108,9 +96,7 @@ public class App {
             RegistroEventoNombreDTO ult1 = eventoService.ultimoEventoConNombre(solAprobar.getIdCasillero());
             System.out.println(ult1);
 
-            // =========================
-            // 4) RECHAZAR (creamos otra pendiente en cas2)
-            // =========================
+            
             System.out.println("\n--- RECHAZAR ---");
             System.out.println("Forzando 3 FAILS en casillero " + cas2 + " (usuario " + idEstudiante + ") ...");
             crearPendienteConTresFails(casilleroService, cas2, idEstudiante);
@@ -121,7 +107,6 @@ public class App {
                 return;
             }
 
-            // buscamos una pendiente de cas2
             SolicitudDTO solRech = null;
             for (SolicitudDTO s : pend2) {
                 if (s != null && s.getIdCasillero() != null && s.getIdCasillero() == cas2) {
@@ -142,9 +127,7 @@ public class App {
             RegistroEventoNombreDTO ult2 = eventoService.ultimoEventoConNombre(solRech.getIdCasillero());
             System.out.println(ult2);
 
-            // =========================
-            // 5) LISTAR EVENTOS CON NOMBRE (JOIN)
-            // =========================
+           
             System.out.println("\n--- EVENTOS CASILLERO " + cas1 + " (JOIN TOP) ---");
             List<RegistroEventoNombreDTO> evs1 = eventoService.listarConNombre(cas1);
             imprimirTop(evs1, 10);
@@ -158,9 +141,7 @@ public class App {
         }
     }
 
-    // =========================================================
-    // Helpers de test
-    // =========================================================
+   
     private static void crearPendienteConTresFails(CasilleroService casService, int idCasillero, int idUsuario) throws AppException {
         for (int i = 1; i <= 3; i++) {
             CasilleroService.ResultadoValidacionPin r = casService.validarPin(idCasillero, idUsuario, "0000");

@@ -1,11 +1,7 @@
-// =========================================================
-// DataAccess/DTOs/EventoConNombreDTO.java
-// =========================================================
 package DataAccess.DTOs;
 
 public class EventoConNombreDTO {
 
-    // columnas de RegistroEvento
     private Integer idRegistroEvento;
     private Integer idTipoEvento;
     private Integer idUsuario;
@@ -13,8 +9,6 @@ public class EventoConNombreDTO {
     private String  Estado;
     private String  FechaCreacion;
     private String  FechaModificacion;
-
-    // columna del JOIN con TipoEvento
     private String NombreEvento;
 
     public EventoConNombreDTO() {}

@@ -2,10 +2,10 @@ package BusinessLogic.Entities;
 
 public class Casillero {
     private final int idCasillero;
-    private Integer idEstudiante;          // puede ser null
+    private Integer idEstudiante;          
     private EstadoCasillero estadoCasillero;
     private int intentosFallidos;
-    private String estadoRegistro;         // 'A' o 'X' (de tu BD)
+    private String estadoRegistro;         // 'A' o 'X' 
 
     public Casillero(int idCasillero, Integer idEstudiante, EstadoCasillero estadoCasillero,
                      int intentosFallidos, String estadoRegistro) {

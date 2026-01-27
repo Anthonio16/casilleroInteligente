@@ -11,7 +11,6 @@ public class AuditoriaDAO extends DataHelperSQLiteDAO<AuditoriaDTO> {
         super(AuditoriaDTO.class, "vw_Auditoria_Admin", "idRegistroEvento");
     }
 
-    // Admin: lista todo (opcional: limit)
     public List<AuditoriaDTO> listarAdmin(int limit) throws AppException {
         String sql =
             "SELECT * FROM vw_Auditoria_Admin " +
@@ -28,7 +27,6 @@ public class AuditoriaDAO extends DataHelperSQLiteDAO<AuditoriaDTO> {
         }
     }
 
-    // Admin: filtrar por casillero
     public List<AuditoriaDTO> listarAdminPorCasillero(int idCasillero, int limit) throws AppException {
         String sql =
             "SELECT * FROM vw_Auditoria_Admin " +
@@ -47,7 +45,6 @@ public class AuditoriaDAO extends DataHelperSQLiteDAO<AuditoriaDTO> {
         }
     }
 
-    // Estudiante: solo sus eventos (por idEstudiante = idUsuario del estudiante)
     public List<AuditoriaDTO> listarEstudiante(int idEstudiante, int limit) throws AppException {
         String sql =
             "SELECT * FROM vw_Auditoria_Estudiante " +

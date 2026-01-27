@@ -14,11 +14,10 @@ public class AuthService {
 
     public UsuarioDTO login(String nombre, String clave) throws AppException {
         try {
-            // TRIM para evitar espacios accidentales
             String n = (nombre == null) ? "" : nombre.trim();
             String c = (clave  == null) ? "" : clave.trim();
 
-            UsuarioDTO user = usuarioDAO.login(n, c); // usa SQL directo
+            UsuarioDTO user = usuarioDAO.login(n, c); 
             if (user == null) {
                 throw new AppException("Usuario o clave incorrectos", null, getClass(), "login");
             }

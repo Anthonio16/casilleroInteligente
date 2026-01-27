@@ -1,4 +1,3 @@
-//  © 2K26 ❱──💀──❰ pat_mic ? code is life : life is code
 package BusinessLogic;
 
 import DataAccess.Interfaces.IDAO;
@@ -39,7 +38,7 @@ public class FactoryBL<T> {
     }
 
     public Integer count() throws AppException {
-        return dao.getMaxReg(); // en tu helper esto es COUNT(*)
+        return dao.getMaxReg(); 
     }
 }
 

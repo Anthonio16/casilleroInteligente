@@ -62,9 +62,7 @@ public class UsuarioTipoDAO extends DataHelperSQLiteDAO<UsuarioTipoDTO> {
         return (dto == null) ? null : dto.getIdUsuarioTipo();
     }
 
-    /**
-     * Lista solo los tipos activos (Estado='Activo')
-     */
+
     public List<UsuarioTipoDTO> listarActivos() throws AppException {
         String query =
             "SELECT " +
@@ -86,9 +84,6 @@ public class UsuarioTipoDAO extends DataHelperSQLiteDAO<UsuarioTipoDTO> {
         }
     }
 
-    /**
-     * Lista todos (por si en algún punto quieres ver también inactivos)
-     */
     public List<UsuarioTipoDTO> listarTodos() throws AppException {
         String query =
             "SELECT " +

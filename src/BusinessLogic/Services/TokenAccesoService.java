@@ -15,8 +15,6 @@ public class TokenAccesoService {
     private final CasilleroDAO casilleroDAO;
     private final TipoEventoDAO tipoEventoDAO;
     private final RegistroEventoDAO eventoDAO;
-
-    // IDs según tu BD
     private static final int ESTADO_READY = 1;
 
     public TokenAccesoService() throws AppException {
@@ -26,19 +24,10 @@ public class TokenAccesoService {
         this.eventoDAO = new RegistroEventoDAO();
     }
 
-    /**
-     * Token válido => desbloquea y deja el casillero en READY(1),
-     * resetea intentos, desactiva token (X) y registra evento "Token OK".
-     *
-     * Token inválido => registra evento "Token FAIL".
-     *
-     * @return OK / FAIL / NO_TOKEN
-     */
     public ResultadoValidacionToken validarTokenYDesbloquear(int idCasillero, int idUsuario, String tokenPlano) throws AppException {
 
         TokenAccesoDTO token = tokenDAO.obtenerActivoPorCasillero(idCasillero);
         if (token == null) {
-            // no hay token activo (o expiró)
             return ResultadoValidacionToken.NO_TOKEN;
         }
 
@@ -51,11 +40,9 @@ public class TokenAccesoService {
             return ResultadoValidacionToken.FAIL;
         }
 
-        // OK => desbloquea
         casilleroDAO.resetIntentos(idCasillero);
         casilleroDAO.actualizarEstado(idCasillero, ESTADO_READY);
 
-        // token one-time use
         tokenDAO.desactivarTokensPorCasillero(idCasillero);
 
         Integer idTipoOk = tipoEventoDAO.findIdByName("Token OK");
@@ -64,7 +51,6 @@ public class TokenAccesoService {
         return ResultadoValidacionToken.OK;
     }
 
-    // ===== helpers =====
     private static String sha256(String input) throws AppException {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

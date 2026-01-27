@@ -11,7 +11,6 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         super(RegistroEventoDTO.class, "RegistroEvento", "idRegistroEvento");
     }
 
-    // Inserta un evento (Estado/Fechas lo hace SQLite por DEFAULT)
     public boolean crearEvento(int idTipoEvento, int idUsuario, int idCasillero) throws AppException {
         String sql = "INSERT INTO RegistroEvento (idTipoEvento, idUsuario, idCasillero) VALUES (?, ?, ?)";
         try (var stmt = openConnection().prepareStatement(sql)) {
@@ -36,7 +35,6 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         }
     }
 
-    // Eventos por casillero (más reciente primero)
     public List<RegistroEventoDTO> obtenerEventosPorCasillero(int idCasillero) throws AppException {
         String sql =
             "SELECT * FROM RegistroEvento " +
@@ -53,7 +51,6 @@ public class RegistroEventoDAO extends DataHelperSQLiteDAO<RegistroEventoDTO> {
         }
     }
 
-    // Eventos por usuario (más reciente primero)
     public List<RegistroEventoDTO> obtenerEventosPorUsuario(int idUsuario) throws AppException {
         String sql =
             "SELECT * FROM RegistroEvento " +

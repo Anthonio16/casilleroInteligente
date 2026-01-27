@@ -11,7 +11,6 @@ public class EstadoCasilleroDAO extends DataHelperSQLiteDAO<EstadoCasilleroDTO> 
         super(EstadoCasilleroDTO.class, "EstadoCasillero", "idEstadoCasillero");
     }
 
-    // Obtiene DTO por nombre (Locked, Ready to Unlock, etc.)
     public EstadoCasilleroDTO obtenerPorNombre(String nombre) throws AppException {
         String sql =
             "SELECT * FROM EstadoCasillero " +
@@ -27,13 +26,11 @@ public class EstadoCasilleroDAO extends DataHelperSQLiteDAO<EstadoCasilleroDTO> 
         }
     }
 
-    // Obtiene ID por nombre
     public Integer obtenerIdPorNombre(String nombre) throws AppException {
         EstadoCasilleroDTO dto = obtenerPorNombre(nombre);
         return dto == null ? null : dto.getIdEstadoCasillero();
     }
 
-    // Lista activos
     public List<EstadoCasilleroDTO> listarActivos() throws AppException {
         String sql =
             "SELECT * FROM EstadoCasillero " +
