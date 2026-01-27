@@ -41,7 +41,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
     }
 
     /**
-     * Construye la relacion entre la clase DTO y la tabla de la base de datos
+     * relacion entre la clase DTO y la tabla de la base de datos
      * @param dtoClass  : Nombre de la clase DTO
      * @param tableName : Nombre de la tabla
      * @param tablePK   : Nombre del PK de la tabla
@@ -67,7 +67,6 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
         for (Field field : fields) {
             field.setAccessible(true);
             String name = field.getName();
-            // Excluir PK y campos por defecto y auditoria
             if (!name.equalsIgnoreCase(tablePK)
                 && !name.equalsIgnoreCase("Estado")
                 && !name.equalsIgnoreCase("FechaCreacion")
@@ -77,7 +76,6 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
             }
         }
 
-        // Eliminar la última coma
         String cols = columns.substring(0, columns.length() - 1);
         String vals = placeholders.substring(0, placeholders.length() - 1);
 
@@ -231,9 +229,6 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
     }
 
 
-    // =========================================================
-    // Transacciones (opcional): útil para operaciones de varios pasos
-    // =========================================================
     public <T> T executeInTransaction(Function<Connection, T> work) throws AppException {
         try (Connection conn = DriverManager.getConnection(DBPath)) {
             conn.setAutoCommit(false);

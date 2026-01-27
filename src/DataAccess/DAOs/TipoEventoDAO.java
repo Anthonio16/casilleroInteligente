@@ -11,9 +11,7 @@ public class TipoEventoDAO extends DataHelperSQLiteDAO<TipoEventoDTO> {
         super(TipoEventoDTO.class, "TipoEvento", "IdTipoEvento");
     }
 
-    /**
-     * Busca un tipo de evento por su Nombre (ej: "Pin OK", "Pin FAIL"...)
-     */
+
     public TipoEventoDTO findByName(String nombreEvento) throws AppException {
         String query =
             "SELECT " +
@@ -36,17 +34,12 @@ public class TipoEventoDAO extends DataHelperSQLiteDAO<TipoEventoDTO> {
         }
     }
 
-    /**
-     * Devuelve el ID del tipo de evento por Nombre (más cómodo para BusinessLogic)
-     */
+
     public Integer findIdByName(String nombreEvento) throws AppException {
         TipoEventoDTO dto = findByName(nombreEvento);
         return (dto == null) ? null : dto.getIdTipoEvento();
     }
 
-    /**
-     * Lista todos los tipos de evento (NO usamos readAll del helper porque TipoEvento no tiene Estado)
-     */
     public List<TipoEventoDTO> findAll() throws AppException {
         String query =
             "SELECT " +

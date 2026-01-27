@@ -1,6 +1,3 @@
-// =========================================================
-// BusinessLogic/Services/CasilleroService.java
-// =========================================================
 package BusinessLogic.Services;
 
 import DataAccess.DAOs.CasilleroDAO;
@@ -26,21 +23,14 @@ public class CasilleroService {
     private final SolicitudDAO solicitudDAO;
     private final TokenAccesoDAO tokenDAO;
 
-    // ===== Catálogos (según tu BD) =====
     private static final int ESTADO_READY  = 1;
     private static final int ESTADO_LOCKED = 2;
-
     private static final int SOL_PENDIENTE = 1;
-
-    // Admin por defecto (mientras no tengas login admin real conectado a esto)
     private static final int ADMIN_DEFAULT = 1;
-
-    // ===== Nombres exactos de TipoEvento (según tu INSERT) =====
     private static final String EV_PIN_OK        = "Pin OK";
     private static final String EV_PIN_FAIL      = "Pin FAIL";
     private static final String EV_LOCKED_3FAILS = "Locked 3 Fails";
     private static final String EV_SOL_PEND      = "Solicitud de Recuperación Pendiente";
-
     private static final String EV_TOKEN_OK      = "Token OK";
     private static final String EV_TOKEN_FAIL    = "Token FAIL";
     private static final String EV_DESBLOQUEO    = "Desbloqueo";
@@ -54,18 +44,11 @@ public class CasilleroService {
         this.tokenDAO = new TokenAccesoDAO();
     }
 
-    /**
-     * Valida PIN del casillero:
-     * - OK  -> resetea intentos, evento Pin OK
-     * - FAIL-> incrementa intentos, evento Pin FAIL
-     * - al 3er FAIL -> bloquea, evento Locked 3 Fails, crea Solicitud Pendiente (si no existe) + evento Pendiente
-     */
     public ResultadoValidacionPin validarPin(int idCasillero, int idUsuario, String pinPlano) throws AppException {
 
         CasilleroDTO cas = casilleroDAO.obtenerPorId(idCasillero);
         if (cas == null) throw new AppException("Casillero no existe", null, getClass(), "validarPin");
 
-        // Si ya está bloqueado: asegurar solicitud pendiente y devolver BLOQUEADO
         if (cas.getIdEstadoCasillero() != null && cas.getIdEstadoCasillero() == ESTADO_LOCKED) {
             asegurarSolicitudPendienteConEvento(idCasillero, idUsuario);
             return ResultadoValidacionPin.BLOQUEADO;
@@ -85,7 +68,6 @@ public class CasilleroService {
             return ResultadoValidacionPin.OK;
         }
 
-        // FAIL
         casilleroDAO.incrementarIntentos(idCasillero);
         eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_PIN_FAIL), idUsuario, idCasillero);
 
@@ -97,7 +79,6 @@ public class CasilleroService {
             casilleroDAO.actualizarEstado(idCasillero, ESTADO_LOCKED);
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_LOCKED_3FAILS), idUsuario, idCasillero);
 
-            // Crear solicitud pendiente (si no existe) + evento pendiente
             asegurarSolicitudPendienteConEvento(idCasillero, idUsuario);
 
 
@@ -107,12 +88,6 @@ public class CasilleroService {
         return ResultadoValidacionPin.FAIL;
     }
 
-        /**
-     * Valida TOKEN para desbloqueo (delegado a TokenService).
-     * Mantiene la firma por compatibilidad con la UI.
-     *
-     * @return true si el token es válido y se procesó el desbloqueo, false si no.
-     */
     public boolean validarToken(int idCasillero, int idUsuario, String tokenIngresado) throws AppException {
 
         TokenService tokenService = new TokenService();
@@ -120,7 +95,6 @@ public class CasilleroService {
 
         if (r == TokenService.ResultadoValidacionToken.OK) return true;
 
-        // Si no hay token activo, mantenemos el comportamiento anterior: registrar FAIL
         if (r == TokenService.ResultadoValidacionToken.NO_TOKEN) {
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_FAIL), idUsuario, idCasillero);
         }
@@ -128,10 +102,7 @@ public class CasilleroService {
         return false;
     }
 
-    /**
-     * Crea una solicitud PENDIENTE si no existe otra PENDIENTE activa para ese casillero.
-     * Si la crea, registra también el evento "Solicitud de Recuperación Pendiente".
-     */
+
     private void asegurarSolicitudPendienteConEvento(int idCasillero, int idEstudianteSolicitante) throws AppException{
 
 
@@ -159,7 +130,6 @@ public class CasilleroService {
         }
     }
 
-    // ===== helpers =====
 
     private int tipoEventoIdOrThrow(String nombre) throws AppException {
         Integer id = tipoEventoDAO.findIdByName(nombre);

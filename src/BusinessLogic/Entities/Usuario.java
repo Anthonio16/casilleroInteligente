@@ -3,11 +3,10 @@ package BusinessLogic.Entities;
 public abstract class Usuario {
 
     protected Integer idUsuario;
-    protected Integer idUsuarioTipo;  // 1=Admin, 2=Estudiante (según inserts)
+    protected Integer idUsuarioTipo;  
     protected String nombre;
     protected EstadoRegistro estado;
 
-    // Solo para pruebas locales (en real: PIN HASH en BD)
     protected Integer pinTemporal;
     protected int intentosPin;
 
@@ -32,7 +31,6 @@ public abstract class Usuario {
     public int getIntentosPin() { return intentosPin; }
     public void resetIntentosPin() { intentosPin = 0; }
 
-    // Para prototipo: valida vs pinTemporal
     public boolean validarPinTemporal(int pinIngresado) {
         if (pinTemporal == null) return false;
 

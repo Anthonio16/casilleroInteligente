@@ -26,7 +26,6 @@ public class RegistroEventoNombreDTO {
             + "\n ----------------------------";
     }
 
-    // getters/setters (genera con tu IDE)
 
     public Integer getIdRegistroEvento() {
         return idRegistroEvento;

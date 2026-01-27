@@ -12,9 +12,7 @@ public class RegistroEventoViewDAO extends DataHelperSQLiteDAO<RegistroEventoVie
         super(RegistroEventoViewDTO.class, "RegistroEvento", "idRegistroEvento");
     }
 
-    /**
-     * Lista eventos del casillero incluyendo Nombre del tipo de evento (JOIN)
-     */
+
     public List<RegistroEventoViewDTO> listarConNombre(int idCasillero) throws AppException {
         String sql =
             "SELECT " +
@@ -41,9 +39,6 @@ public class RegistroEventoViewDAO extends DataHelperSQLiteDAO<RegistroEventoVie
         }
     }
 
-    /**
-     * Último evento del casillero incluyendo Nombre del tipo de evento (JOIN)
-     */
     public RegistroEventoViewDTO ultimoEventoConNombre(int idCasillero) throws AppException {
         String sql =
             "SELECT " +
