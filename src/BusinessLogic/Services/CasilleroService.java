@@ -107,50 +107,25 @@ public class CasilleroService {
         return ResultadoValidacionPin.FAIL;
     }
 
-    /**
-     * Valida TOKEN para desbloqueo:
-     * - Busca token activo del casillero (no expirado, Estado='A')
-     * - Compara tokenHash (texto tal cual)
-     * - Si OK:
-     *    1) desactiva ese token
-     *    2) deja casillero READY=1
-     *    3) resetea intentos (opcional pero recomendado)
-     *    4) registra Token OK + Desbloqueo
-     *    5) retorna true
-     * - Si FAIL:
-     *    registra Token FAIL y retorna false
+        /**
+     * Valida TOKEN para desbloqueo (delegado a TokenService).
+     * Mantiene la firma por compatibilidad con la UI.
+     *
+     * @return true si el token es válido y se procesó el desbloqueo, false si no.
      */
     public boolean validarToken(int idCasillero, int idUsuario, String tokenIngresado) throws AppException {
 
-        CasilleroDTO cas = casilleroDAO.obtenerPorId(idCasillero);
-        if (cas == null) throw new AppException("Casillero no existe", null, getClass(), "validarToken");
+        TokenService tokenService = new TokenService();
+        TokenService.ResultadoValidacionToken r = tokenService.validarToken(idCasillero, idUsuario, tokenIngresado);
 
-        TokenAccesoDTO tokenActivo = tokenDAO.obtenerActivoPorCasillero(idCasillero);
-        if (tokenActivo == null || tokenActivo.getTokenHash() == null) {
-            // No hay token -> FAIL (evento)
+        if (r == TokenService.ResultadoValidacionToken.OK) return true;
+
+        // Si no hay token activo, mantenemos el comportamiento anterior: registrar FAIL
+        if (r == TokenService.ResultadoValidacionToken.NO_TOKEN) {
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_FAIL), idUsuario, idCasillero);
-            return false;
         }
 
-        boolean ok = tokenActivo.getTokenHash().equals(tokenIngresado);
-
-        if (!ok) {
-            eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_FAIL), idUsuario, idCasillero);
-            return false;
-        }
-
-        // OK: desactivar token específico (tu DAO lo hace por idTokenacceso)
-        tokenDAO.desactivarToken(tokenActivo.getIdTokenacceso());
-
-        // Dejar casillero READY y limpiar intentos
-        casilleroDAO.actualizarEstado(idCasillero, ESTADO_READY);
-        casilleroDAO.resetIntentos(idCasillero);
-
-        // Eventos
-        eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_TOKEN_OK), idUsuario, idCasillero);
-        eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_DESBLOQUEO), idUsuario, idCasillero);
-
-        return true;
+        return false;
     }
 
     /**

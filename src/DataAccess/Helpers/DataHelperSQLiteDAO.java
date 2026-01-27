@@ -2,6 +2,7 @@ package DataAccess.Helpers;
 
 import java.sql.*;
 import java.util.List;
+import java.util.function.Function;
 
 import DataAccess.Interfaces.IDAO;
 
@@ -19,7 +20,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
     protected final String  tableName;
     protected final String  tablePK;
 
-    private static final String DBPath = AppConfig.DATABASE; 
+    private static final String DBPath = AppConfig.getDATABASE(); 
     private static Connection conn = null;
 
     protected static synchronized Connection openConnection() throws SQLException {
@@ -229,5 +230,26 @@ public class DataHelperSQLiteDAO <T> implements IDAO<T> {
         }
     }
 
-}
 
+    // =========================================================
+    // Transacciones (opcional): útil para operaciones de varios pasos
+    // =========================================================
+    public <T> T executeInTransaction(Function<Connection, T> work) throws AppException {
+        try (Connection conn = DriverManager.getConnection(DBPath)) {
+            conn.setAutoCommit(false);
+            try {
+                T result = work.apply(conn);
+                conn.commit();
+                return result;
+            } catch (Exception ex) {
+                conn.rollback();
+                throw ex;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        } catch (Exception e) {
+            throw new AppException("Error en transacción", e, getClass(), "executeInTransaction");
+        }
+    }
+
+}

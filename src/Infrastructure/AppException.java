@@ -38,7 +38,7 @@ public class AppException extends Exception {
             getMessage(), timestamp, className, methodName, logMsg
         );
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(AppConfig.LOGFILE, true))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(AppConfig.getLOGFILE(), true))) {
             System.err.println(CMDColor.BLUE + logMsg);
             writer.println(logMsg);
         } catch (Exception e) {

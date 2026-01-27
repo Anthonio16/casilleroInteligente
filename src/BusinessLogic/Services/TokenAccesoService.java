@@ -56,7 +56,7 @@ public class TokenAccesoService {
         casilleroDAO.actualizarEstado(idCasillero, ESTADO_READY);
 
         // token one-time use
-        tokenDAO.desactivarTokensPorCasillero(token.getIdTokenacceso());
+        tokenDAO.desactivarTokensPorCasillero(idCasillero);
 
         Integer idTipoOk = tipoEventoDAO.findIdByName("Token OK");
         if (idTipoOk != null) eventoDAO.crearEvento(idTipoOk, idUsuario, idCasillero);
