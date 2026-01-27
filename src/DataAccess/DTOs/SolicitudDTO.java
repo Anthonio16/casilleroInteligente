@@ -5,10 +5,11 @@ public class SolicitudDTO {
     private Integer idCasillero;
     private Integer idAdmin;
     private Integer idEstadoSolicitud;
+    private Integer idEstudianteSolicitante;
     private String  Estado;
     private String  FechaCreacion;
     private String  FechaModificacion;
-
+    
     
     public SolicitudDTO() {}
     
@@ -42,6 +43,13 @@ public class SolicitudDTO {
     public Integer getIdEstadoSolicitud() { return idEstadoSolicitud; }
     public void setIdEstadoSolicitud(Integer idEstadoSolicitud) { this.idEstadoSolicitud = idEstadoSolicitud; }
 
+    public Integer getIdEstudianteSolicitante() {
+    return idEstudianteSolicitante;
+    }
+
+    public void setIdEstudianteSolicitante(Integer idEstudianteSolicitante) {
+    this.idEstudianteSolicitante = idEstudianteSolicitante;
+    }
     public String getEstado() { return Estado; }
     public void setEstado(String estado) { Estado = estado; }
 

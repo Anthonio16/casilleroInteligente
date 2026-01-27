@@ -50,12 +50,13 @@ public class PHome extends JFrame {
         actions.removeAll();
 
         if (app.isAdmin()) {
-            addAction("Eventos", true, () -> app.showEventos());
+            addAction("Auditoría", true, () -> app.showEventos());
             addAction("Recuperaciones", true, () -> app.showRecuperaciones());
         } else {
             addAction("Validar PIN", true, () -> app.showValidarPin());
             addAction("Validar TOKEN", true, () -> app.showValidarToken());
-            addAction("Eventos", false, () -> app.showEventos());
+            addAction("Mi actividad", false, () -> app.showEventos());
+
         }
 
         addAction("Cerrar sesión", false, () -> { app.authController.logout(); app.showLogin(); });

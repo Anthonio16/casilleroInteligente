@@ -1,5 +1,6 @@
 package UserInterface.DesktopApp;
 
+import BusinessLogic.Services.AuditoriaService;
 import BusinessLogic.Services.AuthService;
 import BusinessLogic.Services.CasilleroService;
 import BusinessLogic.Services.EventoService;
@@ -7,7 +8,6 @@ import BusinessLogic.Services.RecuperacionService;
 import BusinessLogic.Services.TokenService;
 import DataAccess.DTOs.UsuarioDTO;
 import Infrastructure.AppException;
-
 import UserInterface.DesktopApp.Controllers.*;
 import UserInterface.DesktopApp.Forms.*;
 
@@ -29,6 +29,7 @@ public class AppComponent {
     public final RecuperacionService recuperacionService;
     public final TokenService tokenService;
     public final EventoService eventoService;
+    public final BusinessLogic.Services.AuditoriaService auditoriaService;
 
     // ===== Controllers =====
     public final AuthController authController;
@@ -36,6 +37,7 @@ public class AppComponent {
     public final RecuperacionController recuperacionController;
     public final TokenController tokenController;
     public final EventoController eventoController;
+    public final UserInterface.DesktopApp.Controllers.AuditoriaController auditoriaController;
 
     // ===== Forms =====
     public final PSplashScreen pSplash;
@@ -54,6 +56,8 @@ public class AppComponent {
         this.recuperacionService = new RecuperacionService();
         this.tokenService = new TokenService();
         this.eventoService = new EventoService();
+        this.auditoriaService = new AuditoriaService();
+
 
         // 2) Controllers
         this.authController = new AuthController(this);
@@ -61,6 +65,8 @@ public class AppComponent {
         this.recuperacionController = new RecuperacionController(this);
         this.tokenController = new TokenController(this);
         this.eventoController = new EventoController(this);
+        this.auditoriaController = new AuditoriaController(this);
+
 
         // 3) Forms (pantallas P...)
         this.pSplash = new PSplashScreen(this);

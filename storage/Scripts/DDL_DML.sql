@@ -1,4 +1,4 @@
--- database: casilleroInteligente\storage\Databases\casilleroInteligente.sqlite
+--database: F:\casilleroInteligente_con_cambios_15_16_C\casilleroInteligente\casilleroInteligente\storage\Databases\casilleroInteligente.sqlite
 PRAGMA foreign_keys = ON;
 
 -- =========================
@@ -7,7 +7,6 @@ PRAGMA foreign_keys = ON;
 DROP VIEW IF EXISTS vw_MisCasilleros_Estudiante;
 DROP VIEW IF EXISTS vw_CasilleroDashboard_Estudiante;
 DROP VIEW IF EXISTS vw_CasilleroDashboard_Admin;
-
 DROP TABLE IF EXISTS RegistroEvento;
 DROP TABLE IF EXISTS Tokenacceso;
 DROP TABLE IF EXISTS Solicitud;
@@ -86,21 +85,22 @@ CREATE TABLE EstadoSolicitud (
     idEstadoSolicitud   INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre              VARCHAR(20) NOT NULL UNIQUE,
     Descripcion         VARCHAR(100) NULL,
-    Estado              VARCHAR(10) NOT NULL DEFAULT 'A',
-    FechaCreacion       DATETIME NOT NULL DEFAULT (datetime('now','localtime')),
-    FechaModificacion   DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
-);
-
-
-CREATE TABLE Solicitud (
-    idSolicitud         INTEGER PRIMARY KEY AUTOINCREMENT,
-    idCasillero         INTEGER NOT NULL REFERENCES Casillero(idCasillero),
-    idAdmin             INTEGER NOT NULL REFERENCES Usuario(idUsuario),
-    idEstadoSolicitud   INTEGER NOT NULL DEFAULT 1 REFERENCES EstadoSolicitud(idEstadoSolicitud),
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
     FechaCreacion       DATETIME    NOT NULL DEFAULT (datetime('now','localtime')),
     FechaModificacion   DATETIME    NOT NULL DEFAULT (datetime('now','localtime'))
 );
+
+CREATE TABLE Solicitud (
+    idSolicitud              INTEGER    PRIMARY KEY AUTOINCREMENT,
+    idCasillero              INTEGER    NOT NULL REFERENCES Casillero(idCasillero),
+    idEstudianteSolicitante  INTEGER    NOT NULL REFERENCES Usuario(idUsuario),
+    idAdmin                  INTEGER    NULL REFERENCES Usuario(idUsuario),
+    idEstadoSolicitud        INTEGER    NOT NULL DEFAULT 1 REFERENCES EstadoSolicitud(idEstadoSolicitud),
+    Estado                   VARCHAR(1) NOT NULL DEFAULT 'A',
+    FechaCreacion            DATETIME   NOT NULL DEFAULT (datetime('now','localtime')),
+    FechaModificacion        DATETIME   NOT NULL DEFAULT (datetime('now','localtime'))
+);
+
 
 CREATE TABLE Tokenacceso (
     idTokenacceso       INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -159,11 +159,11 @@ INSERT INTO TipoEvento (Nombre, Descripcion) VALUES
 -- Casilleros
 INSERT INTO Casillero (idEstadoCasillero, idEstudiante, IntentosFallidos, Descripcion, Estado)
 VALUES
-(1, 2, 0, 'Casillero 1', 'A'),
-(2, 2, 0, 'Casillero 2', 'A'),
-(1, 3, 0, 'Casillero 3', 'A'),
+(2, 2, 0, 'Casillero 1', 'A'),   -- Locked: asignado a estudiante 2
+(1, NULL, 0, 'Casillero 2', 'A'),
+(2, 3, 0, 'Casillero 3', 'A'),   -- Locked: asignado a estudiante 3
 (1, NULL, 0, 'Casillero 4', 'A'),
-(2, NULL, 0, 'Casillero 5', 'A');
+(1, NULL, 0, 'Casillero 5', 'A');
 
 -- Credenciales
 INSERT INTO CredencialCasillero (idCasillero, pinHash, Estado) VALUES
@@ -174,9 +174,10 @@ INSERT INTO CredencialCasillero (idCasillero, pinHash, Estado) VALUES
 (5, '098f6bcd4621d373cade4e832627b4f6b828b5c6f5d5c1e4b8e4b5c6f5d5c1e4', 'A');
 
 -- Solicitudes (Pendiente=1)
-INSERT INTO Solicitud (idCasillero, idAdmin, idEstadoSolicitud, Estado) VALUES
-(1, 1, 1, 'A'),
-(2, 1, 1, 'A');
+INSERT INTO Solicitud (idCasillero, idEstudianteSolicitante, idAdmin, idEstadoSolicitud, Estado) VALUES
+(1, 2, NULL, 1, 'A'),
+(3, 3, NULL, 1, 'A');
+
 
 -- Tokens (Activos)
 INSERT INTO Tokenacceso (idSolicitud, idCasillero, TokenHash, Estado, FechaExpiracion) VALUES
@@ -309,4 +310,46 @@ SELECT * FROM vw_CasilleroDashboard_Estudiante;
 SELECT * FROM vw_MisCasilleros_Estudiante WHERE idEstudiante = 2;
 SELECT * FROM vw_MisCasilleros_Estudiante WHERE idEstudiante = 3;
 
+CREATE UNIQUE INDEX IF NOT EXISTS ux_Casillero_idEstudiante
+ON Casillero(idEstudiante)
+WHERE idEstudiante IS NOT NULL;
+
+DROP VIEW IF EXISTS vw_Auditoria_Admin;
+DROP VIEW IF EXISTS vw_Auditoria_Estudiante;
+
+-- Auditoría completa (admin)
+CREATE VIEW vw_Auditoria_Admin AS
+SELECT
+  re.idRegistroEvento                          AS idRegistroEvento,
+  re.FechaCreacion                             AS Fecha,
+  re.idCasillero                               AS idCasillero,
+  c.Descripcion                                AS CasilleroDescripcion,
+  ec.Nombre                                    AS EstadoCasillero,
+  c.idEstudiante                               AS idEstudiante,
+
+  re.idUsuario                                 AS idUsuario,
+  u.Nombre                                     AS UsuarioNombre,
+  ut.Nombre                                    AS UsuarioRol,
+
+  te.Nombre                                    AS EventoNombre,
+  CASE
+    WHEN te.Nombre LIKE '%OK%' THEN 'OK'
+    WHEN te.Nombre LIKE '%FAIL%' THEN 'FAIL'
+    WHEN te.Nombre LIKE '%Locked%' THEN 'BLOQUEO'
+    WHEN te.Nombre LIKE '%Aprobada%' THEN 'OK'
+    WHEN te.Nombre LIKE '%Rechazada%' THEN 'FAIL'
+    ELSE 'INFO'
+  END                                          AS Resultado
+
+FROM RegistroEvento re
+JOIN TipoEvento te      ON te.idTipoEvento = re.idTipoEvento
+JOIN Usuario u          ON u.idUsuario = re.idUsuario
+JOIN UsuarioTipo ut     ON ut.idUsuarioTipo = u.idUsuarioTipo
+JOIN Casillero c        ON c.idCasillero = re.idCasillero
+JOIN EstadoCasillero ec ON ec.idEstadoCasillero = c.idEstadoCasillero
+WHERE re.Estado = 'A';
+
+-- Auditoría para estudiante: misma data, pero se filtra por idEstudiante desde el código
+CREATE VIEW vw_Auditoria_Estudiante AS
+SELECT * FROM vw_Auditoria_Admin;
 

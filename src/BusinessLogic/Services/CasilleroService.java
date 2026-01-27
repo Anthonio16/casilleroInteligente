@@ -12,7 +12,6 @@ import DataAccess.DAOs.TokenAccesoDAO;
 import DataAccess.DTOs.CasilleroDTO;
 import DataAccess.DTOs.CredencialCasilleroDTO;
 import DataAccess.DTOs.SolicitudDTO;
-import DataAccess.DTOs.TokenAccesoDTO;
 import Infrastructure.AppException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -68,7 +67,7 @@ public class CasilleroService {
 
         // Si ya está bloqueado: asegurar solicitud pendiente y devolver BLOQUEADO
         if (cas.getIdEstadoCasillero() != null && cas.getIdEstadoCasillero() == ESTADO_LOCKED) {
-            asegurarSolicitudPendienteConEvento(idCasillero, ADMIN_DEFAULT);
+            asegurarSolicitudPendienteConEvento(idCasillero, idUsuario);
             return ResultadoValidacionPin.BLOQUEADO;
         }
 
@@ -99,7 +98,8 @@ public class CasilleroService {
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_LOCKED_3FAILS), idUsuario, idCasillero);
 
             // Crear solicitud pendiente (si no existe) + evento pendiente
-            asegurarSolicitudPendienteConEvento(idCasillero, ADMIN_DEFAULT);
+            asegurarSolicitudPendienteConEvento(idCasillero, idUsuario);
+
 
             return ResultadoValidacionPin.BLOQUEADO;
         }
@@ -132,7 +132,8 @@ public class CasilleroService {
      * Crea una solicitud PENDIENTE si no existe otra PENDIENTE activa para ese casillero.
      * Si la crea, registra también el evento "Solicitud de Recuperación Pendiente".
      */
-    private void asegurarSolicitudPendienteConEvento(int idCasillero, int idAdmin) throws AppException {
+    private void asegurarSolicitudPendienteConEvento(int idCasillero, int idEstudianteSolicitante) throws AppException{
+
 
         List<SolicitudDTO> list = solicitudDAO.listarPorCasillero(idCasillero);
 
@@ -149,9 +150,11 @@ public class CasilleroService {
         }
 
         if (!yaExistePendiente) {
-            Integer idSol = solicitudDAO.crearSolicitud(idCasillero, idAdmin, SOL_PENDIENTE);
+            Integer idSol = solicitudDAO.crearSolicitud(idCasillero, idEstudianteSolicitante, null, SOL_PENDIENTE);
+
             if (idSol != null) {
-                eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_SOL_PEND), idAdmin, idCasillero);
+                eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_SOL_PEND), idEstudianteSolicitante, idCasillero);
+
             }
         }
     }

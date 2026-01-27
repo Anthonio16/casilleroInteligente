@@ -62,7 +62,7 @@ public class RecuperacionService {
             throw new AppException("Solicitud no está PENDIENTE", null, getClass(), "aprobarSolicitud");
         }
 
-        boolean okUpd = solicitudDAO.actualizarEstadoSolicitud(idSolicitud, EST_APROBADA);
+        boolean okUpd = solicitudDAO.atenderSolicitud(idSolicitud, idAdmin, EST_APROBADA);
         if (!okUpd) {
             throw new AppException("No se pudo actualizar solicitud", null, getClass(), "aprobarSolicitud");
         }
@@ -106,7 +106,7 @@ public class RecuperacionService {
             throw new AppException("Solicitud no está PENDIENTE", null, getClass(), "rechazarSolicitud");
         }
 
-        boolean okUpd = solicitudDAO.actualizarEstadoSolicitud(idSolicitud, EST_RECHAZADA);
+        boolean okUpd = solicitudDAO.atenderSolicitud(idSolicitud, idAdmin, EST_RECHAZADA);
         if (!okUpd) {
             throw new AppException("No se pudo actualizar solicitud", null, getClass(), "rechazarSolicitud");
         }

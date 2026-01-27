@@ -3,7 +3,6 @@ package DataAccess.DAOs;
 import DataAccess.DTOs.SolicitudDTO;
 import DataAccess.Helpers.DataHelperSQLiteDAO;
 import Infrastructure.AppException;
-
 import java.util.List;
 
 public class SolicitudDAO extends DataHelperSQLiteDAO<SolicitudDTO> {
@@ -12,15 +11,17 @@ public class SolicitudDAO extends DataHelperSQLiteDAO<SolicitudDTO> {
         super(SolicitudDTO.class, "Solicitud", "idSolicitud");
     }
 
-    public Integer crearSolicitud(int idCasillero, int idAdmin, int idEstadoSolicitud) throws AppException {
+    public Integer crearSolicitud(int idCasillero, int idEstudianteSolicitante, Integer idAdmin, int idEstadoSolicitud) throws AppException {
         String sql =
-            "INSERT INTO Solicitud (idCasillero, idAdmin, idEstadoSolicitud, Estado) " +
-            "VALUES (?, ?, ?, 'A')";
+            "INSERT INTO Solicitud (idCasillero, idEstudianteSolicitante, idAdmin, idEstadoSolicitud, Estado) " +
+            "VALUES (?, ?, ?, ?, 'A')";
 
         try (var stmt = openConnection().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, idCasillero);
-            stmt.setInt(2, idAdmin);
-            stmt.setInt(3, idEstadoSolicitud);
+            stmt.setInt(2, idEstudianteSolicitante);
+            stmt.setObject(3, idAdmin); // puede ser NULL
+            stmt.setInt(4, idEstadoSolicitud);
+
             stmt.executeUpdate();
             try (var keys = stmt.getGeneratedKeys()) {
                 return keys.next() ? keys.getInt(1) : null;
@@ -29,6 +30,7 @@ public class SolicitudDAO extends DataHelperSQLiteDAO<SolicitudDTO> {
             throw new AppException(null, e, getClass(), "crearSolicitud");
         }
     }
+
 
     public SolicitudDTO obtenerPorId(int idSolicitud) throws AppException {
         String sql = "SELECT * FROM Solicitud WHERE idSolicitud = ? AND Estado='A' LIMIT 1";
@@ -86,6 +88,22 @@ public class SolicitudDAO extends DataHelperSQLiteDAO<SolicitudDTO> {
         throw new AppException(null, e, getClass(), "listarPorCasillero");
     }
 }
+
+    public boolean atenderSolicitud(int idSolicitud, int idAdmin, int idEstadoSolicitud) throws AppException {
+        String sql =
+            "UPDATE Solicitud " +
+            "SET idAdmin = ?, idEstadoSolicitud = ?, FechaModificacion = datetime('now','localtime') " +
+            "WHERE idSolicitud = ? AND Estado = 'A'";
+    
+        try (var stmt = openConnection().prepareStatement(sql)) {
+            stmt.setInt(1, idAdmin);
+            stmt.setInt(2, idEstadoSolicitud);
+            stmt.setInt(3, idSolicitud);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            throw new AppException(null, e, getClass(), "atenderSolicitud");
+        }
+    }
 
 
 }
