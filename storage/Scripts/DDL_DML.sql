@@ -8,7 +8,7 @@ DROP VIEW IF EXISTS vw_MisCasilleros_Estudiante;
 DROP VIEW IF EXISTS vw_CasilleroDashboard_Estudiante;
 DROP VIEW IF EXISTS vw_CasilleroDashboard_Admin;
 DROP TABLE IF EXISTS RegistroEvento;
-DROP TABLE IF EXISTS Tokenacceso;
+DROP TABLE IF EXISTS TokenAcceso;
 DROP TABLE IF EXISTS Solicitud;
 DROP TABLE IF EXISTS EstadoSolicitud;
 DROP TABLE IF EXISTS CredencialCasillero;
