@@ -1,0 +1,10 @@
+# SQLite databases
+*.sqlite
+*.db
+
+# Logs
+*.log
+
+# Storage runtime files
+storage/Databases/
+storage/Logs/
