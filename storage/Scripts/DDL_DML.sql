@@ -52,7 +52,7 @@ CREATE TABLE Usuario (
 );
 
 CREATE TABLE EstadoCasillero (
-    idEstadoCasillero   INTEGER PRIMARY KEY AUTOINCREMENT,
+    IdEstadoCasillero   INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre              VARCHAR(20) NOT NULL UNIQUE,
     Descripcion         VARCHAR(100) NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
@@ -61,9 +61,9 @@ CREATE TABLE EstadoCasillero (
 );
 
 CREATE TABLE Casillero (
-    idCasillero         INTEGER PRIMARY KEY AUTOINCREMENT,
-    idEstadoCasillero   INTEGER NOT NULL REFERENCES EstadoCasillero(idEstadoCasillero),
-    idEstudiante        INTEGER NULL REFERENCES Usuario(idUsuario),
+    IdCasillero         INTEGER PRIMARY KEY AUTOINCREMENT,
+    IdEstudiante        INTEGER NULL REFERENCES Usuario(idUsuario),
+    IdEstadoCasillero   INTEGER NOT NULL REFERENCES EstadoCasillero(IdEstadoCasillero),
     IntentosFallidos    INTEGER NOT NULL DEFAULT 0,
     Descripcion         VARCHAR(100) NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
@@ -82,7 +82,7 @@ CREATE TABLE CredencialCasillero (
 );
 
 CREATE TABLE EstadoSolicitud (
-    idEstadoSolicitud   INTEGER PRIMARY KEY AUTOINCREMENT,
+    IdEstadoSolicitud   INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre              VARCHAR(20) NOT NULL UNIQUE,
     Descripcion         VARCHAR(100) NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
@@ -91,21 +91,21 @@ CREATE TABLE EstadoSolicitud (
 );
 
 CREATE TABLE Solicitud (
-    idSolicitud              INTEGER    PRIMARY KEY AUTOINCREMENT,
-    idCasillero              INTEGER    NOT NULL REFERENCES Casillero(idCasillero),
-    idEstudianteSolicitante  INTEGER    NOT NULL REFERENCES Usuario(idUsuario),
-    idAdmin                  INTEGER    NULL REFERENCES Usuario(idUsuario),
-    idEstadoSolicitud        INTEGER    NOT NULL DEFAULT 1 REFERENCES EstadoSolicitud(idEstadoSolicitud),
+    IdSolicitud              INTEGER    PRIMARY KEY AUTOINCREMENT,
+    IdCasillero              INTEGER    NOT NULL REFERENCES Casillero(IdCasillero),
+    IdAdmin                  INTEGER    NULL REFERENCES Usuario(idUsuario),
+    IdEstadoSolicitud        INTEGER    NOT NULL DEFAULT 1 REFERENCES EstadoSolicitud(IdEstadoSolicitud),
+    IdEstudianteSolicitante  INTEGER    NOT NULL REFERENCES Usuario(idUsuario),
     Estado                   VARCHAR(1) NOT NULL DEFAULT 'A',
     FechaCreacion            DATETIME   NOT NULL DEFAULT (datetime('now','localtime')),
     FechaModificacion        DATETIME   NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
 
-CREATE TABLE Tokenacceso (
-    idTokenacceso       INTEGER PRIMARY KEY AUTOINCREMENT,
-    idSolicitud         INTEGER NOT NULL REFERENCES Solicitud(idSolicitud),
-    idCasillero         INTEGER NOT NULL REFERENCES Casillero(idCasillero),
+CREATE TABLE TokenAcceso (
+    IdTokenAcceso       INTEGER PRIMARY KEY AUTOINCREMENT,
+    IdSolicitud         INTEGER NOT NULL REFERENCES Solicitud(IdSolicitud),
+    IdCasillero         INTEGER NOT NULL REFERENCES Casillero(IdCasillero),
     TokenHash           TEXT NOT NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
     FechaCreacion       DATETIME    NOT NULL DEFAULT (datetime('now','localtime')),

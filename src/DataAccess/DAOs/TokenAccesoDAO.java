@@ -8,18 +8,18 @@ import java.util.List;
 public class TokenAccesoDAO extends DataHelperSQLiteDAO<TokenAccesoDTO> {
 
     public TokenAccesoDAO() throws AppException {
-        super(TokenAccesoDTO.class, "Tokenacceso", "idTokenacceso");
+        super(TokenAccesoDTO.class, "TokenAcceso", "IdTokenAcceso");
     }
 
-    public Integer crearToken15Min(int idSolicitud, int idCasillero, String tokenHash) throws AppException {
+    public Integer crearToken15Min(int IdSolicitud, int IdCasillero, String TokenHash) throws AppException {
         String sql =
-            "INSERT INTO Tokenacceso (idSolicitud, idCasillero, TokenHash, Estado, FechaExpiracion) " +
+            "INSERT INTO TokenAcceso (IdSolicitud, IdCasillero, TokenHash, Estado, FechaExpiracion) " +
             "VALUES (?, ?, ?, 'A', datetime('now','localtime','+15 minutes'))";
 
         try (var stmt = openConnection().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, idSolicitud);
-            stmt.setInt(2, idCasillero);
-            stmt.setString(3, tokenHash);
+            stmt.setInt(1, IdSolicitud);
+            stmt.setInt(2, IdCasillero);
+            stmt.setString(3, TokenHash);
             stmt.executeUpdate();
 
             try (var keys = stmt.getGeneratedKeys()) {
@@ -30,10 +30,10 @@ public class TokenAccesoDAO extends DataHelperSQLiteDAO<TokenAccesoDTO> {
         }
     }
 
-    public TokenAccesoDTO obtenerPorId(int idTokenacceso) throws AppException {
-        String sql = "SELECT * FROM Tokenacceso WHERE idTokenacceso = ? AND Estado='A' LIMIT 1";
+    public TokenAccesoDTO obtenerPorId(int IdTokenAcceso) throws AppException {
+        String sql = "SELECT * FROM TokenAcceso WHERE IdTokenAcceso = ? AND Estado='A' LIMIT 1";
         try (var stmt = openConnection().prepareStatement(sql)) {
-            stmt.setInt(1, idTokenacceso);
+            stmt.setInt(1, IdTokenAcceso);
             try (var rs = stmt.executeQuery()) {
                 return rs.next() ? mapResultSetToEntity(rs) : null;
             }
@@ -42,16 +42,16 @@ public class TokenAccesoDAO extends DataHelperSQLiteDAO<TokenAccesoDTO> {
         }
     }
 
-    public TokenAccesoDTO obtenerActivoPorCasillero(int idCasillero) throws AppException {
+    public TokenAccesoDTO obtenerActivoPorCasillero(int IdCasillero) throws AppException {
         String sql =
-            "SELECT * FROM Tokenacceso " +
-            "WHERE idCasillero = ? AND Estado='A' " +
+            "SELECT * FROM TokenAcceso " +
+            "WHERE IdCasillero = ? AND Estado='A' " +
             "  AND (FechaExpiracion IS NULL OR FechaExpiracion > datetime('now','localtime')) " +
-            "ORDER BY FechaModificacion DESC, idTokenacceso DESC " +
+            "ORDER BY FechaModificacion DESC, IdTokenAcceso DESC " +
             "LIMIT 1";
 
         try (var stmt = openConnection().prepareStatement(sql)) {
-            stmt.setInt(1, idCasillero);
+            stmt.setInt(1, IdCasillero);
             try (var rs = stmt.executeQuery()) {
                 return rs.next() ? mapResultSetToEntity(rs) : null;
             }
@@ -60,14 +60,14 @@ public class TokenAccesoDAO extends DataHelperSQLiteDAO<TokenAccesoDTO> {
         }
     }
 
-    public List<TokenAccesoDTO> listarPorSolicitud(int idSolicitud) throws AppException {
+    public List<TokenAccesoDTO> listarPorSolicitud(int IdSolicitud) throws AppException {
         String sql =
-            "SELECT * FROM Tokenacceso " +
-            "WHERE idSolicitud = ? AND Estado='A' " +
-            "ORDER BY FechaModificacion DESC, idTokenacceso DESC";
+            "SELECT * FROM TokenAcceso " +
+            "WHERE IdSolicitud = ? AND Estado='A' " +
+            "ORDER BY FechaModificacion DESC, IdTokenAcceso DESC";
 
         try (var stmt = openConnection().prepareStatement(sql)) {
-            stmt.setInt(1, idSolicitud);
+            stmt.setInt(1, IdSolicitud);
             try (var rs = stmt.executeQuery()) {
                 return mapResultSetToEntityList(rs);
             }
@@ -76,28 +76,28 @@ public class TokenAccesoDAO extends DataHelperSQLiteDAO<TokenAccesoDTO> {
         }
     }
 
-    public void desactivarToken(int idTokenacceso) throws AppException {
+    public void desactivarToken(int IdTokenAcceso) throws AppException {
         String sql =
-            "UPDATE Tokenacceso " +
+            "UPDATE TokenAcceso " +
             "SET Estado='X', FechaModificacion=datetime('now','localtime') " +
-            "WHERE idTokenacceso = ? AND Estado='A'";
+            "WHERE IdTokenAcceso = ? AND Estado='A'";
 
         try (var stmt = openConnection().prepareStatement(sql)) {
-            stmt.setInt(1, idTokenacceso);
+            stmt.setInt(1, IdTokenAcceso);
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "desactivarToken");
         }
     }
 
-    public void desactivarTokensPorCasillero(int idCasillero) throws AppException {
+    public void desactivarTokensPorCasillero(int IdCasillero) throws AppException {
         String sql =
-            "UPDATE Tokenacceso " +
+            "UPDATE TokenAcceso " +
             "SET Estado='X', FechaModificacion=datetime('now','localtime') " +
-            "WHERE idCasillero = ? AND Estado='A'";
+            "WHERE IdCasillero = ? AND Estado='A'";
 
         try (var stmt = openConnection().prepareStatement(sql)) {
-            stmt.setInt(1, idCasillero);
+            stmt.setInt(1, IdCasillero);
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new AppException(null, e, getClass(), "desactivarTokensPorCasillero");
@@ -107,7 +107,7 @@ public class TokenAccesoDAO extends DataHelperSQLiteDAO<TokenAccesoDTO> {
     // (OPCIONAL) Limpieza: marca como X los tokens vencidos
     public void expirarTokensVencidos() throws AppException {
         String sql =
-            "UPDATE Tokenacceso " +
+            "UPDATE TokenAcceso " +
             "SET Estado='X', FechaModificacion=datetime('now','localtime') " +
             "WHERE Estado='A' AND FechaExpiracion IS NOT NULL " +
             "  AND FechaExpiracion <= datetime('now','localtime')";

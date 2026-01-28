@@ -1,9 +1,9 @@
 package DataAccess.DTOs;
 
 public class TokenAccesoDTO {
-    private Integer idTokenacceso;
-    private Integer idSolicitud;
-    private Integer idCasillero;
+    private Integer IdTokenacceso;
+    private Integer IdSolicitud;
+    private Integer IdCasillero;
     private String  TokenHash;
     private String  Estado;
     private String  FechaCreacion;
@@ -19,25 +19,25 @@ public class TokenAccesoDTO {
         Estado = estado;
         FechaCreacion = fechaCreacion;
     }
-    public TokenAccesoDTO(Integer idTokenacceso, Integer idSolicitud, Integer idCasillero, String tokenHash,
+    public TokenAccesoDTO(Integer IdTokenacceso, Integer IdSolicitud, Integer IdCasillero, String tokenHash,
             String estado, String fechaCreacion, String fechaModificacion, String fechaExpiracion) {
-        idTokenacceso = 0;
-        idSolicitud = 0;
-        idCasillero = 0;
+        IdTokenacceso = 0;
+        IdSolicitud = 0;
+        IdCasillero = 0;
         TokenHash = tokenHash;
         Estado = estado;
         FechaCreacion = fechaCreacion;
         FechaModificacion = fechaModificacion;
         FechaExpiracion = fechaExpiracion;
     }
-    public Integer getIdTokenacceso() { return idTokenacceso; }
-    public void setIdTokenacceso(Integer idTokenacceso) { this.idTokenacceso = idTokenacceso; }
+    public Integer getIdTokenacceso() { return IdTokenacceso; }
+    public void setIdTokenacceso(Integer IdTokenacceso) { this.IdTokenacceso = IdTokenacceso; }
     
-    public Integer getIdSolicitud() { return idSolicitud; }
-    public void setIdSolicitud(Integer idSolicitud) { this.idSolicitud = idSolicitud; }
+    public Integer getIdSolicitud() { return IdSolicitud; }
+    public void setIdSolicitud(Integer IdSolicitud) { this.IdSolicitud = IdSolicitud; }
     
-    public Integer getIdCasillero() { return idCasillero; }
-    public void setIdCasillero(Integer idCasillero) { this.idCasillero = idCasillero; }
+    public Integer getIdCasillero() { return IdCasillero; }
+    public void setIdCasillero(Integer IdCasillero) { this.IdCasillero = IdCasillero; }
 
     public String getTokenHash() { return TokenHash; }
     public void setTokenHash(String tokenHash) { TokenHash = tokenHash; }
@@ -57,9 +57,9 @@ public class TokenAccesoDTO {
     @Override
     public String toString() {
         return getClass().getName()
-            + "\n idTokenacceso      : " + idTokenacceso
-            + "\n idSolicitud        : " + idSolicitud
-            + "\n idCasillero        : " + idCasillero
+            + "\n IdTokenacceso      : " + IdTokenacceso
+            + "\n IdSolicitud        : " + IdSolicitud
+            + "\n IdCasillero        : " + IdCasillero
             + "\n TokenHash          : " + TokenHash
             + "\n Estado             : " + Estado
             + "\n FechaCreacion      : " + FechaCreacion

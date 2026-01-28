@@ -8,7 +8,7 @@ import java.util.List;
 public class EstadoCasilleroDAO extends DataHelperSQLiteDAO<EstadoCasilleroDTO> {
 
     public EstadoCasilleroDAO() throws AppException {
-        super(EstadoCasilleroDTO.class, "EstadoCasillero", "idEstadoCasillero");
+        super(EstadoCasilleroDTO.class, "EstadoCasillero", "IdEstadoCasillero");
     }
 
     public EstadoCasilleroDTO obtenerPorNombre(String nombre) throws AppException {
@@ -35,7 +35,7 @@ public class EstadoCasilleroDAO extends DataHelperSQLiteDAO<EstadoCasilleroDTO> 
         String sql =
             "SELECT * FROM EstadoCasillero " +
             "WHERE Estado = 'A' " +
-            "ORDER BY idEstadoCasillero ASC";
+            "ORDER BY IdEstadoCasillero ASC";
         try (var stmt = openConnection().prepareStatement(sql);
              var rs = stmt.executeQuery()) {
             return mapResultSetToEntityList(rs);
