@@ -1,4 +1,4 @@
---database: F:\casilleroInteligente_con_cambios_15_16_C\casilleroInteligente\casilleroInteligente\storage\Databases\casilleroInteligente.sqlite
+--database: storage\Databases\casilleroInteligente.sqlite
 PRAGMA foreign_keys = ON;
 
 -- =========================
