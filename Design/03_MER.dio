@@ -1,6 +1,10 @@
 <mxfile host="65bd71144e">
     <diagram id="DsBLvsfYkjqOk73xnU4E" name="Page-1">
+<<<<<<< HEAD
         <mxGraphModel dx="2038" dy="2706" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+=======
+        <mxGraphModel dx="2116" dy="2781" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+>>>>>>> 1cc1734c6a88ee7149f513fcfaf6ac52f3c45325
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -608,6 +612,22 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="632" value="IdEstadoSolicitud" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;" parent="630" vertex="1">
+<<<<<<< HEAD
+=======
+                    <mxGeometry x="30" width="175" height="21" as="geometry">
+                        <mxRectangle width="175" height="21" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="633" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" parent="415" vertex="1">
+                    <mxGeometry y="114" width="205" height="21" as="geometry"/>
+                </mxCell>
+                <mxCell id="634" value="FK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=0;overflow=hidden;" parent="633" vertex="1">
+                    <mxGeometry width="30" height="21" as="geometry">
+                        <mxRectangle width="30" height="21" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="635" value="IdEstudianteSolicitante" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;" parent="633" vertex="1">
+>>>>>>> 1cc1734c6a88ee7149f513fcfaf6ac52f3c45325
                     <mxGeometry x="30" width="175" height="21" as="geometry">
                         <mxRectangle width="175" height="21" as="alternateBounds"/>
                     </mxGeometry>
@@ -626,7 +646,11 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="638" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" parent="415" vertex="1">
+<<<<<<< HEAD
                     <mxGeometry y="144" width="205" height="30" as="geometry"/>
+=======
+                    <mxGeometry y="165" width="205" height="30" as="geometry"/>
+>>>>>>> 1cc1734c6a88ee7149f513fcfaf6ac52f3c45325
                 </mxCell>
                 <mxCell id="639" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;" parent="638" vertex="1">
                     <mxGeometry width="30" height="30" as="geometry">
@@ -1023,6 +1047,7 @@
                         <mxPoint x="-818" y="-625" as="targetPoint"/>
                         <Array as="points">
                             <mxPoint x="-770" y="-622"/>
+                            <mxPoint x="-764" y="-421"/>
                             <mxPoint x="-770" y="-325"/>
                         </Array>
                     </mxGeometry>

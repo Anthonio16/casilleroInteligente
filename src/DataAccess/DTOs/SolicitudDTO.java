@@ -1,11 +1,11 @@
 package DataAccess.DTOs;
 
 public class SolicitudDTO {
-    private Integer idSolicitud;
-    private Integer idCasillero;
-    private Integer idAdmin;
-    private Integer idEstadoSolicitud;
-    private Integer idEstudianteSolicitante;
+    private Integer IdSolicitud;
+    private Integer IdCasillero;
+    private Integer IdAdmin;
+    private Integer IdEstadoSolicitud;
+    private Integer IdEstudianteSolicitante;
     private String  Estado;
     private String  FechaCreacion;
     private String  FechaModificacion;
@@ -13,42 +13,42 @@ public class SolicitudDTO {
     
     public SolicitudDTO() {}
     
-    public SolicitudDTO(Integer idCasillero, Integer idAdmin, Integer idEstadoSolicitud) {
-        this.idSolicitud = 0;
-        this.idCasillero = idCasillero;
-        this.idAdmin = idAdmin;
-        this.idEstadoSolicitud = idEstadoSolicitud;
+    public SolicitudDTO(Integer IdCasillero, Integer IdAdmin, Integer IdEstadoSolicitud) {
+        this.IdSolicitud = 0;
+        this.IdCasillero = IdCasillero;
+        this.IdAdmin = IdAdmin;
+        this.IdEstadoSolicitud = IdEstadoSolicitud;
         this.Estado = "A";
     }
     
-    public SolicitudDTO(Integer idSolicitud, Integer idCasillero, Integer idAdmin, Integer idEstadoSolicitud,
+    public SolicitudDTO(Integer IdSolicitud, Integer IdCasillero, Integer IdAdmin, Integer IdEstadoSolicitud,
             String estado, String fechaCreacion, String fechaModificacion) {
-        this.idSolicitud = idSolicitud;
-        this.idCasillero = idCasillero;
-        this.idAdmin = idAdmin;
-        this.idEstadoSolicitud = idEstadoSolicitud;
+        this.IdSolicitud = IdSolicitud;
+        this.IdCasillero = IdCasillero;
+        this.IdAdmin = IdAdmin;
+        this.IdEstadoSolicitud = IdEstadoSolicitud;
         Estado = estado;
         FechaCreacion = fechaCreacion;
         FechaModificacion = fechaModificacion;
     }
-    public Integer getIdSolicitud() { return idSolicitud; }
-    public void setIdSolicitud(Integer idSolicitud) { this.idSolicitud = idSolicitud; }
+    public Integer getIdSolicitud() { return IdSolicitud; }
+    public void setIdSolicitud(Integer IdSolicitud) { this.IdSolicitud = IdSolicitud; }
 
-    public Integer getIdCasillero() { return idCasillero; }
-    public void setIdCasillero(Integer idCasillero) { this.idCasillero = idCasillero; }
+    public Integer getIdCasillero() { return IdCasillero; }
+    public void setIdCasillero(Integer IdCasillero) { this.IdCasillero = IdCasillero; }
 
-    public Integer getIdAdmin() { return idAdmin; }
-    public void setIdAdmin(Integer idAdmin) { this.idAdmin = idAdmin; }
+    public Integer getIdAdmin() { return IdAdmin; }
+    public void setIdAdmin(Integer IdAdmin) { this.IdAdmin = IdAdmin; }
 
-    public Integer getIdEstadoSolicitud() { return idEstadoSolicitud; }
-    public void setIdEstadoSolicitud(Integer idEstadoSolicitud) { this.idEstadoSolicitud = idEstadoSolicitud; }
+    public Integer getIdEstadoSolicitud() { return IdEstadoSolicitud; }
+    public void setIdEstadoSolicitud(Integer IdEstadoSolicitud) { this.IdEstadoSolicitud = IdEstadoSolicitud; }
 
     public Integer getIdEstudianteSolicitante() {
-    return idEstudianteSolicitante;
+    return IdEstudianteSolicitante;
     }
 
-    public void setIdEstudianteSolicitante(Integer idEstudianteSolicitante) {
-    this.idEstudianteSolicitante = idEstudianteSolicitante;
+    public void setIdEstudianteSolicitante(Integer IdEstudianteSolicitante) {
+    this.IdEstudianteSolicitante = IdEstudianteSolicitante;
     }
     public String getEstado() { return Estado; }
     public void setEstado(String estado) { Estado = estado; }
@@ -62,10 +62,10 @@ public class SolicitudDTO {
     @Override
     public String toString() {
         return getClass().getName()
-            + "\n idSolicitud        : " + idSolicitud
-            + "\n idCasillero        : " + idCasillero
-            + "\n idAdmin            : " + idAdmin
-            + "\n idEstadoSolicitud  : " + idEstadoSolicitud
+            + "\n IdSolicitud        : " + IdSolicitud
+            + "\n IdCasillero        : " + IdCasillero
+            + "\n IdAdmin            : " + IdAdmin
+            + "\n IdEstadoSolicitud  : " + IdEstadoSolicitud
             + "\n Estado             : " + Estado
             + "\n FechaCreacion      : " + FechaCreacion
             + "\n FechaModificacion  : " + FechaModificacion
