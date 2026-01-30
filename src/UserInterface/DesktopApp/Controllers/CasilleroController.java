@@ -18,5 +18,14 @@ public class CasilleroController {
         int idUsuario = app.getCurrentUser().getIdUsuario();
         return service.validarPin(idCasillero, idUsuario, pin);
     }
+
+    /**
+     * ADMIN: cambia el PIN del casillero.
+     * Importante: NO existe forma segura de "ver" el PIN actual (en BD solo hay hash).
+     */
+    public void adminCambiarPin(int idCasillero, String nuevoPin) throws AppException {
+        int idAdmin = app.getCurrentUser().getIdUsuario();
+        service.adminCambiarPin(idCasillero, idAdmin, nuevoPin);
+    }
 }
 

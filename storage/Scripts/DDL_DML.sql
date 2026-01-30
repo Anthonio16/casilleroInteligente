@@ -1,14 +1,11 @@
---database: storage\Databases\casilleroInteligente.sqlite
+--database: F:\casilleroInteligente_con_cambios_15_16_C\casilleroInteligente\casilleroInteligente\storage\Databases\casilleroInteligente.sqlite
 PRAGMA foreign_keys = ON;
 
--- =========================
---        DROPS
--- =========================
 DROP VIEW IF EXISTS vw_MisCasilleros_Estudiante;
 DROP VIEW IF EXISTS vw_CasilleroDashboard_Estudiante;
 DROP VIEW IF EXISTS vw_CasilleroDashboard_Admin;
 DROP TABLE IF EXISTS RegistroEvento;
-DROP TABLE IF EXISTS TokenAcceso;
+DROP TABLE IF EXISTS Tokenacceso;
 DROP TABLE IF EXISTS Solicitud;
 DROP TABLE IF EXISTS EstadoSolicitud;
 DROP TABLE IF EXISTS CredencialCasillero;
@@ -18,9 +15,6 @@ DROP TABLE IF EXISTS Usuario;
 DROP TABLE IF EXISTS UsuarioTipo;
 DROP TABLE IF EXISTS TipoEvento;
 
--- =========================
---        TABLAS
--- =========================
 
 CREATE TABLE TipoEvento (
     idTipoEvento        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,7 +46,7 @@ CREATE TABLE Usuario (
 );
 
 CREATE TABLE EstadoCasillero (
-    IdEstadoCasillero   INTEGER PRIMARY KEY AUTOINCREMENT,
+    idEstadoCasillero   INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre              VARCHAR(20) NOT NULL UNIQUE,
     Descripcion         VARCHAR(100) NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
@@ -61,9 +55,9 @@ CREATE TABLE EstadoCasillero (
 );
 
 CREATE TABLE Casillero (
-    IdCasillero         INTEGER PRIMARY KEY AUTOINCREMENT,
-    IdEstudiante        INTEGER NULL REFERENCES Usuario(idUsuario),
-    IdEstadoCasillero   INTEGER NOT NULL REFERENCES EstadoCasillero(IdEstadoCasillero),
+    idCasillero         INTEGER PRIMARY KEY AUTOINCREMENT,
+    idEstadoCasillero   INTEGER NOT NULL REFERENCES EstadoCasillero(idEstadoCasillero),
+    idEstudiante        INTEGER NULL REFERENCES Usuario(idUsuario),
     IntentosFallidos    INTEGER NOT NULL DEFAULT 0,
     Descripcion         VARCHAR(100) NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
@@ -71,7 +65,6 @@ CREATE TABLE Casillero (
     FechaModificacion   DATETIME    NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
--- 1 credencial por casillero
 CREATE TABLE CredencialCasillero (
     idCredencialCasillero INTEGER PRIMARY KEY AUTOINCREMENT,
     idCasillero           INTEGER NOT NULL UNIQUE REFERENCES Casillero(idCasillero),
@@ -82,7 +75,7 @@ CREATE TABLE CredencialCasillero (
 );
 
 CREATE TABLE EstadoSolicitud (
-    IdEstadoSolicitud   INTEGER PRIMARY KEY AUTOINCREMENT,
+    idEstadoSolicitud   INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre              VARCHAR(20) NOT NULL UNIQUE,
     Descripcion         VARCHAR(100) NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
@@ -91,21 +84,21 @@ CREATE TABLE EstadoSolicitud (
 );
 
 CREATE TABLE Solicitud (
-    IdSolicitud              INTEGER    PRIMARY KEY AUTOINCREMENT,
-    IdCasillero              INTEGER    NOT NULL REFERENCES Casillero(IdCasillero),
-    IdAdmin                  INTEGER    NULL REFERENCES Usuario(idUsuario),
-    IdEstadoSolicitud        INTEGER    NOT NULL DEFAULT 1 REFERENCES EstadoSolicitud(IdEstadoSolicitud),
-    IdEstudianteSolicitante  INTEGER    NOT NULL REFERENCES Usuario(idUsuario),
+    idSolicitud              INTEGER    PRIMARY KEY AUTOINCREMENT,
+    idCasillero              INTEGER    NOT NULL REFERENCES Casillero(idCasillero),
+    idEstudianteSolicitante  INTEGER    NOT NULL REFERENCES Usuario(idUsuario),
+    idAdmin                  INTEGER    NULL REFERENCES Usuario(idUsuario),
+    idEstadoSolicitud        INTEGER    NOT NULL DEFAULT 1 REFERENCES EstadoSolicitud(idEstadoSolicitud),
     Estado                   VARCHAR(1) NOT NULL DEFAULT 'A',
     FechaCreacion            DATETIME   NOT NULL DEFAULT (datetime('now','localtime')),
     FechaModificacion        DATETIME   NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
 
-CREATE TABLE TokenAcceso (
-    IdTokenAcceso       INTEGER PRIMARY KEY AUTOINCREMENT,
-    IdSolicitud         INTEGER NOT NULL REFERENCES Solicitud(IdSolicitud),
-    IdCasillero         INTEGER NOT NULL REFERENCES Casillero(IdCasillero),
+CREATE TABLE Tokenacceso (
+    idTokenacceso       INTEGER PRIMARY KEY AUTOINCREMENT,
+    idSolicitud         INTEGER NOT NULL REFERENCES Solicitud(idSolicitud),
+    idCasillero         INTEGER NOT NULL REFERENCES Casillero(idCasillero),
     TokenHash           TEXT NOT NULL,
     Estado              VARCHAR(1)  NOT NULL DEFAULT 'A',
     FechaCreacion       DATETIME    NOT NULL DEFAULT (datetime('now','localtime')),
@@ -123,9 +116,6 @@ CREATE TABLE RegistroEvento (
     FechaModificacion   DATETIME    NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
--- =========================
---        INSERTS
--- =========================
 
 INSERT INTO UsuarioTipo (Nombre, Descripcion) VALUES
 ('Admin', 'Administrador del sistema'),
@@ -156,7 +146,6 @@ INSERT INTO TipoEvento (Nombre, Descripcion) VALUES
 ('Solicitud de Recuperación Aprobada', 'Aprobación de una solicitud de casillero'),
 ('Solicitud de Recuperación Rechazada', 'Rechazo de una solicitud de casillero');
 
--- Casilleros
 INSERT INTO Casillero (idEstadoCasillero, idEstudiante, IntentosFallidos, Descripcion, Estado)
 VALUES
 (2, 2, 0, 'Casillero 1', 'A'),   -- Locked: asignado a estudiante 2
@@ -166,25 +155,29 @@ VALUES
 (1, NULL, 0, 'Casillero 5', 'A');
 
 -- Credenciales
+-- PINs de ejemplo (en claro):
+--   Casillero 1: 12341
+--   Casillero 2: 23451
+--   Casillero 3: 34561
+--   Casillero 4: 45671
+--   Casillero 5: 56781
+-- (en BD se guarda SHA-256)
 INSERT INTO CredencialCasillero (idCasillero, pinHash, Estado) VALUES
-(1, '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'A'),
-(2, '6cb75f652a9b52798eb6cf2201057c73e0677d3f8cb1d5e4a3d6b7a3e5f5c1e0', 'A'),
-(3, '2c1743a391305fbf367df8e4f069f9f9b828b5c6f5d5c1e4b8e4b5c6f5d5c1e4', 'A'),
-(4, '3c363836cf4e16666669a25da280a1865c2d2874f5d5c1e4b8e4b5c6f5d5c1e4', 'A'),
-(5, '098f6bcd4621d373cade4e832627b4f6b828b5c6f5d5c1e4b8e4b5c6f5d5c1e4', 'A');
+(1, '0f6370c4f94a173cc95f01b127638f8eebe33537ca21ed3c289c77c232f5c183', 'A'),
+(2, '68e6056bca0bd76350ac00fd8e2668b92ee482585a347a9dc865c91810fa70c6', 'A'),
+(3, '4fa2fd78506cb701702f8ee78621eb7b18711ca95cd65cc39183d3f4c18f8a4f', 'A'),
+(4, 'f54bfbf7be392a56b0e6896f2e20409470b71cd5303740a0df247f6a156e57ce', 'A'),
+(5, '9a7f3ec4f8e2676f4f42df2ebcc11afbf3b8067298d2f5533581b790f7323b0f', 'A');
 
--- Solicitudes (Pendiente=1)
 INSERT INTO Solicitud (idCasillero, idEstudianteSolicitante, idAdmin, idEstadoSolicitud, Estado) VALUES
 (1, 2, NULL, 1, 'A'),
 (3, 3, NULL, 1, 'A');
 
 
--- Tokens (Activos)
 INSERT INTO Tokenacceso (idSolicitud, idCasillero, TokenHash, Estado, FechaExpiracion) VALUES
 (1, 1, 'd8578edf8458ce06fbc5bb76a58c5ca4', 'A', datetime('now','localtime','+15 minutes')),
 (2, 2, '5f4dcc3b5aa765d61d8327deb882cf99', 'A', datetime('now','localtime','+15 minutes'));
 
--- Eventos
 INSERT INTO RegistroEvento (idTipoEvento, idUsuario, idCasillero, Estado) VALUES
 (1, 2, 1, 'A'),
 (2, 2, 1, 'A'),
@@ -192,11 +185,7 @@ INSERT INTO RegistroEvento (idTipoEvento, idUsuario, idCasillero, Estado) VALUES
 (5, 2, 2, 'A'),
 (2, 3, 3, 'A');
 
--- =========================
---           VIEWS
--- =========================
 
--- 1) Admin: ve TODO (incluye pinHash)
 CREATE VIEW vw_CasilleroDashboard_Admin AS
 SELECT
     c.idCasillero,
@@ -230,7 +219,6 @@ LEFT JOIN TipoEvento te
     ON te.idTipoEvento = re.idTipoEvento
 WHERE c.Estado = 'A';
 
--- 2) Estudiante: NO ve pinHash
 CREATE VIEW vw_CasilleroDashboard_Estudiante AS
 SELECT
     c.idCasillero,
@@ -265,7 +253,6 @@ LEFT JOIN TipoEvento te
     ON te.idTipoEvento = re.idTipoEvento
 WHERE c.Estado = 'A';
 
--- 3) Estudiante: solo mis casilleros (filtrar en SELECT final)
 CREATE VIEW vw_MisCasilleros_Estudiante AS
 SELECT
     c.idCasillero,
@@ -302,9 +289,6 @@ LEFT JOIN TipoEvento te
     ON te.idTipoEvento = re.idTipoEvento
 WHERE c.Estado = 'A';
 
--- =========================
---        PRUEBAS
--- =========================
 SELECT * FROM vw_CasilleroDashboard_Admin;
 SELECT * FROM vw_CasilleroDashboard_Estudiante;
 SELECT * FROM vw_MisCasilleros_Estudiante WHERE idEstudiante = 2;
@@ -349,7 +333,6 @@ JOIN Casillero c        ON c.idCasillero = re.idCasillero
 JOIN EstadoCasillero ec ON ec.idEstadoCasillero = c.idEstadoCasillero
 WHERE re.Estado = 'A';
 
--- Auditoría para estudiante: misma data, pero se filtra por idEstudiante desde el código
 CREATE VIEW vw_Auditoria_Estudiante AS
 SELECT * FROM vw_Auditoria_Admin;
 

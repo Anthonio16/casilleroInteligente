@@ -47,20 +47,24 @@ public class PRecuperaciones extends JFrame {
         JButton btnRef = new JButton("Refrescar");
         JButton btnApr = new JButton("Aprobar");
         JButton btnRec = new JButton("Rechazar");
+        JButton btnPin = new JButton("Cambiar PIN");
         JButton btnBack = new JButton("Volver");
 
         UIStyles.styleSecondary(btnRef);
         UIStyles.stylePrimary(btnApr);
         UIStyles.styleSecondary(btnRec);
+        UIStyles.stylePrimary(btnPin);
         UIStyles.styleSecondary(btnBack);
 
         btnRef.addActionListener(e -> refresh());
         btnApr.addActionListener(e -> aprobarSeleccion());
         btnRec.addActionListener(e -> rechazarSeleccion());
+        btnPin.addActionListener(e -> cambiarPinSeleccion());
         btnBack.addActionListener(e -> app.showHome());
 
         south.add(btnBack);
         south.add(btnRef);
+        south.add(btnPin);
         south.add(btnRec);
         south.add(btnApr);
 
@@ -146,4 +150,46 @@ public class PRecuperaciones extends JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Rechazar", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private void cambiarPinSeleccion() {
+        try {
+            if (!app.isAdmin()) {
+                JOptionPane.showMessageDialog(this, "Solo ADMIN", "Cambiar PIN", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Integer idCas = getSelectedIdCasillero();
+            if (idCas == null) {
+                JOptionPane.showMessageDialog(this, "Selecciona una fila para obtener IdCasillero", "Cambiar PIN", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String nuevo = JOptionPane.showInputDialog(this,
+                    "Nuevo PIN (5 dígitos 0-9) para casillero #" + idCas + ":",
+                    "Cambiar PIN",
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (nuevo == null) return; // cancelado
+            nuevo = nuevo.trim();
+            if (!nuevo.matches("\\d{5}")) {
+                JOptionPane.showMessageDialog(this, "El PIN debe ser de 5 dígitos (solo números)", "Cambiar PIN", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int ok = JOptionPane.showConfirmDialog(this,
+                    "¿Confirmas cambiar el PIN del casillero #" + idCas + " a: " + nuevo + " ?\n" +
+                    "(Se reinician intentos fallidos)",
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION);
+            if (ok != JOptionPane.YES_OPTION) return;
+
+            app.casilleroController.adminCambiarPin(idCas, nuevo);
+            JOptionPane.showMessageDialog(this, "PIN actualizado.\nAhora el ESP32 puede validar con el nuevo PIN.", "Cambiar PIN", JOptionPane.INFORMATION_MESSAGE);
+
+            refresh();
+        } catch (AppException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Cambiar PIN", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }
