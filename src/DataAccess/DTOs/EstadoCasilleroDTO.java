@@ -2,33 +2,34 @@ package DataAccess.DTOs;
 
 public class EstadoCasilleroDTO {
 
-    private Integer IdEstadoCasillero;
+    private Integer idEstadoCasillero;
     private String  Nombre;
     private String  Descripcion;
     private String  Estado;
     private String  FechaCreacion;
-    private String  FechaModificacion;
+    private String  FechaModifica;
 
     public EstadoCasilleroDTO() {}
 
     public EstadoCasilleroDTO(String nombre, String descripcion) {
-        this.IdEstadoCasillero = 0;
+        this.idEstadoCasillero = 0;
         this.Nombre = nombre;
         this.Descripcion = descripcion;
         this.Estado = "A";
     }
 
-    public EstadoCasilleroDTO(Integer IdEstadoCasillero, String nombre, String descripcion,String estado, String fechaCreacion, String fechaModifica) {
-        this.IdEstadoCasillero = IdEstadoCasillero;
+    public EstadoCasilleroDTO(Integer idEstadoCasillero, String nombre, String descripcion,
+                              String estado, String fechaCreacion, String fechaModifica) {
+        this.idEstadoCasillero = idEstadoCasillero;
         this.Nombre = nombre;
         this.Descripcion = descripcion;
         this.Estado = estado;
         this.FechaCreacion = fechaCreacion;
-        this.FechaModificacion = fechaModifica;
+        this.FechaModifica = fechaModifica;
     }
 
-    public Integer getIdEstadoCasillero() { return IdEstadoCasillero; }
-    public void setIdEstadoCasillero(Integer IdEstadoCasillero) { this.IdEstadoCasillero = IdEstadoCasillero; }
+    public Integer getIdEstadoCasillero() { return idEstadoCasillero; }
+    public void setIdEstadoCasillero(Integer idEstadoCasillero) { this.idEstadoCasillero = idEstadoCasillero; }
     public String getNombre() { return Nombre; }
     public void setNombre(String nombre) { Nombre = nombre; }
 
@@ -41,8 +42,8 @@ public class EstadoCasilleroDTO {
     public String getFechaCreacion() { return FechaCreacion; }
     public void setFechaCreacion(String fechaCreacion) { FechaCreacion = fechaCreacion; }
 
-    public String getFechaModificacion() { return FechaModificacion; }
-    public void setFechaModificacion(String fechaModificacion) { FechaModificacion = fechaModificacion; }
+    public String getFechaModifica() { return FechaModifica; }
+    public void setFechaModifica(String fechaModifica) { FechaModifica = fechaModifica; }
 
     @Override
     public String toString() {
@@ -52,7 +53,7 @@ public class EstadoCasilleroDTO {
             + "\n Descripcion       : " + getDescripcion()
             + "\n Estado            : " + getEstado()
             + "\n FechaCreacion     : " + getFechaCreacion()
-            + "\n FechaModificacion     : " + getFechaModificacion()
+            + "\n FechaModifica     : " + getFechaModifica()
             + "\n ----------------------------";
     }
 }

@@ -12,21 +12,8 @@ public class RegistroEventoNombreDTO {
 
     public RegistroEventoNombreDTO() {}
 
-    @Override
-    public String toString() {
-        return getClass().getName()
-            + "\n idRegistroEvento  : " + idRegistroEvento
-            + "\n idTipoEvento      : " + idTipoEvento
-            + "\n NombreTipoEvento  : " + Nombre
-            + "\n idUsuario         : " + idUsuario
-            + "\n idCasillero       : " + idCasillero
-            + "\n Estado            : " + Estado
-            + "\n FechaCreacion     : " + FechaCreacion
-            + "\n FechaModificacion : " + FechaModificacion
-            + "\n ----------------------------";
-    }
-
-
+    
+    
     public Integer getIdRegistroEvento() {
         return idRegistroEvento;
     }
@@ -38,15 +25,15 @@ public class RegistroEventoNombreDTO {
     public Integer getIdTipoEvento() {
         return idTipoEvento;
     }
-
+    
     public void setIdTipoEvento(Integer idTipoEvento) {
         this.idTipoEvento = idTipoEvento;
     }
-
+    
     public String getNombre() {
         return Nombre;
     }
-
+    
     public void setNombre(String Nombre) {
         this.Nombre = Nombre;
     }
@@ -62,33 +49,46 @@ public class RegistroEventoNombreDTO {
     public Integer getIdCasillero() {
         return idCasillero;
     }
-
+    
     public void setIdCasillero(Integer idCasillero) {
         this.idCasillero = idCasillero;
     }
-
+    
     public String getEstado() {
         return Estado;
     }
-
+    
     public void setEstado(String Estado) {
         this.Estado = Estado;
     }
-
+    
     public String getFechaCreacion() {
         return FechaCreacion;
     }
-
+    
     public void setFechaCreacion(String FechaCreacion) {
         this.FechaCreacion = FechaCreacion;
     }
-
+    
     public String getFechaModificacion() {
         return FechaModificacion;
     }
-
+    
     public void setFechaModificacion(String FechaModificacion) {
         this.FechaModificacion = FechaModificacion;
+    }
+    @Override
+    public String toString() {
+        return getClass().getName()
+            + "\n idRegistroEvento  : " + idRegistroEvento
+            + "\n idTipoEvento      : " + idTipoEvento
+            + "\n NombreTipoEvento  : " + Nombre
+            + "\n idUsuario         : " + idUsuario
+            + "\n idCasillero       : " + idCasillero
+            + "\n Estado            : " + Estado
+            + "\n FechaCreacion     : " + FechaCreacion
+            + "\n FechaModificacion : " + FechaModificacion
+            + "\n ----------------------------";
     }
 }
 

@@ -24,7 +24,9 @@ public class CasilleroService {
     private final TokenAccesoDAO tokenDAO;
 
     private static final int ESTADO_READY  = 1;
-    private static final int ESTADO_LOCKED = 2;
+    // NOTA IMPORTANTE:
+    // En el DDL actual, el estado "Locked" se usa como "casillero asignado/cerrado".
+    // El BLOQUEO por seguridad lo manejamos con IntentosFallidos >= 3.
     private static final int SOL_PENDIENTE = 1;
     private static final int ADMIN_DEFAULT = 1;
     private static final String EV_PIN_OK        = "Pin OK";
@@ -49,7 +51,9 @@ public class CasilleroService {
         CasilleroDTO cas = casilleroDAO.obtenerPorId(idCasillero);
         if (cas == null) throw new AppException("Casillero no existe", null, getClass(), "validarPin");
 
-        if (cas.getIdEstadoCasillero() != null && cas.getIdEstadoCasillero() == ESTADO_LOCKED) {
+        // Bloqueo real: por seguridad, si ya tuvo 3+ intentos fallidos.
+        int intentosActuales = (cas.getIntentosFallidos() != null) ? cas.getIntentosFallidos() : 0;
+        if (intentosActuales >= 3) {
             asegurarSolicitudPendienteConEvento(idCasillero, idUsuario);
             return ResultadoValidacionPin.BLOQUEADO;
         }
@@ -75,17 +79,32 @@ public class CasilleroService {
         int intentos = (cas2 != null && cas2.getIntentosFallidos() != null) ? cas2.getIntentosFallidos() : 0;
 
         if (intentos >= 3) {
-            // Bloquear
-            casilleroDAO.actualizarEstado(idCasillero, ESTADO_LOCKED);
+            // Bloqueo por 3 fallos (se mantiene por intentos; NO cambiamos estado del casillero)
             eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_LOCKED_3FAILS), idUsuario, idCasillero);
-
             asegurarSolicitudPendienteConEvento(idCasillero, idUsuario);
-
-
             return ResultadoValidacionPin.BLOQUEADO;
         }
 
         return ResultadoValidacionPin.FAIL;
+    }
+
+    public void adminCambiarPin(int idCasillero, int idAdmin, String nuevoPinPlano) throws AppException {
+        if (nuevoPinPlano == null) throw new AppException("PIN vacío", null, getClass(), "adminCambiarPin");
+        String pin = nuevoPinPlano.trim();
+        if (!pin.matches("\\d{5}")) {
+            throw new AppException("El PIN debe ser de 5 dígitos (solo 0-9)", null, getClass(), "adminCambiarPin");
+        }
+
+        CasilleroDTO cas = casilleroDAO.obtenerPorId(idCasillero);
+        if (cas == null) throw new AppException("Casillero no existe", null, getClass(), "adminCambiarPin");
+
+        String nuevoHash = sha256(pin);
+        credencialDAO.updatePinHashByCasillero(idCasillero, nuevoHash);
+        casilleroDAO.resetIntentos(idCasillero);
+
+        // Evento informativo (admin)
+        int adminId = (idAdmin <= 0) ? ADMIN_DEFAULT : idAdmin;
+        eventoDAO.crearEvento(tipoEventoIdOrThrow(EV_DESBLOQUEO), adminId, idCasillero);
     }
 
     public boolean validarToken(int idCasillero, int idUsuario, String tokenIngresado) throws AppException {
