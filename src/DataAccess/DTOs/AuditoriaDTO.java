@@ -1,6 +1,7 @@
 package DataAccess.DTOs;
 
 public class AuditoriaDTO {
+    
     private Integer idRegistroEvento;
     private String  Fecha;
     private Integer idCasillero;
